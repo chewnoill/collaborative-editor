@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Building A Collabrative Text Editor</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/black.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+    <script>
+      document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>');
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Untitled
+
+Building A Collabrative Text Editor
+</script></section><section  data-markdown><script type="text/template">
+# [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
+
+> <div style="text-align: left">
+>
+> It is impossible for a distributed 
+> data store to simultaneously provide 
+> more than two out of the following 
+> three guarantees:
+>
+>
+> * Consistency
+> * Availability 
+> * Partition Tolerance
+> </div>
+</script></section><section  data-markdown><script type="text/template">
+<div style="text-align: left">
+
+# OT
+
+Operational Transformation
+
+</div>
+  </script></section><section  data-markdown><script type="text/template">
+```mermaid
+sequenceDiagram
+    Peer A->>+Central Authority: Send update A
+    Peer B ->>+ Central Authority: Send Update B
+    Central Authority-->>+Peer A: update A (txn 1)
+    Central Authority-->>+Peer B: update A (txn 1)
+    Central Authority-->>+Peer A: update B (txn 2)
+    Central Authority-->>+Peer B: update B (txn 2)      
+```  
+
+Requires a central authority to order all of the transactions
+</script></section><section  data-markdown><script type="text/template">
+# Trasport Layer
+
+websockets
+</script></section><section  data-markdown><script type="text/template">
+> ... there's a hack that works simply and efficiently, 
+> but completely falls apart when you add more 
+> requirements. OT is such a hack.
+>
+> -- Marijn Haverbeke
+
+
+[Collaborative Editing in CodeMirror](https://marijnhaverbeke.nl/blog/collaborative-editing-cm.html)
+</script></section><section  data-markdown><script type="text/template">
+codemirror 6 has native support for OT
+
+https://codemirror.net/6/examples/collab/
+</script></section><section  data-markdown><script type="text/template">
+<strong style="font-size:60px">CRDTs</strong>
+
+Conflict-free Replicated Data Types
+
+* Completely Distributed Architecture
+* Peers can talk directly to each other
+* Much lower server load
+</script></section><section  data-markdown><script type="text/template">
+Much higher storage costs then OT
+</script></section><section  data-markdown><script type="text/template">
+Lots of interesting work is being done in this field:
+</script></section><section  data-markdown><script type="text/template">
+## [Automerge](https://github.com/automerge/automerge)
+
+barebones network agnostic CRDT
+</script></section><section  data-markdown><script type="text/template">
+## [YJS](https://github.com/yjs/yjs)
+
+CRDT backed text editor
+</script></section><section  data-markdown><script type="text/template">
+## [Hyper Core](https://hypercore-protocol.org/)
+
+CRDT based on the DAT protocol
+</script></section><section  data-markdown><script type="text/template">
+# Transport Layer
+
+WebRTC
+</script></section><section  data-markdown><script type="text/template">
+WebRTC :yikes:
+
+```mermaid
+graph
+
+A[Peer A]
+B[Peer B]
+C[Central Authority]
+D[Peer D]
+E[Peer E]
+
+A --> B
+A --> D
+A --> E
+
+B --> A
+B --> D
+B --> E
+
+D --> A
+D --> B
+D --> E
+
+E --> A
+E --> B
+E --> D
+
+C --> A
+C --> B
+C --> D
+C --> E 
+
+```  
+</script></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {}, queryOptions);
+    </script>
+
+    <script src="./_assets/doc/lib/mermaid.min.js"></script>
+    <script src="./_assets/doc/lib/mermaid-plugin.js"></script>
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
