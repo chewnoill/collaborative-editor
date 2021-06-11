@@ -41,8 +41,9 @@
   },
   "scripts": {
     "slides": "reveal-md doc/slides.md --scripts doc/lib/mermaid.min.js,doc/lib/mermaid-plugin.js  -w",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 6006 -s ./public",
+    "prebuild": "yarn slides --static public/slides",
+    "build": "build-storybook -s ./public -o ./dist/webpage",
     "service": "ts-node src/websocket-service.ts",
     "format": "prettier -w src/** package.json tsconfig.json"
   }
