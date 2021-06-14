@@ -96,3 +96,4 @@ once they have gained access.
   * How do prevent unauthorized users from seeing data they aren't allowed to see?
   * How do we store data in a distributed system?
   * How do we propogate data to each peer?
+  * How do we persist document changes?
