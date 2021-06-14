@@ -1,7 +1,9 @@
 
 # Collaborative Text Editor
 
-[Current build](https://chewnoill.github.io/collaborative-editor/)
+Using CRDTs to build a collaborative text editor, is mostly a solved problem. Turning it into a usable app is a matter of doing regular app work. Adding user accounts, adding authentication and authorization, storing user data. The new complicated bits, syncing a distributed data store over webrtc/websockets, is basically just plug and play.
+
+[Storybook](https://chewnoill.github.io/collaborative-editor/)
 
 [Slides](https://chewnoill.github.io/collaborative-editor/slides)
 
@@ -59,8 +61,10 @@ CREATE TABLE user_document (
 
 Two resources are required.
 - javascript bundle & html
+    
     Should be accessable at some IP and allow anonymous access. Supports SSL.
 - websocket service
+    
     Online service thats available to accept websocket requests.
 
 ## Javascript bundle & HTML
