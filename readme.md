@@ -1,6 +1,12 @@
 
 # Collaborative Text Editor
 
+[Current build](https://chewnoill.github.io/collaborative-editor/)
+
+[Slides](https://chewnoill.github.io/collaborative-editor/slides)
+
+[Repo](https://github.com/chewnoill/collaborative-editor)
+
 ## Getting started
 
 Install dependencies:
