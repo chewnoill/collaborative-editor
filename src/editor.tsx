@@ -12,24 +12,16 @@ export default function Editor() {
     const ydoc = new Y.Doc();
     const provider = new WebrtcProvider("new-room", ydoc);
     const yText = ydoc.getText("codemirror");
-    yText.insert(0,"Hello World");
-    console.log({text: yText.toJSON()});
     const yUndoManager = new Y.UndoManager(yText);
-
+    
     const editor = CodeMirror(ref.current, {
       mode: "markdown",
       lineNumbers: true,
     });
 
-    const binding = new CodemirrorBinding(yText, editor, provider.awareness, {
+    new CodemirrorBinding(yText, editor, provider.awareness, {
       yUndoManager,
     });
-    setTimeout(()=>{
-    console.log({
-      text:binding.doc.getText("codemirror").toJSON()})
-
-
-    },2000)
   }, [ref]);
   return <div ref={ref} />;
 }
