@@ -147,3 +147,37 @@ C --> D
 C --> E 
 
 ```  
+
+---
+
+## Demo
+
+# [shorturl.at/puAIV](https://shorturl.at/puAIV)
+
+https://chewnoill.github.io/collaborative-editor
+
+
+
+---
+
+<pre><code data-line-numbers="5|6|7|10-13|15-17|">
+export default function Editor() {
+  const ref = React.useRef();
+  React.useEffect(() => {
+    const ydoc = new Y.Doc();
+    const provider = new WebrtcProvider("new-room", ydoc);
+    const yText = ydoc.getText("codemirror");
+    const yUndoManager = new Y.UndoManager(yText);
+    
+    const editor = CodeMirror(ref.current, {
+      mode: "markdown",
+      lineNumbers: true,
+    });
+
+    new CodemirrorBinding(yText, editor, provider.awareness, {
+      yUndoManager,
+    });
+  }, [ref]);
+  return &lt;div ref={ref} />;
+}
+</code></pre>
