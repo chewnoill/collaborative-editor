@@ -49,7 +49,7 @@ Requires a central authority to order all of the transactions
 
 ---
 
-# Trasport Layer
+# Transport Layer
 
 websockets
 
