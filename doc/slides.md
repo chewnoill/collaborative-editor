@@ -121,7 +121,7 @@ graph
 
 A[Peer A]
 B[Peer B]
-C[Central Authority]
+C[Signaling Service]
 D[Peer D]
 E[Peer E]
 
