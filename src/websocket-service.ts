@@ -25,7 +25,7 @@ import http from 'http'
  */
  
 
-const host = process.env.HOST || 'localhost'
+const host = process.env.HOST || '0.0.0.0'
 const port = process.env.PORT || 6001;
 // @ts-ignore
 const wss = new ws.Server({ noServer: true });
