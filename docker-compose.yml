@@ -19,14 +19,19 @@ services:
     ports:
       - "6006:6006"
     environment:
-      - STORYBOOK_SIGNAL_URL=ws://signal:6000
+      - STORYBOOK_SIGNAL_URL=localhost:6001
+    depends_on:
+      - "signal"
   signal:
     build: .
-    command: bash -lc "yarn install && yarn websocket-service"
+    command: bash -lc "yarn install && yarn service"
     volumes:
       - .:/editor:delegated
     ports:
-      - "6000:6000"
+      - "6001:6001"
     environment:
+      - PORT=6001
       - DATABASE_URL=postgres://postgres:password@db:5432/postgres
+    depends_on:
+      - "db"
       

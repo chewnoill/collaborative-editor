@@ -10,7 +10,7 @@ export default function Editor() {
   const ref = React.useRef();
   React.useEffect(() => {
     const ydoc = new Y.Doc();
-    const provider = new WebrtcProvider("new-room", ydoc);
+    const provider = new WebrtcProvider("new-room", ydoc, { signaling: ['ws://localhost:6001'] } as any);
     const yText = ydoc.getText("codemirror");
     const yUndoManager = new Y.UndoManager(yText);
     
