@@ -35,8 +35,13 @@ const server = http.createServer((_, response) => {
   response.end("okay");
 });
 
-wss.on("connection", function(){
-  console.log("made it here!");
+function debugMessage(...msg){
+  console.log({msg})
+}
+
+wss.on("connection", function (conn) {
+  console.log("got a connection!");
+  conn.on("message", debugMessage);
 });
 
 server.on("upgrade", (request, socket, head) => {
