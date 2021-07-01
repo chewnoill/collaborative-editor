@@ -2,7 +2,9 @@
   "compilerOptions": {
     "strict": false,
     "jsx": "preserve",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "target": "es6"
   },
   "include": ["src"]
 }
