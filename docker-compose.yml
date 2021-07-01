@@ -24,7 +24,7 @@ services:
       - "signal"
   signal:
     build: .
-    command: bash -lc "yarn install && yarn service"
+    command: bash -lc "yarn service"
     volumes:
       - .:/editor:delegated
     ports:
