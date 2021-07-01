@@ -18,3 +18,20 @@ services:
       - .:/editor:delegated
     ports:
       - "6006:6006"
+    environment:
+      - STORYBOOK_SIGNAL_URL=ws://localhost:6001
+    depends_on:
+      - "signal"
+  signal:
+    build: .
+    command: bash -lc "yarn install && yarn service"
+    volumes:
+      - .:/editor:delegated
+    ports:
+      - "6001:6001"
+    environment:
+      - PORT=6001
+      - DATABASE_URL=postgres://postgres:password@db:5432/postgres
+    depends_on:
+      - "db"
+      
