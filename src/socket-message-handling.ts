@@ -1,9 +1,13 @@
+import { decoding, encoding } from "lib0";
 import * as map from "lib0/map";
+import * as awarenessProtocol from "y-protocols/awareness";
+import * as syncProtocol from "y-protocols/sync";
+import { getYDoc } from "./utils/ws-shared-doc";
 
 const wsReadyStateConnecting = 0;
 const wsReadyStateOpen = 1;
-const wsReadyStateClosing = 2; // eslint-disable-line
-const wsReadyStateClosed = 3; // eslint-disable-line
+const messageSync = 0
+const messageAwareness = 1
 
 /**
  * Map froms topic-name to set of subscribed clients.
@@ -31,11 +35,16 @@ const send = (conn, message) => {
   }
 };
 
+
 /**
  * Setup a new client
  * @param {any} conn
  */
-const setupWSConnection = (conn) => {
+const setupWSConnection = (
+  conn,
+  req,
+  { docName = req.url.slice(1).split("?")[0], gc = true } = {}
+) => {
   /**
    * @type {Set<string>}
    */
@@ -119,6 +128,29 @@ const setupWSConnection = (conn) => {
           case "ping":
             send(conn, { type: "pong" });
         }
+      } else if (Buffer.isBuffer(message)) {
+        // handle websocket connection
+        const doc = getYDoc(docName, gc);
+        const encoder = encoding.createEncoder()
+        const decoder = decoding.createDecoder(message)
+        const messageType = decoding.readVarUint(decoder)
+        switch (messageType) {
+          case messageSync:
+            encoding.writeVarUint(encoder, messageSync)
+            syncProtocol.readSyncMessage(decoder, encoder, doc, null)
+            if (encoding.length(encoder) > 1) {
+              doc.send(conn, encoding.toUint8Array(encoder))
+            }
+            // TODO:
+            // doc is now the updated document
+            // we need to figure out how to persist this
+            break
+          case messageAwareness: {
+            awarenessProtocol.applyAwarenessUpdate(doc.awareness, decoding.readVarUint8Array(decoder), conn)
+            break
+          }
+        }
+        
       }
     }
   );
