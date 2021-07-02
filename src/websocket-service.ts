@@ -1,5 +1,6 @@
 import ws from 'ws'
 import http from 'http'
+import setupWSConnection from './socket-message-handling';
 
 /**
  *
@@ -35,14 +36,7 @@ const server = http.createServer((_, response) => {
   response.end("okay");
 });
 
-function debugMessage(...msg){
-  console.log({msg})
-}
-
-wss.on("connection", function (conn) {
-  console.log("got a connection!");
-  conn.on("message", debugMessage);
-});
+wss.on("connection", setupWSConnection);
 
 server.on("upgrade", (request, socket, head) => {
   // You may check auth of request here..
