@@ -3,4 +3,4 @@ yarn-error.log
 public/slides
 dist
 volumes
-.tool-version
+.tool-versions
