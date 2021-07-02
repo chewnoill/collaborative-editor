@@ -41,14 +41,32 @@ const setupWSConnection = (conn) => {
    */
   const subscribedTopics = new Set();
   let closed = false;
+
   // Check if connection is still alive
-  let pongReceived = true;
-  const pingInterval = setInterval(() => {
-    if (!pongReceived) {
+  let providerInterfacePongReceived = true;
+  const providerInterfacePingInterval = setInterval(() => {
+    if (!providerInterfacePongReceived) {
       conn.close();
-      clearInterval(pingInterval);
+      clearInterval(providerInterfacePingInterval);
+    }
+    {
+      providerInterfacePongReceived = false;
+      try {
+        conn.ping();
+      } catch (e) {
+        conn.close();
+        clearInterval(providerInterfacePingInterval);
+      }
+    }
+  }, pingTimeout);
+
+  let signalerPongReceived = true;
+  const signalerPingInterval = setInterval(() => {
+    if (!signalerPongReceived) {
+      conn.close();
+      clearInterval(signalerPingInterval);
     } else {
-      pongReceived = false;
+      signalerPongReceived = false;
       try {
         conn.ping();
       } catch (e) {
@@ -58,7 +76,8 @@ const setupWSConnection = (conn) => {
   }, pingTimeout);
 
   conn.on("pong", () => {
-    pongReceived = true;
+    signalerPongReceived = true;
+    providerInterfacePongReceived = true;
   });
 
   conn.on("close", () => {
@@ -71,6 +90,8 @@ const setupWSConnection = (conn) => {
     });
     subscribedTopics.clear();
     closed = true;
+    conn.close();
+    clearInterval(providerInterfacePingInterval);
   });
 
   conn.on(
