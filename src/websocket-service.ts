@@ -44,6 +44,11 @@ app.post('/login',
   passport.authenticate('local', { successRedirect: '/' })
 );
 
+app.get('/me',
+  function (req, resp) {
+    resp.send({ user: req.user })
+  });
+
 const server = http.createServer(app);
 
 const wss = new ws.Server({ noServer: true });
