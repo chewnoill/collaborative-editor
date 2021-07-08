@@ -11,6 +11,7 @@
     "@storybook/react": "^6.2.9",
     "babel-loader": "^8.2.2",
     "http-proxy-middleware": "^2.0.1",
+    "nodemon": "^2.0.9",
     "prettier": "^2.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -49,6 +50,7 @@
     "storybook": "start-storybook -p 6006 -s ./public",
     "prebuild": "yarn slides --static public/slides",
     "build": "build-storybook -s ./public -o ./dist/webpage",
+    "dev-service": "nodemon -e ts -w src -x yarn service",
     "service": "ts-node src/websocket-service.ts",
     "format": "prettier -w src/** package.json tsconfig.json"
   }
