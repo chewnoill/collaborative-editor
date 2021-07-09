@@ -8,7 +8,7 @@ const wsReadyStateConnecting = 0;
 const wsReadyStateOpen = 1;
 
 // We keep a set of documents in memory here.
-const docs = new Map<string,WSSharedDoc>();
+const docs = new Map<string, WSSharedDoc>();
 
 export const getYDoc = (docname, gc = true): WSSharedDoc =>
   map.setIfUndefined(docs, docname, () => {
