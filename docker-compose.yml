@@ -20,6 +20,7 @@ services:
       - "6006:6006"
     environment:
       - STORYBOOK_SIGNAL_URL=ws://localhost:6006/ws/signal
+      - STORYBOOK_PROVIDER_URL=ws://localhost:6006/ws/provider
     depends_on:
       - "signal"
   signal:
