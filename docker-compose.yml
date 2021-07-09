@@ -19,7 +19,7 @@ services:
     ports:
       - "6006:6006"
     environment:
-      - STORYBOOK_SIGNAL_URL=ws://localhost:6001
+      - STORYBOOK_SIGNAL_URL=ws://localhost:6006/ws/signal
     depends_on:
       - "signal"
   signal:

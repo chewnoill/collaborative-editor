@@ -6,7 +6,7 @@ import bodyParser from 'body-parser'
 import session from 'express-session'
 import ws from 'ws'
 import http from 'http'
-import setupWSConnection from './socket-message-handling';
+import setupSignalingConnection from "./utils/signaling-connection";
 
 const host = process.env.HOST || '0.0.0.0'
 const port = process.env.PORT || 6001;
@@ -52,13 +52,14 @@ app.get('/me',
 const server = http.createServer(app);
 
 const wss = new ws.Server({ noServer: true });
-wss.on("connection", setupWSConnection);
+wss.on("connection-signaling", setupSignalingConnection);
 
 server.on("upgrade", (request, socket, head) => {
-  const handleAuth = (ws) => {
-    wss.emit("connection", ws, request);
-  };
-  wss.handleUpgrade(request, socket, head, handleAuth);
+  if (request.url === "/signal") {
+    wss.handleUpgrade(request, socket, head, (ws) =>
+      wss.emit("connection-signaling", ws, request)
+    );
+  }
 });
 
 server.listen({ host, port });

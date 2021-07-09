@@ -8,7 +8,8 @@ import "codemirror/lib/codemirror.css";
 import { WebsocketProvider } from "y-websocket";
 
 const ROOM_NAME = "new-room";
-const SIGNALLING_SERVICE = process.env.STORYBOOK_SIGNAL_URL|| 'ws://localhost:6006/ws';
+const SIGNALLING_SERVICE =
+  process.env.STORYBOOK_SIGNAL_URL || "ws://localhost:6006/ws/signal";
 
 export default function Editor() {
   const ref = React.useRef();
