@@ -9,12 +9,35 @@ Using CRDTs to build a collaborative text editor, is mostly a solved problem. Tu
 
 [Repo](https://github.com/chewnoill/collaborative-editor)
 
+## Prerequisites
+
+install packages:
+
+```shell
+brew install node docker postgres dbmate
+```
+
 ## Getting started
 
-Install dependencies:
+### Install dependencies:
+
 ```shell
 yarn
 ```
+
+### Docker setup:
+
+build
+```shell
+docker-compose build
+```
+
+start containers
+```shell
+docker-compose up
+```
+
+### Service-specific setup:
 
 start service
 ```shell
@@ -25,6 +48,21 @@ start storybook
 ```shell
 yarn storybook
 ```
+
+## Running database migrations using dbmate
+Make sure your `DATABASE_URL` is set.
+
+create a new migration
+```shell
+dbmate n <name of migration>
+```
+
+Running migrations
+```shell
+dbmate up
+```
+
+For more information see: https://github.com/amacneil/dbmate
 
 ## Proposed Schema
 
