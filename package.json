@@ -2,63 +2,19 @@
   "name": "hyper-editor",
   "version": "1.0.0",
   "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@storybook/addon-actions": "^6.2.9",
-    "@storybook/addon-essentials": "^6.2.9",
-    "@storybook/addon-links": "^6.2.9",
-    "@storybook/react": "^6.2.9",
-    "babel-loader": "^8.2.2",
-    "http-proxy-middleware": "^2.0.1",
-    "nodemon": "^2.0.9",
     "prettier": "^2.3.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "reveal-md": "^5.1.1",
-    "storybook": "^6.2.9",
-    "ts-node": "^10.0.0",
     "typescript": "^4.3.2"
   },
-  "dependencies": {
-    "@emotion/core": "^11.0.0",
-    "@emotion/react": "^11.4.0",
-    "@emotion/styled": "^11.3.0",
-    "@types/ws": "^7.4.5",
-    "body-parser": "^1.19.0",
-    "codemirror": "^5.61.1",
-    "cookie-parser": "^1.4.5",
-    "express": "^4.17.1",
-    "express-flash": "^0.0.2",
-    "express-session": "^1.17.2",
-    "http": "^0.0.1-security",
-    "lib0": "^0.2.42",
-    "node-fetch": "^2.6.1",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "prettier": "^2.3.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "socket.io": "^4.1.2",
-    "storybook": "^6.2.9",
-    "ts-node": "^10.0.0",
-    "tsnodemon": "^1.2.2",
-    "ws": "^7.4.6",
-    "y-codemirror": "^2.1.1",
-    "y-protocols": "^1.0.5",
-    "y-webrtc": "^10.2.0",
-    "y-websocket": "^1.3.15",
-    "yjs": "^13.5.10"
-  },
-  "peerDependencies": {
-    "react": "^17.0.2"
-  },
   "scripts": {
-    "slides": "reveal-md doc/slides.md --scripts doc/lib/mermaid.min.js,doc/lib/mermaid-plugin.js  -w",
-    "storybook": "start-storybook -p 6006 -s ./public",
-    "prebuild": "yarn slides --static public/slides",
-    "build": "build-storybook -s ./public -o ./dist/webpage",
-    "dev-service": "nodemon -e ts -w src -x yarn service",
-    "service": "ts-node src/websocket-service.ts",
-    "format": "prettier -w src/** package.json tsconfig.json"
+    "storybook": "yarn client storybook",
+    "build": "yarn client build",
+    "client": "cd packages/client && yarn",
+    "service": "cd packages/service && yarn",
+    "format": "prettier -w packages/*/src/** packages/*/package.json tsconfig.json"
   }
 }
