@@ -1620,6 +1620,23 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.2.tgz#adea7b6953cbb34651766b0548468e743c6a2353"
   integrity sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q==
 
+"@prisma/client@^2.27.0":
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.27.0.tgz#17d98e64deea29063bee1778d85b5f7edeb14a26"
+  integrity sha512-Sh2b1M8MGbOHbwG1FEqdWTUCrEX3p7gt2e7gpaBWou8yTIJvP1UZ4YlHgpuUcR1q4pEIR/JTZJeQk2l4iDyRBQ==
+  dependencies:
+    "@prisma/engines-version" "2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb"
+
+"@prisma/engines-version@2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb":
+  version "2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb.tgz#60a34634fe26be9caca42556605a132e70810e3c"
+  integrity sha512-pwOsYdzw8+cwKlUrCzasiRh96RhNuJ/QcKr0HwjxxlUWTmbEayDKjqRRz5fsUYIpSv5fW1B3SsbzHOqVtFZ6XQ==
+
+"@prisma/engines@2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb":
+  version "2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb.tgz#22084a81e90b66665aa3aacde79ef5b1bc3587fe"
+  integrity sha512-AIbIhAxmd2CHZO5XzQTPrfk+Tp/5eoNoSledOG3yc6Dk97siLvnBuSEv7prggUbedCufDwZLAvwxV4PEw3zOlQ==
+
 "@reach/router@^1.3.4":
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/@reach/router/-/router-1.3.4.tgz#d2574b19370a70c80480ed91f3da840136d10f8c"
@@ -9555,6 +9572,13 @@ pretty-hrtime@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz#b7e3ea42435a4c9b2759d99e0f201eb195802ee1"
   integrity sha1-t+PqQkNaTJsnWdmeDyAesZWALuE=
+
+prisma@^2.27.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.27.0.tgz#45fdecb9c2470c7ad602e804ffed70dfa7c46ad1"
+  integrity sha512-/3H9C+IPlJmY5KArhfKHMpxKXqcZIBZ+LjM1b5FxvLCGQkq/mRC96SpHcKcLtiYgftNAX13nvlxg+cBw9Dbe8Q==
+  dependencies:
+    "@prisma/engines" "2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb"
 
 prismjs@^1.21.0, prismjs@~1.24.0:
   version "1.24.1"

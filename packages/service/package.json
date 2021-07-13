@@ -12,11 +12,13 @@
     "babel-jest": "^27.0.6",
     "jest": "^27.0.6",
     "nodemon": "^2.0.9",
-    "rollup": "^2.53.1"
+    "rollup": "^2.53.1",
+    "prisma": "^2.27.0"
   },
   "dependencies": {
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
+    "@prisma/client": "^2.27.0",
     "@types/ws": "^7.4.5",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
