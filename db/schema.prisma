@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://postgres:password@localhost:5432/postgres"
+}
+
+model document {
+  id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  origin        String
+  value         String
+  web_rtc_key   String
+  user_document user_document[]
+}
+
+model schema_migrations {
+  version String @id @db.VarChar(255)
+}
+
+model user_document {
+  id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  document_id String?   @db.Uuid
+  user_id     String?   @db.Uuid
+  document    document? @relation(fields: [document_id], references: [id])
+  users       users?    @relation(fields: [user_id], references: [id])
+
+  @@unique([document_id, user_id], name: "user_document_document_id_user_id_key")
+}
+
+model users {
+  id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name          String
+  user_document user_document[]
+}
