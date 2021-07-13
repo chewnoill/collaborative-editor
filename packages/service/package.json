@@ -9,9 +9,11 @@
     "@types/jest": "^26.0.24",
     "babel-jest": "^27.0.6",
     "jest": "^27.0.6",
-    "nodemon": "^2.0.9"
+    "nodemon": "^2.0.9",
+    "prisma": "^2.27.0"
   },
   "dependencies": {
+    "@prisma/client": "^2.27.0",
     "@types/ws": "^7.4.5",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
