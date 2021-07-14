@@ -15,7 +15,7 @@
     "build": "yarn client build",
     "client": "cd packages/client && yarn",
     "service": "cd packages/service && yarn",
-    "format:base": "prettier packages/*/src/** packages/*/package.json tsconfig.json",
+    "format:base": "prettier packages/*/*.js packages/*/src/** packages/*/package.json tsconfig.json",
     "format": "yarn format:base -w",
     "format:check": "yarn format:base --check",
     "migrations": "cd packages/service && dbmate"
