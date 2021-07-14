@@ -12,7 +12,7 @@
   },
   "scripts": {
     "storybook": "yarn client storybook",
-    "build": "yarn client build",
+    "build": "yarn client build && yarn service build",
     "client": "cd packages/client && yarn",
     "service": "cd packages/service && yarn",
     "format:base": "prettier packages/*/*.js packages/*/src/** packages/*/package.json tsconfig.json",
