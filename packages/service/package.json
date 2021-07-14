@@ -31,7 +31,7 @@
   },
   "scripts": {
     "dev": "nodemon -e ts -w src -x yarn start",
-    "start": "ts-node src/websocket-service.ts",
+    "start": "ts-node src/service.ts",
     "test": "jest"
   }
 }
