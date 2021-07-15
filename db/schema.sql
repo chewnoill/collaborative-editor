@@ -33,9 +33,9 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.document (
     id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    origin text NOT NULL,
     value text NOT NULL,
-    web_rtc_key text NOT NULL
+    web_rtc_key text NOT NULL,
+    origin bytea NOT NULL
 );
 
 
@@ -54,7 +54,8 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.user_document (
     document_id uuid,
-    user_id uuid
+    user_id uuid,
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL
 );
 
 
@@ -93,6 +94,14 @@ ALTER TABLE ONLY public.user_document
 
 
 --
+-- Name: user_document user_document_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_document
+    ADD CONSTRAINT user_document_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -126,4 +135,6 @@ ALTER TABLE ONLY public.user_document
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('20210629194148');
+    ('20210629194148'),
+    ('20210713211341'),
+    ('20210715214346');
