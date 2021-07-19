@@ -9,22 +9,29 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
+        - image: node:14.x
+          env:
+            PG_HOST: localhost
+            PG_USER: ubuntu
+        - image: postgres:13
+            env:
+              POSTGRES_USER: postgres
+              POSTGRES_PASSWORD: password
+              POSTGRES_DB: postgres
+            ports:
+              5432:5432
+            options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
+    - checkout
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
       with:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-    - name: Use Node.js 14.x
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14.x
     - run: yarn
     - run: yarn format:check
+    - run: ping postgres
     - run: yarn service test
       env:
-        DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable
+        DATABASE_URL: postgres://postgres:password@localhost:5432/postgres?sslmode=disable
     - run: yarn build
