@@ -1,5 +1,19 @@
 version: "3"
 services:
+  proxy:
+    image: nginx
+    volumes:
+      - ./terraform/nginx:/etc/nginx/templates
+    depends_on:
+      - "web"
+      - "signal"
+    ports:
+      - "8080:80"
+    environment:
+      - PORT=80
+      - STATIC_URL=http://web:6006
+      - WEBSOCKET_URL=http://signal:6001
+      - API_URL=http://signal:6001
   db:
     environment:
       - POSTGRES_PASSWORD=password
@@ -19,8 +33,8 @@ services:
     ports:
       - "6006:6006"
     environment:
-      - STORYBOOK_SIGNAL_URL=ws://localhost:6006/ws/signal
-      - STORYBOOK_PROVIDER_URL=ws://localhost:6006/ws/provider
+      - STORYBOOK_SIGNAL_URL=ws://localhost:8080/ws/signal
+      - STORYBOOK_PROVIDER_URL=ws://localhost:8080/ws/provider
     depends_on:
       - "signal"
   signal:
