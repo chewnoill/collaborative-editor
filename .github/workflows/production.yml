@@ -43,3 +43,12 @@ jobs:
         path: ./packages/client/dist/webpage
         destination: willdocs-2/client
         parent: false
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+    - name: Terraform
+      run: |
+        terraform -chdir=terraform init
+        terraform -chdir=terraform taint google_compute_instance.app
+        terraform -chdir=terraform apply --auto-approve
+      env: 
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
