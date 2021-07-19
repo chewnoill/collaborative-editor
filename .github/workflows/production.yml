@@ -21,7 +21,12 @@ jobs:
       with:
         node-version: 14.x
     - run: yarn
-    - run: yarn build
+    - run: yarn client build
+      env: 
+        BASE_URL: "bingobongo.ml"
+        STORYBOOK_SIGNAL_URL: "ws://${BASE_URL}/ws/signal"
+        STORYBOOK_PROVIDER_URL: "ws://${BASE_URL}/ws/provider"
+    - run: yarn service build
     - run: |
         # zip up service bundle
         tar cfz service.tgz packages/service/dist/*
@@ -31,3 +36,10 @@ jobs:
         credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         path: ./service.tgz
         destination: willdocs-1/service
+    - id: upload-client-bundle
+      uses: google-github-actions/upload-cloud-storage@main
+      with:
+        credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        path: ./packages/client/dist/webpage
+        destination: willdocs-2/client
+        parent: false
