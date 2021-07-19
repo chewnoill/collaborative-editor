@@ -24,7 +24,7 @@ services:
       - "./volumes/postgres:/var/lib/postgresql/data"
   web:
     build: .
-    command: bash -lc "yarn install && yarn storybook"
+    command: bash -lc "yarn storybook"
     hostname: editor-dev
     tty: true
     stdin_open: true
