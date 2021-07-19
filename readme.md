@@ -68,17 +68,22 @@ start storybook
 yarn storybook
 ```
 
-## Running database migrations using dbmate
+## Running database migrations
 Make sure your `DATABASE_URL` is set.
 
 create a new migration
 ```shell
-dbmate n <name of migration>
+yarn migrations n <name of migration>
 ```
 
-Running migrations
+running migrations
 ```shell
-dbmate up
+yarn codegen
+```
+
+viewing generated data model
+```shell
+yarn orm studio
 ```
 
 For more information see: https://github.com/amacneil/dbmate
