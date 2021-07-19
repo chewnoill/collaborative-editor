@@ -15,6 +15,8 @@
     "build": "yarn client build",
     "client": "cd packages/client && yarn",
     "service": "cd packages/service && yarn",
-    "format": "prettier -w packages/*/src/** packages/*/package.json tsconfig.json"
+    "format:base": "prettier packages/*/src/** packages/*/package.json tsconfig.json",
+    "format": "yarn format:base -w",
+    "format:check": "yarn format:base --check"
   }
 }
