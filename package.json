@@ -18,6 +18,8 @@
     "format:base": "prettier packages/*/*.js packages/*/src/** packages/*/package.json tsconfig.json",
     "format": "yarn format:base -w",
     "format:check": "yarn format:base --check",
-    "migrations": "cd packages/service && dbmate"
+    "migrations": "cd packages/service && dbmate",
+    "orm": "yarn service prisma",
+    "codegen": "yarn migrations up && yarn orm introspect && yarn orm generate"
   }
 }
