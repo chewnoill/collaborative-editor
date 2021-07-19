@@ -17,6 +17,7 @@
     "service": "cd packages/service && yarn",
     "format:base": "prettier packages/*/src/** packages/*/package.json tsconfig.json",
     "format": "yarn format:base -w",
-    "format:check": "yarn format:base --check"
+    "format:check": "yarn format:base --check",
+    "migrations": "cd packages/service && dbmate"
   }
 }
