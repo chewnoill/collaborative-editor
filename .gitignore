@@ -5,3 +5,5 @@ dist
 volumes
 .tool-versions
 .DS_Store
+.terraform*
+credentials.json
