@@ -26,5 +26,5 @@ jobs:
     - run: yarn format:check
     - run: yarn service test
       env:
-        DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
     - run: yarn build
