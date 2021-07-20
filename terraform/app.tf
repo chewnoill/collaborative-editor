@@ -1,7 +1,7 @@
 resource "google_compute_instance" "app" {
   project = var.project_name
   name         = "app"
-  machine_type = "f1-micro"
+  machine_type = "e2-micro"
   zone = "us-east1-b"
 
   boot_disk {
