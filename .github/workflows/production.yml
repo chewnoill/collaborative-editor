@@ -22,3 +22,12 @@ jobs:
         node-version: 14.x
     - run: yarn
     - run: yarn build
+    - run: |
+        # zip up service bundle
+        tar cfz service.tgz packages/service/dist/*
+    - id: upload-service-zip
+      uses: google-github-actions/upload-cloud-storage@main
+      with:
+        credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        path: ./service.tgz
+        destination: willdocs-1/service
