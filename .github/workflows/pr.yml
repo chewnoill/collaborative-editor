@@ -28,5 +28,11 @@ jobs:
         node-version: 14.x
     - run: yarn
     - run: yarn format:check
+    - name: run migrations
+      run: |
+        curl -fsSL -o dbmate.bin https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64
+        chmod +x ./dbmate.bin
+        
+        ./dbmate.bin  -d ./packages/service/db/migrations -s ./packages/service/db/schema.sql up
     - run: yarn service test
     - run: yarn build
