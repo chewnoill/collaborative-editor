@@ -9,10 +9,12 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-typescript": "^8.2.1",
     "@types/jest": "^26.0.24",
+    "@types/pg-pool": "^2.0.3",
     "babel-jest": "^27.0.6",
     "jest": "^27.0.6",
     "nodemon": "^2.0.9",
-    "rollup": "^2.53.1"
+    "rollup": "^2.53.1",
+    "ts-jest": "^27.0.3"
   },
   "dependencies": {
     "@rollup/plugin-json": "^4.1.0",
@@ -26,19 +28,24 @@
     "lib0": "^0.2.42",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "pg": "^8.6.0",
+    "pg-pool": "^3.3.0",
     "socket.io": "^4.1.2",
     "ts-node": "^10.0.0",
+    "whatwg-url": "^9.0.0",
     "ws": "^7.4.6",
     "y-codemirror": "^2.1.1",
     "y-webrtc": "^10.2.0",
     "y-websocket": "^1.3.15",
-    "yjs": "^13.5.10"
+    "yjs": "^13.5.10",
+    "zapatos": "^5.0.0"
   },
   "scripts": {
     "build": "rollup -c",
     "dev": "nodemon -e ts -w src -x yarn start",
     "start": "ts-node src/service.ts",
     "start:prod": "node dist/bundle.js",
-    "test": "jest"
+    "test": "jest",
+    "codegen": "zapatos"
   }
 }
