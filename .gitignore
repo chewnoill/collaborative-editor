@@ -4,3 +4,4 @@ public/slides
 dist
 volumes
 .tool-versions
+.DS_Store
