@@ -12,5 +12,5 @@ describe("WSSharedDoc", () => {
     // 4. expect change to be persisted
   });
 
-  test("can recieve changes in any order, will produce the same results", () => { });
+  test("can recieve changes in any order, will produce the same results", () => {});
 });

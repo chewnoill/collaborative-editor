@@ -14,7 +14,7 @@ export const getYDoc = (docname, gc = true): WSSharedDoc =>
   // TODO: get ydoc from database
   //
   // this database ccall should be wrapped with
-  // a Dataloader class 
+  // a Dataloader class
   // see: https://www.npmjs.com/package/dataloader
   map.setIfUndefined(docs, docname, () => {
     const doc = new WSSharedDoc(docname);
