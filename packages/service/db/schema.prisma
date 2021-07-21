@@ -8,11 +8,12 @@ datasource db {
 }
 
 model document {
-  id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  value         String
-  web_rtc_key   String
-  origin        Bytes
-  user_document user_document[]
+  id                     String                   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  value                  String
+  web_rtc_key            String
+  origin                 Bytes
+  document_updates_queue document_updates_queue[]
+  user_document          user_document[]
 }
 
 model schema_migrations {
@@ -33,4 +34,11 @@ model users {
   id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name          String
   user_document user_document[]
+}
+
+model document_updates_queue {
+  id              String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  document_id     String   @db.Uuid
+  document_update Bytes
+  document        document @relation(fields: [document_id], references: [id])
 }

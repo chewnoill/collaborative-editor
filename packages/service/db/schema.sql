@@ -40,6 +40,17 @@ CREATE TABLE public.document (
 
 
 --
+-- Name: document_updates_queue; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.document_updates_queue (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    document_id uuid NOT NULL,
+    document_update bytea NOT NULL
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -78,6 +89,14 @@ ALTER TABLE ONLY public.document
 
 
 --
+-- Name: document_updates_queue document_updates_queue_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_updates_queue
+    ADD CONSTRAINT document_updates_queue_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -110,6 +129,14 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: document_updates_queue document_updates_queue_document_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_updates_queue
+    ADD CONSTRAINT document_updates_queue_document_id_fkey FOREIGN KEY (document_id) REFERENCES public.document(id) ON DELETE CASCADE;
+
+
+--
 -- Name: user_document user_document_document_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -137,4 +164,5 @@ ALTER TABLE ONLY public.user_document
 INSERT INTO public.schema_migrations (version) VALUES
     ('20210629194148'),
     ('20210713211341'),
-    ('20210715214346');
+    ('20210715214346'),
+    ('20210720160437');
