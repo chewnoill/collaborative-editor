@@ -1,25 +1,6 @@
 import * as Y from "yjs";
 import { db, pool } from "./db";
 
-// Attempted using a query data structure to automate randomized updates in different orders
-// interface IQueue<T> {
-//   enqueue(item: T): void;
-//   dequeue(): T;
-// }
-
-// class Queue<T> implements IQueue<T> {
-//   private storage: T[] = [];
-
-//   constructor(private capacity: number = Infinity) {}
-
-//   enqueue(item: T): void {
-//     this.storage.push(item);
-//   }
-//   dequeue(): T | undefined {
-//     return this.storage.shift();
-//   }
-// }
-
 test("Create more updates to documents and apply the updates in different orders.", async () => {
   // create a yjs document
   const ydoc1 = new Y.Doc();
@@ -30,11 +11,29 @@ test("Create more updates to documents and apply the updates in different orders
   const ytext2 = ydoc2.getText("codemirror");
   ytext.insert(0, "Hello, World!");
   ytext.insert(0, "This Change!");
-  ytext2.insert(0, "MojoTech");
-  ytext2.insert(0, "Something");
+  ytext.insert(0, "MojoTech");
+  ytext.insert(0, "foo 1");
 
   const state = Y.encodeStateAsUpdate(ydoc1);
   const state2 = Y.encodeStateAsUpdate(ydoc2);
+
+  // random order generator - produces an array of distinct random values from 0 to 3 inclusive.
+  var randArr = [];
+  while (randArr.length < 4) {
+    var num = Math.floor(Math.random() * 4);
+    if (randArr.indexOf(num) === -1) randArr.push(num);
+  }
+  console.log(randArr);
+
+  // insert random string order into second document
+  var insertArr = ["Hello, World!", "This Change!", "MojoTech", "foo 1"];
+  var i = 0;
+  while (i < 4) {
+    const orderNum = randArr[i];
+    ytext2.insert(0, insertArr[orderNum]);
+    console.log(insertArr[orderNum]);
+    i++;
+  }
 
   // persist this change to the database
   const doc1 = await db
@@ -63,8 +62,6 @@ test("Create more updates to documents and apply the updates in different orders
       id: doc2.id,
     })
     .run(pool);
-
-  // *** The following was produced by Tucker to calculate the differences of edits and compare ***
 
   // calculate differences
   const stateVector1 = Y.encodeStateVectorFromUpdate(
