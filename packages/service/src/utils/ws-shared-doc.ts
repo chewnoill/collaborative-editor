@@ -11,6 +11,11 @@ const wsReadyStateOpen = 1;
 const docs = new Map<string, WSSharedDoc>();
 
 export const getYDoc = (docname, gc = true): WSSharedDoc =>
+  // TODO: get ydoc from database
+  //
+  // this database ccall should be wrapped with
+  // a Dataloader class 
+  // see: https://www.npmjs.com/package/dataloader
   map.setIfUndefined(docs, docname, () => {
     const doc = new WSSharedDoc(docname);
     doc.gc = gc;
@@ -75,8 +80,10 @@ export class WSSharedDoc extends Y.Doc {
     };
     this.awareness.on("update", awarenessChangeHandler);
   }
-
-  send(conn, buff) {
+  // TODO: I think buff is the change we need to save
+  // Do we care about duplicates?
+  // can we detect duplicates?
+  send(conn, buff: Uint8Array) {
     if (
       conn.readyState !== wsReadyStateConnecting &&
       conn.readyState !== wsReadyStateOpen
