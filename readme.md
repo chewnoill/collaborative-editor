@@ -9,6 +9,25 @@ Using CRDTs to build a collaborative text editor, is mostly a solved problem. Tu
 
 [Repo](https://github.com/chewnoill/collaborative-editor)
 
+## Project Structure
+
+```
+| - package.json: defines project setup/dependencies
+| - docker-compose.yml: defines docker config for local development
+| - Dockerfile: defines the base image used in development
+| - packages
+|.| - client: node project that builds a web bundle
+| | | - package.json: defines client specific setup/dependencies
+| | | - .storybook: storybook configuration
+| | | - src: Client source code
+| | - service: node project that builds an express service
+| | | - package.json: defines how the service is setup
+| | | - db
+| | | | - schema.sql: current database schema dump
+| | | | - migratations: A ordered set of database migrations to run to produce the schema.sql 
+| | | - src: Service source code
+```
+
 ## Prerequisites
 
 install packages:
