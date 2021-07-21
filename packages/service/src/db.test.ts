@@ -23,10 +23,10 @@ test("crdts can be persisted", async () => {
   //   origin: Buffer.from(state),
   //   web_rtc_key: "",
   // };
-  // const doc = await db.sql<schema.document.SQL, schema.document.JSONSelectable>`INSERT INTO ${"document"} (${db.cols(x)}) VALUES (${db.vals(x)})`.run(
+  // const doc = await db.sql<schema.document.SQL, schema.document.JSONSelectable>`INSERT INTO ${"document"} (${db.cols(x)}) VALUES (${db.vals(x)}) RETURNING *`.run(
   //   pool
   // );
-  // console.log(doc);
+  // console.log(x);
 
   // get the change back from the database
   const stateFromDatabase = await db
@@ -36,8 +36,8 @@ test("crdts can be persisted", async () => {
     .run(pool);
 
   // Question: What is the difference between the shortcut select query and the SQL select query? SQL query does not work.
-  // const stateFromDatabase = await db.sql<schema.document.SQL, schema.document.JSONSelectable[]>`SELECT * FROM ${"document"} WHERE ${{id: doc.id}}`.run(pool);
-  // console.log(stateFromDatabase);
+  // const id = doc.id, stateFromDatabase = await db.sql<schema.document.SQL, schema.document.JSONSelectable[]>`SELECT to_jsonb (${"document"}.*) AS result FROM ${"document"} WHERE ${{id}}`.run(pool);
+  console.log(stateFromDatabase[0]);
 
   // create yjs document B from database change
   const ydoc2 = new Y.Doc();
