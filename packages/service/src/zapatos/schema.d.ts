@@ -7,17 +7,17 @@ Copyright (C) 2020 - 2021 George MacKerron
 Released under the MIT licence: see LICENCE file
 */
 
-declare module "zapatos/schema" {
-  import type * as db from "zapatos/db";
+declare module 'zapatos/schema' {
+
+  import type * as db from 'zapatos/db';
 
   // got a type error on schemaVersionCanary below? update by running `npx zapatos`
-  export interface schemaVersionCanary extends db.SchemaVersionCanary {
-    version: 103;
-  }
+  export interface schemaVersionCanary extends db.SchemaVersionCanary { version: 103 }
 
   /* === schema: public === */
 
   /* --- enums --- */
+
 
   /* --- tables --- */
 
@@ -26,213 +26,284 @@ declare module "zapatos/schema" {
    * - Table in database
    */
   export namespace document {
-    export type Table = "document";
+    export type Table = 'document';
     export interface Selectable {
       /**
-       * **document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
+      * **document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
       id: string;
       /**
-       * **document.value**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.value**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
       value: string;
       /**
-       * **document.web_rtc_key**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.web_rtc_key**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
       web_rtc_key: string;
       /**
-       * **document.origin**
-       * - `bytea` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.origin**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
       origin: Buffer;
     }
     export interface JSONSelectable {
       /**
-       * **document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
+      * **document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
       id: string;
       /**
-       * **document.value**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.value**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
       value: string;
       /**
-       * **document.web_rtc_key**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.web_rtc_key**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
       web_rtc_key: string;
       /**
-       * **document.origin**
-       * - `bytea` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.origin**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
       origin: db.ByteArrayString;
     }
     export interface Whereable {
       /**
-       * **document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
+      * **document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-       * **document.value**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
-      value?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
+      * **document.value**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      value?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-       * **document.web_rtc_key**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
-      web_rtc_key?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
+      * **document.web_rtc_key**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      web_rtc_key?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-       * **document.origin**
-       * - `bytea` in database
-       * - `NOT NULL`, no default
-       */
-      origin?:
-        | (db.ByteArrayString | Buffer)
-        | db.Parameter<db.ByteArrayString | Buffer>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            | (db.ByteArrayString | Buffer)
-            | db.Parameter<db.ByteArrayString | Buffer>
-            | db.SQLFragment
-            | db.ParentColumn
-          >;
+      * **document.origin**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
+      origin?: (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
-       * **document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
+      * **document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
       id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
       /**
-       * **document.value**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.value**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
       value: string | db.Parameter<string> | db.SQLFragment;
       /**
-       * **document.web_rtc_key**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.web_rtc_key**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
       web_rtc_key: string | db.Parameter<string> | db.SQLFragment;
       /**
-       * **document.origin**
-       * - `bytea` in database
-       * - `NOT NULL`, no default
-       */
-      origin:
-        | (db.ByteArrayString | Buffer)
-        | db.Parameter<db.ByteArrayString | Buffer>
-        | db.SQLFragment;
+      * **document.origin**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
+      origin: (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment;
     }
     export interface Updatable {
       /**
-       * **document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id?:
-        | string
-        | db.Parameter<string>
-        | db.DefaultType
-        | db.SQLFragment
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
-          >;
+      * **document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
       /**
-       * **document.value**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
-      value?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      * **document.value**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      value?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-       * **document.web_rtc_key**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
-      web_rtc_key?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      * **document.web_rtc_key**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      web_rtc_key?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-       * **document.origin**
-       * - `bytea` in database
-       * - `NOT NULL`, no default
-       */
-      origin?:
-        | (db.ByteArrayString | Buffer)
-        | db.Parameter<db.ByteArrayString | Buffer>
-        | db.SQLFragment
-        | db.SQLFragment<
-            any,
-            | (db.ByteArrayString | Buffer)
-            | db.Parameter<db.ByteArrayString | Buffer>
-            | db.SQLFragment
-          >;
+      * **document.origin**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
+      origin?: (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment | db.SQLFragment<any, (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment>;
     }
-    export type UniqueIndex = "document_pkey";
+    export type UniqueIndex = 'document_pkey';
     export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<
-      Selectable,
-      T[number]
-    >;
-    export type SQLExpression =
-      | db.GenericSQLExpression
-      | db.ColumnNames<Updatable | (keyof Updatable)[]>
-      | db.ColumnValues<Updatable>
-      | Table
-      | Whereable
-      | Column;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **document_updates_queue**
+   * - Table in database
+   */
+  export namespace document_updates_queue {
+    export type Table = 'document_updates_queue';
+    export interface Selectable {
+      /**
+      * **document_updates_queue.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id: string;
+      /**
+      * **document_updates_queue.document_id**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      document_id: string;
+      /**
+      * **document_updates_queue.document_update**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
+      document_update: Buffer;
+      /**
+      * **document_updates_queue.update_time**
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
+      update_time: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **document_updates_queue.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id: string;
+      /**
+      * **document_updates_queue.document_id**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      document_id: string;
+      /**
+      * **document_updates_queue.document_update**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
+      document_update: db.ByteArrayString;
+      /**
+      * **document_updates_queue.update_time**
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
+      update_time: db.TimestampString;
+    }
+    export interface Whereable {
+      /**
+      * **document_updates_queue.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **document_updates_queue.document_id**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      document_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **document_updates_queue.document_update**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
+      document_update?: (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **document_updates_queue.update_time**
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
+      update_time?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **document_updates_queue.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+      /**
+      * **document_updates_queue.document_id**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      document_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **document_updates_queue.document_update**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
+      document_update: (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment;
+      /**
+      * **document_updates_queue.update_time**
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
+      update_time: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **document_updates_queue.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **document_updates_queue.document_id**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      document_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **document_updates_queue.document_update**
+      * - `bytea` in database
+      * - `NOT NULL`, no default
+      */
+      document_update?: (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment | db.SQLFragment<any, (db.ByteArrayString | Buffer) | db.Parameter<(db.ByteArrayString | Buffer)> | db.SQLFragment>;
+      /**
+      * **document_updates_queue.update_time**
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
+      update_time?: (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<(db.TimestampString | Date)> | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'document_updates_queue_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
     export type SQL = SQLExpression | SQLExpression[];
   }
 
@@ -241,72 +312,51 @@ declare module "zapatos/schema" {
    * - Table in database
    */
   export namespace schema_migrations {
-    export type Table = "schema_migrations";
+    export type Table = 'schema_migrations';
     export interface Selectable {
       /**
-       * **schema_migrations.version**
-       * - `varchar` in database
-       * - `NOT NULL`, no default
-       */
+      * **schema_migrations.version**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
       version: string;
     }
     export interface JSONSelectable {
       /**
-       * **schema_migrations.version**
-       * - `varchar` in database
-       * - `NOT NULL`, no default
-       */
+      * **schema_migrations.version**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
       version: string;
     }
     export interface Whereable {
       /**
-       * **schema_migrations.version**
-       * - `varchar` in database
-       * - `NOT NULL`, no default
-       */
-      version?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
+      * **schema_migrations.version**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      version?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
-       * **schema_migrations.version**
-       * - `varchar` in database
-       * - `NOT NULL`, no default
-       */
+      * **schema_migrations.version**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
       version: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
-       * **schema_migrations.version**
-       * - `varchar` in database
-       * - `NOT NULL`, no default
-       */
-      version?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      * **schema_migrations.version**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      version?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
-    export type UniqueIndex = "schema_migrations_pkey";
+    export type UniqueIndex = 'schema_migrations_pkey';
     export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<
-      Selectable,
-      T[number]
-    >;
-    export type SQLExpression =
-      | db.GenericSQLExpression
-      | db.ColumnNames<Updatable | (keyof Updatable)[]>
-      | db.ColumnValues<Updatable>
-      | Table
-      | Whereable
-      | Column;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
     export type SQL = SQLExpression | SQLExpression[];
   }
 
@@ -315,190 +365,111 @@ declare module "zapatos/schema" {
    * - Table in database
    */
   export namespace user_document {
-    export type Table = "user_document";
+    export type Table = 'user_document';
     export interface Selectable {
       /**
-       * **user_document.document_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
+      * **user_document.document_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
       document_id: string | null;
       /**
-       * **user_document.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
+      * **user_document.user_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
       user_id: string | null;
       /**
-       * **user_document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
+      * **user_document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
       id: string;
     }
     export interface JSONSelectable {
       /**
-       * **user_document.document_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
+      * **user_document.document_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
       document_id: string | null;
       /**
-       * **user_document.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
+      * **user_document.user_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
       user_id: string | null;
       /**
-       * **user_document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
+      * **user_document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
       id: string;
     }
     export interface Whereable {
       /**
-       * **user_document.document_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      document_id?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
+      * **user_document.document_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      document_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-       * **user_document.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      user_id?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
+      * **user_document.user_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      user_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-       * **user_document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
+      * **user_document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
-       * **user_document.document_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      document_id?:
-        | string
-        | db.Parameter<string>
-        | null
-        | db.DefaultType
-        | db.SQLFragment;
+      * **user_document.document_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      document_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
-       * **user_document.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      user_id?:
-        | string
-        | db.Parameter<string>
-        | null
-        | db.DefaultType
-        | db.SQLFragment;
+      * **user_document.user_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      user_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
-       * **user_document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
+      * **user_document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
       id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
-       * **user_document.document_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      document_id?:
-        | string
-        | db.Parameter<string>
-        | null
-        | db.DefaultType
-        | db.SQLFragment
-        | db.SQLFragment<
-            any,
-            | string
-            | db.Parameter<string>
-            | null
-            | db.DefaultType
-            | db.SQLFragment
-          >;
+      * **user_document.document_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      document_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
-       * **user_document.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      user_id?:
-        | string
-        | db.Parameter<string>
-        | null
-        | db.DefaultType
-        | db.SQLFragment
-        | db.SQLFragment<
-            any,
-            | string
-            | db.Parameter<string>
-            | null
-            | db.DefaultType
-            | db.SQLFragment
-          >;
+      * **user_document.user_id**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      user_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
-       * **user_document.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id?:
-        | string
-        | db.Parameter<string>
-        | db.DefaultType
-        | db.SQLFragment
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
-          >;
+      * **user_document.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
     }
-    export type UniqueIndex =
-      | "user_document_document_id_user_id_key"
-      | "user_document_pkey";
+    export type UniqueIndex = 'user_document_document_id_user_id_key' | 'user_document_pkey';
     export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<
-      Selectable,
-      T[number]
-    >;
-    export type SQLExpression =
-      | db.GenericSQLExpression
-      | db.ColumnNames<Updatable | (keyof Updatable)[]>
-      | db.ColumnValues<Updatable>
-      | Table
-      | Whereable
-      | Column;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
     export type SQL = SQLExpression | SQLExpression[];
   }
 
@@ -507,181 +478,104 @@ declare module "zapatos/schema" {
    * - Table in database
    */
   export namespace users {
-    export type Table = "users";
+    export type Table = 'users';
     export interface Selectable {
       /**
-       * **users.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
+      * **users.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
       id: string;
       /**
-       * **users.name**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
+      * **users.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
       name: string;
     }
     export interface JSONSelectable {
       /**
-       * **users.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
+      * **users.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
       id: string;
       /**
-       * **users.name**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
+      * **users.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
       name: string;
     }
     export interface Whereable {
       /**
-       * **users.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
+      * **users.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-       * **users.name**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
-      name?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
+      * **users.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
-       * **users.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
+      * **users.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
       id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
       /**
-       * **users.name**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
+      * **users.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
       name: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
-       * **users.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id?:
-        | string
-        | db.Parameter<string>
-        | db.DefaultType
-        | db.SQLFragment
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
-          >;
+      * **users.id**
+      * - `uuid` in database
+      * - `NOT NULL`, default: `uuid_generate_v4()`
+      */
+      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
       /**
-       * **users.name**
-       * - `text` in database
-       * - `NOT NULL`, no default
-       */
-      name?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      * **users.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
-    export type UniqueIndex = "users_pkey";
+    export type UniqueIndex = 'users_pkey';
     export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<
-      Selectable,
-      T[number]
-    >;
-    export type SQLExpression =
-      | db.GenericSQLExpression
-      | db.ColumnNames<Updatable | (keyof Updatable)[]>
-      | db.ColumnValues<Updatable>
-      | Table
-      | Whereable
-      | Column;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
     export type SQL = SQLExpression | SQLExpression[];
   }
 
   /* === cross-table types === */
 
-  export type Table =
-    | document.Table
-    | schema_migrations.Table
-    | user_document.Table
-    | users.Table;
-  export type Selectable =
-    | document.Selectable
-    | schema_migrations.Selectable
-    | user_document.Selectable
-    | users.Selectable;
-  export type JSONSelectable =
-    | document.JSONSelectable
-    | schema_migrations.JSONSelectable
-    | user_document.JSONSelectable
-    | users.JSONSelectable;
-  export type Whereable =
-    | document.Whereable
-    | schema_migrations.Whereable
-    | user_document.Whereable
-    | users.Whereable;
-  export type Insertable =
-    | document.Insertable
-    | schema_migrations.Insertable
-    | user_document.Insertable
-    | users.Insertable;
-  export type Updatable =
-    | document.Updatable
-    | schema_migrations.Updatable
-    | user_document.Updatable
-    | users.Updatable;
-  export type UniqueIndex =
-    | document.UniqueIndex
-    | schema_migrations.UniqueIndex
-    | user_document.UniqueIndex
-    | users.UniqueIndex;
-  export type Column =
-    | document.Column
-    | schema_migrations.Column
-    | user_document.Column
-    | users.Column;
-  export type AllBaseTables = [
-    document.Table,
-    schema_migrations.Table,
-    user_document.Table,
-    users.Table
-  ];
+  export type Table = document.Table | document_updates_queue.Table | schema_migrations.Table | user_document.Table | users.Table;
+  export type Selectable = document.Selectable | document_updates_queue.Selectable | schema_migrations.Selectable | user_document.Selectable | users.Selectable;
+  export type JSONSelectable = document.JSONSelectable | document_updates_queue.JSONSelectable | schema_migrations.JSONSelectable | user_document.JSONSelectable | users.JSONSelectable;
+  export type Whereable = document.Whereable | document_updates_queue.Whereable | schema_migrations.Whereable | user_document.Whereable | users.Whereable;
+  export type Insertable = document.Insertable | document_updates_queue.Insertable | schema_migrations.Insertable | user_document.Insertable | users.Insertable;
+  export type Updatable = document.Updatable | document_updates_queue.Updatable | schema_migrations.Updatable | user_document.Updatable | users.Updatable;
+  export type UniqueIndex = document.UniqueIndex | document_updates_queue.UniqueIndex | schema_migrations.UniqueIndex | user_document.UniqueIndex | users.UniqueIndex;
+  export type Column = document.Column | document_updates_queue.Column | schema_migrations.Column | user_document.Column | users.Column;
+  export type AllBaseTables = [document.Table, document_updates_queue.Table, schema_migrations.Table, user_document.Table, users.Table];
   export type AllForeignTables = [];
   export type AllViews = [];
   export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [
-    document.Table,
-    schema_migrations.Table,
-    user_document.Table,
-    users.Table
-  ];
+  export type AllTablesAndViews = [document.Table, document_updates_queue.Table, schema_migrations.Table, user_document.Table, users.Table];
+
 
   export type SelectableForTable<T extends Table> = {
     document: document.Selectable;
+    document_updates_queue: document_updates_queue.Selectable;
     schema_migrations: schema_migrations.Selectable;
     user_document: user_document.Selectable;
     users: users.Selectable;
@@ -689,6 +583,7 @@ declare module "zapatos/schema" {
 
   export type JSONSelectableForTable<T extends Table> = {
     document: document.JSONSelectable;
+    document_updates_queue: document_updates_queue.JSONSelectable;
     schema_migrations: schema_migrations.JSONSelectable;
     user_document: user_document.JSONSelectable;
     users: users.JSONSelectable;
@@ -696,6 +591,7 @@ declare module "zapatos/schema" {
 
   export type WhereableForTable<T extends Table> = {
     document: document.Whereable;
+    document_updates_queue: document_updates_queue.Whereable;
     schema_migrations: schema_migrations.Whereable;
     user_document: user_document.Whereable;
     users: users.Whereable;
@@ -703,6 +599,7 @@ declare module "zapatos/schema" {
 
   export type InsertableForTable<T extends Table> = {
     document: document.Insertable;
+    document_updates_queue: document_updates_queue.Insertable;
     schema_migrations: schema_migrations.Insertable;
     user_document: user_document.Insertable;
     users: users.Insertable;
@@ -710,6 +607,7 @@ declare module "zapatos/schema" {
 
   export type UpdatableForTable<T extends Table> = {
     document: document.Updatable;
+    document_updates_queue: document_updates_queue.Updatable;
     schema_migrations: schema_migrations.Updatable;
     user_document: user_document.Updatable;
     users: users.Updatable;
@@ -717,6 +615,7 @@ declare module "zapatos/schema" {
 
   export type UniqueIndexForTable<T extends Table> = {
     document: document.UniqueIndex;
+    document_updates_queue: document_updates_queue.UniqueIndex;
     schema_migrations: schema_migrations.UniqueIndex;
     user_document: user_document.UniqueIndex;
     users: users.UniqueIndex;
@@ -724,6 +623,7 @@ declare module "zapatos/schema" {
 
   export type ColumnForTable<T extends Table> = {
     document: document.Column;
+    document_updates_queue: document_updates_queue.Column;
     schema_migrations: schema_migrations.Column;
     user_document: user_document.Column;
     users: users.Column;
@@ -731,8 +631,10 @@ declare module "zapatos/schema" {
 
   export type SQLForTable<T extends Table> = {
     document: document.SQL;
+    document_updates_queue: document_updates_queue.SQL;
     schema_migrations: schema_migrations.SQL;
     user_document: user_document.SQL;
     users: users.SQL;
   }[T];
+
 }
