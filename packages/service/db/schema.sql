@@ -48,7 +48,7 @@ CREATE TABLE public.document_updates_queue (
     id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     document_id uuid NOT NULL,
     document_update bytea NOT NULL,
-    update_time timestamp without time zone NOT NULL
+    created_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -168,4 +168,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210713211341'),
     ('20210715214346'),
     ('20210720160437'),
-    ('20210722161826');
+    ('20210722161826'),
+    ('20210722181845');
