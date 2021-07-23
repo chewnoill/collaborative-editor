@@ -42,7 +42,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "nodemon -e ts -w src -x yarn start",
+    "dev": "TS_NODE_FILES=true nodemon -e ts -w src -x yarn start",
     "start": "ts-node src/service.ts",
     "start:prod": "node dist/bundle.js",
     "test": "jest --forceExit",
