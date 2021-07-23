@@ -45,7 +45,7 @@
     "dev": "nodemon -e ts -w src -x yarn start",
     "start": "ts-node src/service.ts",
     "start:prod": "node dist/bundle.js",
-    "test": "jest",
+    "test": "jest --forceExit",
     "codegen": "zapatos"
   }
 }
