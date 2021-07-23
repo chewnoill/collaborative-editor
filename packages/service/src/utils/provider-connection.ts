@@ -40,14 +40,14 @@ const providerMessageResolver = (conn, message, doc) => {
  * @param {any} req
  * @param {any} options
  */
-const setupProviderConnection = (
+const setupProviderConnection = async (
   conn,
   req,
   { docName = req.url.slice(1).split("/")[1], gc = true } = {}
 ) => {
   let closed = false;
 
-  const doc = getYDoc(docName, gc);
+  const doc = await getYDoc(docName, gc);
   doc.conns.set(conn, new Set());
 
   // Check if connection is still alive
