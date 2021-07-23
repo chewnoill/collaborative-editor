@@ -107,6 +107,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: users unique_user_name; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT unique_user_name UNIQUE (name);
+
+
+--
 -- Name: user_document user_document_document_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -169,4 +177,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210715214346'),
     ('20210720160437'),
     ('20210722161826'),
-    ('20210722181845');
+    ('20210722181845'),
+    ('20210723153150');
