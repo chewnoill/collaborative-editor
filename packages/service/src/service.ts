@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import http from "http";
 import upgradeWebsockets from "./websocket-service";
+import { createUser } from "./utils/users";
 
 const host = process.env.HOST || "0.0.0.0";
 const port = process.env.PORT || 6001;
@@ -14,8 +15,9 @@ const SESSION_SECRET = process.env.SESSION_SECRET || "big secret";
 const app = express();
 
 passport.use(
-  new LocalStrategy(function (username, _password, done) {
-    return done(null, { username });
+  new LocalStrategy(async function (username, _password, done) {
+    const user = await createUser({ name: username });
+    return done(null, { username: user.name, id: user.id });
   })
 );
 
