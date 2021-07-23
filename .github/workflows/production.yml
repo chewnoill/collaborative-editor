@@ -23,9 +23,8 @@ jobs:
     - run: yarn
     - run: yarn client build
       env: 
-        BASE_URL: "bingobongo.ml"
-        STORYBOOK_SIGNAL_URL: "ws://${BASE_URL}/ws/signal"
-        STORYBOOK_PROVIDER_URL: "ws://${BASE_URL}/ws/provider"
+        STORYBOOK_SIGNAL_URL: "ws://bingobongo.ml/ws/signal"
+        STORYBOOK_PROVIDER_URL: "ws://bingobongo.ml/ws/provider"
     - run: yarn service build
     - run: |
         # zip up service bundle
