@@ -1,27 +1,38 @@
 import { encoding, mutex } from "lib0";
 import * as Y from "yjs";
 import * as awarenessProtocol from "y-protocols/awareness";
-import * as map from "lib0/map";
+import { fetchDocument } from "./documents";
 
 const messageAwareness = 1;
 const wsReadyStateConnecting = 0;
 const wsReadyStateOpen = 1;
 
+async function fetchYDoc(document_id) {
+  const yDoc = new WSSharedDoc(document_id);
+  const dbDoc = await fetchDocument(document_id);
+  Y.applyUpdate(
+    yDoc,
+    Y.mergeUpdates([
+      dbDoc.origin,
+      ...dbDoc.document_updates.map((update) => update.document_update),
+    ])
+  );
+
+  return yDoc;
+}
+
 // We keep a set of documents in memory here.
 const docs = new Map<string, WSSharedDoc>();
 
-export const getYDoc = (docname, gc = true): WSSharedDoc =>
-  // TODO: get ydoc from database
-  //
-  // this database ccall should be wrapped with
-  // a Dataloader class
-  // see: https://www.npmjs.com/package/dataloader
-  map.setIfUndefined(docs, docname, () => {
-    const doc = new WSSharedDoc(docname);
-    doc.gc = gc;
-    docs.set(docname, doc);
-    return doc;
-  });
+export const getYDoc = async (document_id, gc = true): Promise<WSSharedDoc> => {
+  if (docs.has(document_id)) {
+    return docs.get(document_id);
+  }
+  const doc = await fetchYDoc(document_id);
+  doc.gc = gc;
+  docs.set(document_id, doc);
+  return doc;
+};
 
 export class WSSharedDoc extends Y.Doc {
   name: string;
