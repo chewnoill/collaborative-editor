@@ -7,6 +7,7 @@ import session from "express-session";
 import http from "http";
 import upgradeWebsockets from "./websocket-service";
 import { createUser } from "./utils/users";
+import { selectUserDocuments } from "./utils/documents";
 
 const host = process.env.HOST || "0.0.0.0";
 const port = process.env.PORT || 6001;
@@ -45,6 +46,18 @@ app.use(passport.session());
 
 app.post("/login", passport.authenticate("local", { successRedirect: "/" }));
 
+app.post("/document", function (req, resp) {
+  resp.send({ user: req.user });
+});
+app.get("/documents", async function (req, resp) {
+  if (!req.user) {
+    resp.status(401);
+    resp.send("need to login");
+    return;
+  }
+  const documents = await selectUserDocuments(req.user);
+  resp.send({ user: req.user, documents });
+});
 app.get("/me", function (req, resp) {
   resp.send({ user: req.user });
 });

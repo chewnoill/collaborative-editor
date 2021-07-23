@@ -52,3 +52,9 @@ export function fetchDocument(id: string): Promise<DocumentWithUpdates> {
       })),
     }));
 }
+
+export const selectUserDocuments = (user: { id: string }) =>
+  db.sql`
+SELECT ${"document"}.* FROM document 
+INNER JOIN ${"user_document"} ON ${"user_document"}.${"document_id"} = ${"document"}.${"id"}
+WHERE ${{ user_id: user.id }}`.run(pool);
