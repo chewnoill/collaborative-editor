@@ -15,6 +15,15 @@ const SESSION_SECRET = process.env.SESSION_SECRET || "big secret";
 
 const app = express();
 
+const auth = (req, resp, next) => {
+  if (!req.user) {
+    resp.status(401);
+    next(new Error("need to login"));
+  } else {
+    next();
+  }
+};
+
 passport.use(
   new LocalStrategy(async function (username, _password, done) {
     const user = await createUser({ name: username });
@@ -49,12 +58,7 @@ app.post("/login", passport.authenticate("local", { successRedirect: "/" }));
 app.post("/document", function (req, resp) {
   resp.send({ user: req.user });
 });
-app.get("/documents", async function (req, resp) {
-  if (!req.user) {
-    resp.status(401);
-    resp.send("need to login");
-    return;
-  }
+app.get("/documents", auth, async function (req, resp) {
   const documents = await selectUserDocuments(req.user);
   resp.send({ user: req.user, documents });
 });
