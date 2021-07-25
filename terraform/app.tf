@@ -22,8 +22,16 @@ resource "google_compute_instance" "app" {
     cd /workspace
     gsutil cp -r gs://${var.private_gcs_bucket_name}/service download
     curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-    apt-get install -y nodejs
+    apt-get install -y nodejs postgresql
     tar xvf download/service.tgz
+    export DATABASE_URL=$(gcloud secrets versions access latest --secret="database-url")
+
+    echo "running migrations..."
+    curl -fsSL -o dbmate.bin https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64
+    chmod +x ./dbmate.bin
+    ./dbmate.bin  -d ./packages/service/db/migrations -s ./packages/service/db/schema.sql up
+
+    echo "starting application..."
     node packages/service/dist/bundle.js 
   EOF
 

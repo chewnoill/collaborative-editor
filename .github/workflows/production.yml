@@ -28,7 +28,7 @@ jobs:
     - run: yarn service build
     - run: |
         # zip up service bundle
-        tar cfz service.tgz packages/service/dist/*
+        tar cfz service.tgz packages/service/dist/* packages/service/db/migrations
     - id: upload-service-zip
       uses: google-github-actions/upload-cloud-storage@main
       with:
