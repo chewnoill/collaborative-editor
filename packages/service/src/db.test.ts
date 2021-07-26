@@ -1,6 +1,10 @@
 import * as Y from "yjs";
 import { pool, db } from "./db";
-import { createDocument, insertUpdate } from "./utils/documents";
+import {
+  createDocument,
+  insertUpdate,
+  selectUserDocuments,
+} from "./utils/documents";
 import { getYDoc } from "./utils/ws-shared-doc";
 
 afterAll(() => {
@@ -33,4 +37,21 @@ test("crdts can be persisted", async () => {
 
   // expect that the contents of document A matches document B
   expect(ytext.toJSON()).toMatch(ydocUpdate.getText("codemirror").toJSON());
+});
+
+test("users cannot see each other's documents", async () => {
+  const user_a = await db
+    .upsert("users", { name: "test user a" }, "name")
+    .run(pool);
+  const user_b = await db
+    .upsert("users", { name: "test user b" }, "name")
+    .run(pool);
+  // create a yjs document A
+  const ydoc = new Y.Doc();
+  const { id: id_a } = await createDocument({ doc: ydoc, user: user_a });
+
+  const docs_b = await selectUserDocuments(user_b);
+  expect(docs_b.findIndex((doc) => doc.id === id_a)).toBe(-1);
+  const docs_a = await selectUserDocuments(user_a);
+  expect(docs_a.findIndex((doc) => doc.id === id_a)).toBeGreaterThan(-1);
 });
