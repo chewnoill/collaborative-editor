@@ -1,7 +1,7 @@
 import { encoding, mutex } from "lib0";
 import * as Y from "yjs";
 import * as awarenessProtocol from "y-protocols/awareness";
-import { fetchDocument } from "./documents";
+import { fetchDocument, insertUpdate } from "./documents";
 
 const messageAwareness = 1;
 const wsReadyStateConnecting = 0;
@@ -17,7 +17,9 @@ async function fetchYDoc(document_id) {
       ...dbDoc.document_updates.map((update) => update.document_update),
     ])
   );
-
+  yDoc.on("update", (update) => {
+    insertUpdate(document_id, update);
+  });
   return yDoc;
 }
 
@@ -91,9 +93,7 @@ export class WSSharedDoc extends Y.Doc {
     };
     this.awareness.on("update", awarenessChangeHandler);
   }
-  // TODO: I think buff is the change we need to save
-  // Do we care about duplicates?
-  // can we detect duplicates?
+
   send(conn, buff: Uint8Array) {
     if (
       conn.readyState !== wsReadyStateConnecting &&
