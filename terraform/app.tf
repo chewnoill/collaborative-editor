@@ -12,6 +12,7 @@ resource "google_compute_instance" "app" {
 
   network_interface {
     network = google_compute_network.default.name
+    network_ip = google_compute_address.app-address.address
     access_config {
       // Include this section to give the VM an external ip address
     }
