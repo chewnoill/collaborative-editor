@@ -7,12 +7,23 @@ afterAll(() => {
   return pool.end();
 });
 
+async function testFixtures() {
+  const user = await db
+    .upsert("users", { name: "test user" }, "name")
+    .run(pool);
+
+  return {
+    user,
+  };
+}
+
 test("crdts can be persisted", async () => {
   // create a yjs document A
+  const { user } = await testFixtures();
   const ydoc = new Y.Doc();
   const ytext = ydoc.getText("codemirror");
   ytext.insert(0, "hello world");
-  const { id, origin } = await createDocument(ydoc);
+  const { id, origin } = await createDocument({ doc: ydoc, user });
   // make a change to the document
   ytext.insert(0, "some new text");
   // persist this change to the database
