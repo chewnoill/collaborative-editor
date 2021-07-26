@@ -12,7 +12,8 @@ resource "google_compute_instance" "gateway" {
   }
 
   network_interface {
-    network = google_compute_network.default.name
+    subnetwork = google_compute_subnetwork.default.name
+    network_ip = google_compute_address.internal-gateway-address.address
     access_config {
       nat_ip = google_compute_address.gateway-address.address
       // Include this section to give the VM an external ip address
