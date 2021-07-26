@@ -12,12 +12,19 @@ export function insertUpdate(document_id: string, document_update: Uint8Array) {
     .run(pool);
 }
 
-export const createDocument = (doc: Y.Doc) =>
+export const createDocument = ({
+  doc,
+  user,
+}: {
+  doc: Y.Doc;
+  user: { id: string };
+}) =>
   db
     .insert("document", {
       value: doc.getText(TEXT_NAME).toJSON(),
       origin: Buffer.from(Y.encodeStateAsUpdate(doc)),
       web_rtc_key: "",
+      creator_id: user.id,
       latest_update_time: new Date(),
     })
     .run(pool);
