@@ -1,7 +1,7 @@
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 const NodemonPlugin = require("nodemon-webpack-plugin");
-const {DefinePlugin} = require("webpack");
+const { DefinePlugin } = require("webpack");
 
 module.exports = {
   target: "node",
@@ -26,7 +26,7 @@ module.exports = {
             },
           },
         ],
-      }
+      },
     ],
   },
   output: {
@@ -37,11 +37,8 @@ module.exports = {
     extensions: [".mjs", ".ts", ".tsx", ".js", ".jsx", ".md"],
     plugins: [],
   },
-  plugins: [
-    new NodemonPlugin(),
-    new DefinePlugin({ "global.GENTLY": false }),
-  ],
+  plugins: [new NodemonPlugin(), new DefinePlugin({ "global.GENTLY": false })],
   node: {
-    __dirname: true
-  }
+    __dirname: true,
+  },
 };
