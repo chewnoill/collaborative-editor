@@ -40,6 +40,9 @@ resource "google_compute_instance" "app" {
     # TODO: This account account needs cloud storage permissions
     # so that it can load the service bundle, I haven't figured 
     # out how that works yet, other then manually
+    # required roles:
+    #   * storage object viewer
+    #   * secret manager accessor
     email  = google_service_account.default.email
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     scopes = ["cloud-platform"]
