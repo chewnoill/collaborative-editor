@@ -19,9 +19,6 @@ const providerMessageResolver = (conn, message, doc) => {
       if (encoding.length(encoder) > 1) {
         doc.send(conn, encoding.toUint8Array(encoder));
       }
-      // TODO:
-      // doc is now the updated document
-      // we need to figure out how to persist this
       break;
     case messageAwareness: {
       awarenessProtocol.applyAwarenessUpdate(
