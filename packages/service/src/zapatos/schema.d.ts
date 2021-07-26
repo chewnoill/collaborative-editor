@@ -58,6 +58,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       latest_update_time: Date;
+      /**
+       * **document.creator_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      creator_id: string;
     }
     export interface JSONSelectable {
       /**
@@ -90,6 +96,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       latest_update_time: db.TimestampString;
+      /**
+       * **document.creator_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      creator_id: string;
     }
     export interface Whereable {
       /**
@@ -168,6 +180,20 @@ declare module "zapatos/schema" {
             | db.SQLFragment
             | db.ParentColumn
           >;
+      /**
+       * **document.creator_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      creator_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
     }
     export interface Insertable {
       /**
@@ -206,6 +232,12 @@ declare module "zapatos/schema" {
         | (db.TimestampString | Date)
         | db.Parameter<db.TimestampString | Date>
         | db.SQLFragment;
+      /**
+       * **document.creator_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      creator_id: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -272,6 +304,16 @@ declare module "zapatos/schema" {
             | db.Parameter<db.TimestampString | Date>
             | db.SQLFragment
           >;
+      /**
+       * **document.creator_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      creator_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = "document_pkey";
     export type Column = keyof Selectable;

@@ -36,7 +36,8 @@ CREATE TABLE public.document (
     value text NOT NULL,
     web_rtc_key text NOT NULL,
     origin bytea NOT NULL,
-    latest_update_time timestamp without time zone NOT NULL
+    latest_update_time timestamp without time zone NOT NULL,
+    creator_id uuid NOT NULL
 );
 
 
@@ -139,6 +140,14 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: document document_creator_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document
+    ADD CONSTRAINT document_creator_id_fkey FOREIGN KEY (creator_id) REFERENCES public.users(id);
+
+
+--
 -- Name: document_updates_queue document_updates_queue_document_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -178,4 +187,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210720160437'),
     ('20210722161826'),
     ('20210722181845'),
-    ('20210723153150');
+    ('20210723153150'),
+    ('20210726125556');
