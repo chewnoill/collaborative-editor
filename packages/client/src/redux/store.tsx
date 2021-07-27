@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import user from "./user";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    user,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
