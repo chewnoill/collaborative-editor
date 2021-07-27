@@ -1,4 +1,5 @@
 export * as db from "zapatos/db";
+import { postgraphile } from "postgraphile";
 import type * as schema from "zapatos/schema";
 import url from "whatwg-url";
 import Pool from "pg-pool";
@@ -17,3 +18,24 @@ const config = {
 };
 
 export const pool = new Pool(config);
+
+const postgraphile_options: any = {
+  externalUrlBase: "/api",
+  graphqlRoute: "/graphql",
+  watchPg: true,
+  graphiql: true,
+  enhanceGraphiql: true,
+  subscriptions: true,
+  dynamicJson: true,
+  setofFunctionsContainNulls: false,
+  ignoreRBAC: false,
+  showErrorStack: "json",
+  extendedErrors: ["hint", "detail", "errcode"],
+  allowExplain: true,
+  legacyRelations: "omit",
+  sortExport: true,
+};
+
+export function gqlMiddleware() {
+  return postgraphile(DATABASE_URL, ["public"], postgraphile_options);
+}

@@ -9,11 +9,11 @@ import upgradeWebsockets from "./websocket-service";
 import { createUser } from "./utils/users";
 import { selectUserDocuments, createDocument } from "./utils/documents";
 import * as Y from "yjs";
+import { gqlMiddleware } from "./db";
 
 const host = process.env.HOST || "0.0.0.0";
 const port = process.env.PORT || 6001;
 const SESSION_SECRET = process.env.SESSION_SECRET || "big secret";
-
 const app = express();
 
 const auth = (req, resp, next) => {
@@ -53,6 +53,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(gqlMiddleware());
 
 app.post("/login", passport.authenticate("local", { successRedirect: "/" }));
 
