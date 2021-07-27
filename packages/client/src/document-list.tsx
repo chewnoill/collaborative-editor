@@ -10,12 +10,11 @@ const List = styled.div`
 export default function DocumentList() {
   const [documents, setDocuments] = React.useState(null);
   React.useEffect(() => {
-    fetch("/api/documents")
-      .then((data) => {
-        setDocuments(data.json());
-      });
+    fetch("/api/documents").then((data) => {
+      setDocuments(data.json());
+    });
   }, []);
-  if(!documents) return <div>loading...</div>
+  if (!documents) return <div>loading...</div>;
 
   return <List>{documents.length} documents have been found</List>;
 }
