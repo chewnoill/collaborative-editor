@@ -13,7 +13,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, { payload }) => {
-      state.me = payload.user;
+      state.me = payload;
     },
   },
 });
