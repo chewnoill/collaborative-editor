@@ -1,9 +1,12 @@
-import { Meta } from "@storybook/addon-docs/blocks";
 import Me from "../me";
 import Editor from "../editor";
+import { ReduxProvider } from "../redux/store";
+
+<ReduxProvider>
 
 <Meta title="Editor" />
 
 You are currently logged in as "<Me />"
 
 <Editor></Editor>
+</ReduxProvider>
