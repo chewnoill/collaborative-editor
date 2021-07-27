@@ -37,6 +37,17 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
 
+--
+-- Name: current_user_id(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.current_user_id() RETURNS uuid
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT nullif(current_setting('app.user_id', true), '')::uuid;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -187,6 +198,21 @@ ALTER TABLE ONLY public.user_document
 
 
 --
+-- Name: document; Type: ROW SECURITY; Schema: public; Owner: -
+--
+
+ALTER TABLE public.document ENABLE ROW LEVEL SECURITY;
+
+--
+-- Name: document select_document_if_allowed; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY select_document_if_allowed ON public.document FOR SELECT TO postgraphile_user USING (((creator_id = public.current_user_id()) OR (id IN ( SELECT user_document.document_id
+   FROM public.user_document
+  WHERE (user_document.user_id = public.current_user_id())))));
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -204,4 +230,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210722181845'),
     ('20210723153150'),
     ('20210726125556'),
+    ('20210726224018'),
     ('20210729151156');
