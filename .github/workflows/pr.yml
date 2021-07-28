@@ -5,7 +5,21 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  check-source:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+    - run: yarn
+    - run: yarn format:check
+  run-tests:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -27,7 +41,6 @@ jobs:
       with:
         node-version: 14.x
     - run: yarn
-    - run: yarn format:check
     - name: run migrations
       run: |
         curl -fsSL -o dbmate.bin https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64
