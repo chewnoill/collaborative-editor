@@ -33,7 +33,7 @@ const selectDocumentSlice = (state: RootState) => state.document;
 
 export const selectDocument = createSelector(selectDocumentSlice, (state) => {
   if (!state.doc) return null;
-  else return state.userDocs[state.doc.id];
+  else return state.doc;
 });
 
 export const selectUserDocuments = createSelector(
