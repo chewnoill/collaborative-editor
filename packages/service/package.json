@@ -49,7 +49,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "TS_NODE_FILES=true nodemon -e ts -w src -x yarn start",
-    "start": "ts-node src/service.ts",
+    "start": "TS_NODE_FILES=true ts-node src/service.ts",
     "start:prod": "node dist/bundle.js",
     "test": "jest --forceExit",
     "codegen": "zapatos"
