@@ -8,6 +8,7 @@ import "codemirror/lib/codemirror.css";
 import { WebsocketProvider } from "y-websocket";
 import { useSelector } from "react-redux";
 import { selectDocument } from "./redux/appState/document";
+import DocumentSelect from "./select-document";
 
 const SIGNALLING_SERVICE =
   process.env.STORYBOOK_SIGNAL_URL || "ws://localhost:6006/ws/signal";
@@ -17,7 +18,7 @@ const PROVIDER_SERVICE =
 export default function Editor() {
   const doc = useSelector(selectDocument);
   if (!doc) {
-    return <p>Select a document</p>;
+    return <DocumentSelect />;
   }
   return <TextCanvas document_id={doc.id} />;
 }
