@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "./store";
+import type { RootState } from "../store";
 
 interface IDocHash {
   [docId: string]: { id: string; creator_id: string };
