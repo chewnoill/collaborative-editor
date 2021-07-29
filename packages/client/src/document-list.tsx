@@ -6,7 +6,7 @@ import {
   setDocuments,
   selectDocument,
   selectUserDocuments,
-} from "./redux/document";
+} from "./redux/appState/document";
 
 const List = styled.div`
   max-width: 300px;

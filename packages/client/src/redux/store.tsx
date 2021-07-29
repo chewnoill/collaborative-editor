@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import user from "./user";
-import document from "./document";
+import user from "./appState/user";
+import document from "./appState/document";
 
 export const store = configureStore({
   reducer: {
