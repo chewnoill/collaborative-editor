@@ -14,7 +14,7 @@ export const docSlice = createSlice({
   initialState,
   reducers: {
     setDocument: (state, { payload }) => {
-      state.doc = { id: payload.id, creator_id: payload.creator_id };
+      state.doc = payload;
     },
     setDocuments: (state, { payload }) => {
       const docs = {};
