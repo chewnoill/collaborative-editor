@@ -1,8 +1,9 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
+import { User } from "../types";
 
 interface UserState {
-  me?: { id: string; username: string };
+  me?: User;
 }
 
 // Define the initial state using that type
