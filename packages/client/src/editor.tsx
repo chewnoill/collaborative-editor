@@ -52,6 +52,11 @@ function TextCanvas({ document_id }) {
     new CodemirrorBinding(yText, editor, provider.awareness, {
       yUndoManager,
     });
+
+    return () => {
+      provider.destroy();
+      wsProvider.destroy();
+    };
   }, [ref]);
   return <div ref={ref} />;
 }
