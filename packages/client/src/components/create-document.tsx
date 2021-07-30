@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "ducks/appState/user";
-import { addDocument } from "ducks/appState/document";
+import { useSelector } from "react-redux";
+import { selectUser } from "../ducks/appState/user";
+import { usePostDocumentMutation } from "../ducks/api";
+import { useGetDocumentsQuery } from "../ducks/api";
 
 const Form = styled.form`
   max-width: 300px;
@@ -12,29 +13,21 @@ const Form = styled.form`
 
 export default function CreateDocument() {
   const me = useSelector(selectUser);
-  const [posting, setPosting] = React.useState(null);
-  const dispatch = useDispatch();
+  const [postDocument, { isLoading: postLoading }] = usePostDocumentMutation();
+  const { refetch } = useGetDocumentsQuery();
+
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    await postDocument();
+    await refetch();
+  };
 
   return (
-    <Form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setPosting(true);
-        fetch("/api/document", {
-          method: "POST",
-        })
-          .then((data) => data.json())
-          .then(({ document }) => {
-            if (!document.id || !document.creator_id) return;
-            dispatch(addDocument(document));
-            setPosting(false);
-          });
-      }}
-    >
+    <Form onSubmit={(e) => handleCreate(e)}>
       <h2>
         {me ? "create a new document" : "log in to create a new document"}
       </h2>
-      <button type="submit" disabled={posting || !me}>
+      <button type={"submit"} disabled={postLoading || !me}>
         submit
       </button>
     </Form>
