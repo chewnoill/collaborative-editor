@@ -4,7 +4,7 @@ import { UserDocument } from "../types";
 
 interface DocumentState {
   doc?: UserDocument;
-  userDocs?: { [docId: string]: UserDocument };
+  userDocs?: UserDocument[];
 }
 
 const initialState: DocumentState = {};
@@ -17,12 +17,10 @@ export const docSlice = createSlice({
       state.doc = payload;
     },
     setDocuments: (state, { payload }) => {
-      const docs = {};
-      payload.map((doc) => (docs[doc.id] = doc));
-      state.userDocs = docs;
+      state.userDocs = payload;
     },
     addDocument: (state, { payload }) => {
-      state.userDocs[payload.id] = payload;
+      state.userDocs.push(payload);
     },
   },
 });

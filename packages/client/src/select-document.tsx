@@ -1,21 +1,12 @@
 import React from "react";
-import fetch from "node-fetch";
-import { useDispatch } from "react-redux";
-import { setDocument } from "./redux/appState/document";
+import { useDispatch, useSelector } from "react-redux";
+import { setDocument, selectUserDocuments } from "./redux/appState/document";
 
 export default function DocumentSelect() {
+  const userDocs = useSelector(selectUserDocuments);
   const dispatch = useDispatch();
 
-  const [documents, setDocuments] = React.useState(null);
-  React.useEffect(() => {
-    fetch("/api/documents")
-      .then((data) => data.json())
-      .then((data) => {
-        setDocuments(data.documents);
-      });
-  }, []);
-
-  if (!documents) {
+  if (!userDocs) {
     return null;
   }
 
@@ -28,7 +19,7 @@ export default function DocumentSelect() {
       <option id="" value="">
         select a document
       </option>
-      {documents.map((doc) => (
+      {userDocs.map((doc) => (
         <option key={doc.id} value={doc.id}>
           {doc.id.slice(0, 5)}
         </option>
