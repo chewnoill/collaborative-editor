@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setDocument, selectUserDocuments } from "./redux/appState/document";
+import { setDocument, selectUserDocuments } from "../redux/appState/document";
 
 export default function DocumentSelect() {
   const userDocs = useSelector(selectUserDocuments);
