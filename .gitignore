@@ -7,3 +7,4 @@ volumes
 .DS_Store
 .terraform*
 credentials.json
+.next
