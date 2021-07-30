@@ -41,6 +41,7 @@
     "storybook": "start-storybook -p 6006 -s ./public",
     "dev": "next dev",
     "prebuild": "yarn slides --static public/slides",
-    "build": "build-storybook -s ./public -o ./dist/webpage"
+    "build": "next build && next export",
+    "build-storybook": "build-storybook -s ./public -o ./dist/webpage"
   }
 }
