@@ -1,7 +1,16 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD:packages/client/src/document-list.tsx
 import { setDocuments, selectUserDocuments } from "./redux/appState/document";
+=======
+import {
+  setDocument,
+  setDocuments,
+  selectDocument,
+  selectUserDocuments,
+} from "../redux/appState/document";
+>>>>>>> [chore] reorg components:packages/client/src/components/document-list.tsx
 
 const List = styled.div`
   max-width: 300px;

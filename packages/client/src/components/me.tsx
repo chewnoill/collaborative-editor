@@ -1,7 +1,7 @@
 import React from "react";
 import fetch from "node-fetch";
 import { useDispatch, useSelector } from "react-redux";
-import { login, selectUser } from "./redux/appState/user";
+import { login, selectUser } from "../redux/appState/user";
 
 export default function Me() {
   const me = useSelector(selectUser);

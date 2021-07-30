@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "./redux/appState/user";
-import { addDocument } from "./redux/appState/document";
+import { selectUser } from "../redux/appState/user";
+import { addDocument } from "../redux/appState/document";
 
 const Form = styled.form`
   max-width: 300px;
