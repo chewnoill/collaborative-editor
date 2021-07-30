@@ -10,9 +10,9 @@ import { useSelector } from "react-redux";
 import { selectDocument } from "../redux/appState/document";
 
 const SIGNALLING_SERVICE =
-  process.env.STORYBOOK_SIGNAL_URL || "ws://localhost:6006/ws/signal";
+  process.env.NEXT_PUBLIC_SIGNAL_URL || "ws://localhost:6006/ws/signal";
 const PROVIDER_SERVICE =
-  process.env.STORYBOOK_PROVIDER_URL || "ws://localhost:6006/ws/provider";
+  process.env.NEXT_PUBLIC_PROVIDER_URL || "ws://localhost:6006/ws/provider";
 
 export default function Editor() {
   const doc = useSelector(selectDocument);
