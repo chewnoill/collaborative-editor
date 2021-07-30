@@ -23,6 +23,7 @@
     "@types/ws": "^7.4.5",
     "body-parser": "^1.19.0",
     "codemirror": "^5.61.1",
+    "next": "^11.0.1",
     "node-fetch": "^2.6.1",
     "react-redux": "^7.2.4",
     "storybook": "^6.2.9",
@@ -38,6 +39,7 @@
   "scripts": {
     "slides": "reveal-md doc/slides.md --scripts doc/lib/mermaid.min.js,doc/lib/mermaid-plugin.js  -w",
     "storybook": "start-storybook -p 6006 -s ./public",
+    "dev": "next dev",
     "prebuild": "yarn slides --static public/slides",
     "build": "build-storybook -s ./public -o ./dist/webpage"
   }
