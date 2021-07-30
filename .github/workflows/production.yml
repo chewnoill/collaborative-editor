@@ -39,7 +39,7 @@ jobs:
       uses: google-github-actions/upload-cloud-storage@main
       with:
         credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        path: ./packages/client/dist/webpage
+        path: ./packages/client/out
         destination: willdocs-2/client
         parent: false
     - name: Setup Terraform
