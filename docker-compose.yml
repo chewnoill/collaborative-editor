@@ -11,7 +11,7 @@ services:
       - "8080:80"
     environment:
       - PORT=80
-      - STATIC_URL=http://web:6006
+      - STATIC_URL=http://web:3000
       - WEBSOCKET_URL=http://signal:6001
       - API_URL=http://signal:6001
   db:
@@ -24,17 +24,17 @@ services:
       - "./volumes/postgres:/var/lib/postgresql/data"
   web:
     build: .
-    command: bash -lc "yarn storybook"
+    command: bash -lc "yarn client dev"
     hostname: editor-dev
     tty: true
     stdin_open: true
     volumes:
       - .:/editor:delegated
     ports:
-      - "6006:6006"
+      - "3000:3000"
     environment:
-      - STORYBOOK_SIGNAL_URL=ws://localhost:8080/ws/signal
-      - STORYBOOK_PROVIDER_URL=ws://localhost:8080/ws/provider
+      - PUBLIC_NEXT_SIGNAL_URL=ws://localhost:8080/ws/signal
+      - PUBLIC_NEXT_PROVIDER_URL=ws://localhost:8080/ws/provider
     depends_on:
       - "signal"
   signal:
