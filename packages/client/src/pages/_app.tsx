@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { ReduxProvider } from "redux/store";
+import { ReduxProvider } from "ducks/store";
 
 const AppLayout = styled.div`
   max-width: 100%;

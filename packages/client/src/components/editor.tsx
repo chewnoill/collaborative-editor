@@ -7,7 +7,7 @@ import "codemirror/mode/markdown/markdown.js";
 import "codemirror/lib/codemirror.css";
 import { WebsocketProvider } from "y-websocket";
 import { useSelector } from "react-redux";
-import { selectDocument } from "../redux/appState/document";
+import { selectDocument } from "ducks/appState/document";
 
 const SIGNALLING_SERVICE =
   process.env.NEXT_PUBLIC_SIGNAL_URL || "ws://localhost:6006/ws/signal";
