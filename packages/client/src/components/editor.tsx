@@ -8,11 +8,7 @@ import "codemirror/lib/codemirror.css";
 import { WebsocketProvider } from "y-websocket";
 import { useSelector } from "react-redux";
 import { selectDocument } from "ducks/appState/document";
-
-const SIGNALLING_SERVICE =
-  process.env.NEXT_PUBLIC_SIGNAL_URL || "ws://localhost:6006/ws/signal";
-const PROVIDER_SERVICE =
-  process.env.NEXT_PUBLIC_PROVIDER_URL || "ws://localhost:6006/ws/provider";
+import { PROVIDER_SERVICE, SIGNALLING_SERVICE } from "env";
 
 export default function Editor() {
   const doc = useSelector(selectDocument);
