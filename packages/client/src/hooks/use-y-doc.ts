@@ -2,11 +2,7 @@ import { useEffect, useReducer } from "react";
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import { WebrtcProvider } from "y-webrtc";
-
-const SIGNALING_SERVICE =
-  process.env.NEXT_PUBLIC_SIGNAL_URL || "ws://localhost:3000/ws/signal";
-const CENTRAL_AUTHORITY =
-  process.env.NEXT_PUBLIC_PROVIDER_URL || "ws://localhost:3000/ws/provider";
+import { CENTRAL_AUTHORITY, SIGNALING_SERVICE } from "env";
 
 const cleanupProvider = (provider) => {
   if (!!provider) {
