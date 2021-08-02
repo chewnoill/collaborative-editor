@@ -1,10 +1,20 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setDocument, selectUserDocuments } from "ducks/appState/document";
+import {
+  setDocuments,
+  setDocument,
+  selectUserDocuments,
+} from "ducks/appState/document";
 
 export default function DocumentSelect() {
   const userDocs = useSelector(selectUserDocuments);
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    fetch("/api/documents")
+      .then((data) => data.json())
+      .then((data) => dispatch(setDocuments(data.documents)));
+  }, []);
 
   if (!userDocs) {
     return null;
