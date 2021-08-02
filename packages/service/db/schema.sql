@@ -345,7 +345,6 @@ ALTER TABLE ONLY public.user_document
 
 CREATE POLICY create_document_for_current_user ON public.document FOR INSERT TO postgraphile_user WITH CHECK ((creator_id = public.current_user_id()));
 
-
 --
 -- Name: document; Type: ROW SECURITY; Schema: public; Owner: -
 --
