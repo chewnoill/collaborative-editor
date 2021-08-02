@@ -1,7 +1,7 @@
 version: "3"
 services:
-  proxy:
-    image: nginx:1.21.1
+  gateway:
+    image: nginx
     volumes:
       - ./terraform/nginx-dev:/etc/nginx/templates
     depends_on:
