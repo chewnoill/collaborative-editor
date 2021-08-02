@@ -2,10 +2,6 @@
 server { 
   listen       ${PORT};
 
-  location = / {
-    proxy_pass ${STATIC_URL}/index.html;
-  }
-
   location / {
     proxy_pass          ${STATIC_URL}/;
   }
