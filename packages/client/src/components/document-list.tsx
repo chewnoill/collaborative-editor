@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useDispatch, useSelector } from "react-redux";
-import { setDocuments, selectUserDocuments } from "ducks/appState/document";
+import { useGetDocumentsQuery } from "../ducks/api";
 
 const List = styled.div`
   max-width: 300px;
@@ -10,19 +9,17 @@ const List = styled.div`
 `;
 
 export default function DocumentList() {
-  const userDocs = useSelector(selectUserDocuments);
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    fetch("/api/documents")
-      .then((data) => data.json())
-      .then((data) => dispatch(setDocuments(data.documents)));
-  }, []);
-  if (!userDocs) return <div>loading...</div>;
+  const { data, error, isLoading } = useGetDocumentsQuery();
+  if (error) {
+    console.log(error);
+    return null;
+  }
+  if (isLoading) return <div>loading...</div>;
 
   return (
     <List>
-      {Object.keys(userDocs).length} documents have been found
-      {Object.values(userDocs).map((doc) => (
+      {data.length} documents have been found
+      {data.map((doc) => (
         <li key={doc.id}>
           <p>{"DOC ID: " + doc.id}</p>
           <p>{"DOC OWNER " + doc.creator_id}</p>
