@@ -72,6 +72,43 @@ end;
 $$;
 
 
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.users (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name text NOT NULL
+);
+
+
+--
+-- Name: TABLE users; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.users IS '
+@name users
+@omit create,update,delete';
+
+
+--
+-- Name: create_user(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.create_user(name text) RETURNS public.users
+    LANGUAGE sql STRICT
+    AS $$
+  INSERT INTO users
+    (name)
+    VALUES (name)
+    RETURNING *;
+$$;
+
+
 --
 -- Name: current_user_id(); Type: FUNCTION; Schema: public; Owner: -
 --
@@ -83,9 +120,50 @@ CREATE FUNCTION public.current_user_id() RETURNS uuid
 $$;
 
 
-SET default_tablespace = '';
+--
+-- Name: user_document; Type: TABLE; Schema: public; Owner: -
+--
 
-SET default_table_access_method = heap;
+CREATE TABLE public.user_document (
+    document_id uuid,
+    user_id uuid,
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL
+);
+
+
+--
+-- Name: TABLE user_document; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.user_document IS '
+@name user_document
+@omit create,update,delete';
+
+
+--
+-- Name: invite_user_to_document(text, uuid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.invite_user_to_document(name text, document_id uuid) RETURNS public.user_document
+    LANGUAGE sql STRICT
+    AS $$
+  INSERT INTO user_document
+    (user_id, document_id)
+    VALUES ((SELECT users.id FROM users where name=name), document_id)
+    RETURNING *;
+$$;
+
+
+--
+-- Name: me(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.me() RETURNS public.users
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT * FROM users WHERE id = current_user_id()
+$$;
+
 
 --
 -- Name: document; Type: TABLE; Schema: public; Owner: -
@@ -102,6 +180,24 @@ CREATE TABLE public.document (
 
 
 --
+-- Name: TABLE document; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.document IS '
+@name document
+@omit create,update,delete';
+
+
+--
+-- Name: COLUMN document.latest_update_time; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.document.latest_update_time IS '
+@name latest_update_time
+@omit create,update';
+
+
+--
 -- Name: document_updates_queue; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -114,6 +210,15 @@ CREATE TABLE public.document_updates_queue (
 
 
 --
+-- Name: TABLE document_updates_queue; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.document_updates_queue IS '
+@name document_updates_queue
+@omit';
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -123,24 +228,12 @@ CREATE TABLE public.schema_migrations (
 
 
 --
--- Name: user_document; Type: TABLE; Schema: public; Owner: -
+-- Name: TABLE schema_migrations; Type: COMMENT; Schema: public; Owner: -
 --
 
-CREATE TABLE public.user_document (
-    document_id uuid,
-    user_id uuid,
-    id uuid DEFAULT public.uuid_generate_v4() NOT NULL
-);
-
-
---
--- Name: users; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.users (
-    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    name text NOT NULL
-);
+COMMENT ON TABLE public.schema_migrations IS '
+@name schema_migrations
+@omit';
 
 
 --
@@ -232,10 +325,26 @@ ALTER TABLE ONLY public.user_document
 
 
 --
+-- Name: document create_document_if_allowed; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY create_document_if_allowed ON public.document FOR INSERT TO postgraphile_user WITH CHECK ((creator_id = public.current_user_id()));
+
+
+--
 -- Name: document; Type: ROW SECURITY; Schema: public; Owner: -
 --
 
 ALTER TABLE public.document ENABLE ROW LEVEL SECURITY;
+
+--
+-- Name: user_document invite_to_document_if_allowed; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY invite_to_document_if_allowed ON public.user_document FOR INSERT TO postgraphile_user WITH CHECK ((document_id IN ( SELECT document.id
+   FROM public.document
+  WHERE (document.creator_id = public.current_user_id()))));
+
 
 --
 -- Name: document select_document_if_allowed; Type: POLICY; Schema: public; Owner: -
@@ -281,4 +390,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210722181845'),
     ('20210723153150'),
     ('20210726125556'),
-    ('20210726224018');
+    ('20210726224018'),
+    ('20210802130820');
