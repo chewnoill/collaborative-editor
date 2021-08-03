@@ -8,6 +8,7 @@ import "codemirror/lib/codemirror.css";
 import { WebsocketProvider } from "y-websocket";
 import { useSelector } from "react-redux";
 import { selectDocument } from "ducks/appState/document";
+import styled from "@emotion/styled";
 import { selectUser } from "ducks/appState/user";
 
 const SIGNALLING_SERVICE =
@@ -27,7 +28,30 @@ export default function Editor() {
   return <TextCanvas document_id={doc.id} name={user.username} />;
 }
 
-function TextCanvas({ document_id }) {
+const TextBox = styled.div`
+  .remote-caret {
+    position: absolute;
+    border-left: black;
+    border-left-style: solid;
+    border-left-width: 2px;
+    height: 1em;
+  }
+  .remote-caret > div {
+    position: relative;
+    top: -1.05em;
+    font-size: 13px;
+    background-color: rgb(250, 129, 0);
+    font-family: serif;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    user-select: none;
+    color: white;
+    padding-left: 2px;
+    padding-right: 2px;
+    z-index: 3;
+  }
+`;
 
 function TextCanvas({ document_id, name }) {
   const ref = React.useRef();
@@ -66,5 +90,5 @@ function TextCanvas({ document_id, name }) {
       wsProvider.destroy();
     };
   }, [ref]);
-  return <div ref={ref} />;
+  return <TextBox ref={ref} />;
 }
