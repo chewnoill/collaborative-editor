@@ -61,25 +61,34 @@ docker-compose up
 
 start service
 ```shell
-yarn service
+yarn service dev
 ```
 
 start storybook
 ```shell
-yarn storybook
+yarn client dev
 ```
 
-## Running database migrations using dbmate
+## Running database migrations
 Make sure your `DATABASE_URL` is set.
 
 create a new migration
 ```shell
-dbmate n <name of migration>
+yarn migrations new <name of migration>
 ```
 
 Running migrations
 ```shell
-dbmate up
+yarn migrations up
+```
+OR
+```shell
+yarn migrations down
+```
+
+## Generating database ORM schema
+```shell
+yarn service zapatos
 ```
 
 For more information see: https://github.com/amacneil/dbmate
@@ -102,6 +111,7 @@ CREATE TABLE user (
 ```sql
 CREATE TABLE document (
   id      uuid,
+  creator_id uuid,
   origin text,
   value text,
   web_rtc_key text
