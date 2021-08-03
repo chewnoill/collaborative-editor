@@ -8,6 +8,7 @@ import "codemirror/lib/codemirror.css";
 import { WebsocketProvider } from "y-websocket";
 import { useSelector } from "react-redux";
 import { selectDocument } from "ducks/appState/document";
+import { selectUser } from "ducks/appState/user";
 
 const SIGNALLING_SERVICE =
   process.env.NEXT_PUBLIC_SIGNAL_URL || "ws://localhost:6006/ws/signal";
@@ -15,14 +16,20 @@ const PROVIDER_SERVICE =
   process.env.NEXT_PUBLIC_PROVIDER_URL || "ws://localhost:6006/ws/provider";
 
 export default function Editor() {
+  const user = useSelector(selectUser);
   const doc = useSelector(selectDocument);
+  if (!user) {
+    return <p>need to login...</p>;
+  }
   if (!doc) {
     return <p>Select a document to start editing</p>;
   }
-  return <TextCanvas document_id={doc.id} />;
+  return <TextCanvas document_id={doc.id} name={user.username} />;
 }
 
 function TextCanvas({ document_id }) {
+
+function TextCanvas({ document_id, name }) {
   const ref = React.useRef();
 
   React.useEffect(() => {
@@ -48,9 +55,11 @@ function TextCanvas({ document_id }) {
       lineNumbers: true,
     });
 
-    new CodemirrorBinding(yText, editor, provider.awareness, {
-      yUndoManager,
+    provider.awareness.setLocalStateField("user", {
+      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      name,
     });
+    new CodemirrorBinding(yText, editor, provider.awareness, { yUndoManager });
 
     return () => {
       provider.destroy();
