@@ -12,7 +12,6 @@
     "http-proxy-middleware": "^2.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "reveal-md": "^5.1.1",
     "storybook": "^6.2.9"
   },
   "dependencies": {
@@ -42,10 +41,8 @@
     "react": "^17.0.2"
   },
   "scripts": {
-    "slides": "reveal-md doc/slides.md --scripts doc/lib/mermaid.min.js,doc/lib/mermaid-plugin.js  -w",
     "storybook": "start-storybook -p 6006 -s ./public",
     "dev": "next dev",
-    "prebuild": "yarn slides --static public/slides",
     "build": "next build && next export",
     "build-storybook": "build-storybook -s ./public -o ./dist/webpage"
   }
