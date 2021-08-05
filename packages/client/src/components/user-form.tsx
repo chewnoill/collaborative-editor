@@ -9,7 +9,7 @@ const Form = styled.form`
   flex-direction: column;
 `;
 
-export default function LoginForm() {
+export function LoginForm() {
   return (
     <Form action="/api/login" method="post">
       <label>username</label> <input name="username" type="text" />
