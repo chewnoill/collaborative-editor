@@ -1,42 +1,30 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { selectUser } from "ducks/appState/user";
+import { useSelector } from "react-redux";
+import Me from "./me";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
 `;
 
-function UserForm({
-  children,
-  ...props
-}: React.FormHTMLAttributes<HTMLFormElement>) {
+export function LoginForm() {
   return (
-    <Form {...props}>
-      <label>Username</label> <input name="username" type="text" />
-      <label>Password</label> <input name="password" type="password" />
-      {children}
+    <Form action="/api/login" method="post">
+      <label>username</label> <input name="username" type="text" />
+      <label>password</label> <input name="password" type="password" />
+      <button type="submit">submit</button>
     </Form>
   );
 }
-export function LoginForm() {
+
+export function GuardedLoginForm() {
+  const me = useSelector(selectUser);
+
   return (
-    <UserForm action="/api/login" method="post">
-      <button type="submit">Log in</button>
-    </UserForm>
-  );
-}
-export function CreateUserForm() {
-  return (
-    <UserForm action="/api/user/create-user" method="post">
-      <button type="submit">Create Account</button>
-    </UserForm>
-  );
-}
-export function UpdatePasswordForm() {
-  return (
-    <UserForm action="/api/user/update-password" method="post">
-      <label>New Password</label> <input name="new_password" type="password" />
-      <button type="submit">Update Password</button>
-    </UserForm>
+    <>
+      <Me />
+    </>
   );
 }
