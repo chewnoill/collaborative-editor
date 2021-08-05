@@ -91,6 +91,52 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: document; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.document (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    value text NOT NULL,
+    web_rtc_key text NOT NULL,
+    origin bytea NOT NULL,
+    latest_update_time timestamp without time zone NOT NULL,
+    creator_id uuid NOT NULL
+);
+
+
+--
+-- Name: TABLE document; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.document IS '
+@name document
+@omit create,update,delete';
+
+
+--
+-- Name: COLUMN document.latest_update_time; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.document.latest_update_time IS '
+@name latest_update_time
+@omit create,update';
+
+
+--
+-- Name: create_document(text, bytea); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.create_document(value text, origin bytea) RETURNS public.document
+    LANGUAGE sql STRICT
+    AS $$
+  INSERT INTO document
+    (creator_id, value, origin)
+    VALUES (current_user_id(), value, origin)
+    RETURNING *;
+$$;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -178,38 +224,6 @@ CREATE FUNCTION public.me() RETURNS public.users
     AS $$
   SELECT * FROM users WHERE id = current_user_id()
 $$;
-
-
---
--- Name: document; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.document (
-    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    value text NOT NULL,
-    web_rtc_key text NOT NULL,
-    origin bytea NOT NULL,
-    latest_update_time timestamp without time zone NOT NULL,
-    creator_id uuid NOT NULL
-);
-
-
---
--- Name: TABLE document; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON TABLE public.document IS '
-@name document
-@omit create,update,delete';
-
-
---
--- Name: COLUMN document.latest_update_time; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.document.latest_update_time IS '
-@name latest_update_time
-@omit create,update';
 
 
 --

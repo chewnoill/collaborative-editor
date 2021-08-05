@@ -29,6 +29,27 @@ export const createDocument = ({
     })
     .run(pool);
 
+export const inviteUser = (
+  {
+    doc,
+    user: current_user,
+  }: {
+    doc: { id: string };
+    user: { id: string };
+  },
+  user_to_invite: string
+) =>
+  db
+    .insert("user_document", {
+      document_id: db.sql`SELECT document.id FROM document WHERE document.creator_id = ${db.param(
+        current_user.id
+      )} and document.id = ${db.param(doc.id)}`,
+      user_id: db.sql`SELECT users.id FROM users WHERE users.name = ${db.param(
+        user_to_invite
+      )}`,
+    })
+    .run(pool);
+
 type DocumentWithUpdates = schema.document.Selectable & {
   document_updates?: schema.document_updates_queue.Selectable[];
 };

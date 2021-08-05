@@ -55,3 +55,20 @@ test("users cannot see each other's documents", async () => {
   const docs_a = await selectUserDocuments(user_a);
   expect(docs_a.findIndex((doc) => doc.id === id_a)).toBeGreaterThan(-1);
 });
+
+test("users can see documents that have been shared with them", async () => {
+  const user_a = await db
+    .upsert("users", { name: "test user a" }, "name")
+    .run(pool);
+  const user_b = await db
+    .upsert("users", { name: "test user b" }, "name")
+    .run(pool);
+  // create a yjs document A
+  const ydoc = new Y.Doc();
+  const { id: id_a } = await createDocument({ doc: ydoc, user: user_a });
+
+  const docs_b = await selectUserDocuments(user_b);
+  expect(docs_b.findIndex((doc) => doc.id === id_a)).toBe(-1);
+  const docs_a = await selectUserDocuments(user_a);
+  expect(docs_a.findIndex((doc) => doc.id === id_a)).toBeGreaterThan(-1);
+});
