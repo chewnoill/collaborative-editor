@@ -6,7 +6,12 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import http from "http";
 import upgradeWebsockets from "./websocket-service";
-import { createUser } from "./utils/users";
+import {
+  createUser,
+  validateUser,
+  selectUsers,
+  updatePassword,
+} from "./utils/users";
 import { selectUserDocuments, createDocument } from "./utils/documents";
 import * as Y from "yjs";
 
@@ -26,8 +31,12 @@ const auth = (req, resp, next) => {
 };
 
 passport.use(
-  new LocalStrategy(async function (username, _password, done) {
-    const user = await createUser({ name: username });
+  new LocalStrategy(async function (username, password, done) {
+    const user = await validateUser({ name: username, password: password });
+    console.log(user);
+    if (!user) {
+      return false;
+    }
     return done(null, { username: user.name, id: user.id });
   })
 );
@@ -56,6 +65,20 @@ app.use(passport.session());
 
 app.post("/login", passport.authenticate("local", { successRedirect: "/" }));
 
+app.post("/user/update_password", async function (req, resp) {
+  await updatePassword(req.body);
+  resp.redirect(307, "/");
+});
+app.post("/user/create_user", async function (req, resp) {
+  const user = await createUser(req.body);
+  resp.redirect(307, "/");
+});
+app.get("/users", auth, async function (resp) {
+  const users = await selectUsers();
+  resp.send({
+    user: users,
+  });
+});
 app.post("/document", auth, async function (req, resp) {
   const dbDoc = await createDocument({ doc: new Y.Doc(), user: req.user });
   resp.send({

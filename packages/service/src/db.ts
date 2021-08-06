@@ -1,3 +1,5 @@
+/// <reference types="./zapatos/schema" />
+
 export * as db from "zapatos/db";
 import type * as schema from "zapatos/schema";
 import url from "whatwg-url";
