@@ -10,6 +10,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+
+
+--
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -79,7 +93,8 @@ CREATE TABLE public.user_document (
 
 CREATE TABLE public.users (
     id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    name text NOT NULL
+    name text NOT NULL,
+    password text DEFAULT ''::text NOT NULL
 );
 
 
@@ -188,4 +203,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210722161826'),
     ('20210722181845'),
     ('20210723153150'),
-    ('20210726125556');
+    ('20210726125556'),
+    ('20210729151156');

@@ -845,6 +845,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       name: string;
+      /**
+       * **users.password**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      password: string;
     }
     export interface JSONSelectable {
       /**
@@ -859,6 +865,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       name: string;
+      /**
+       * **users.password**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      password: string;
     }
     export interface Whereable {
       /**
@@ -889,6 +901,20 @@ declare module "zapatos/schema" {
             any,
             string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
           >;
+      /**
+       * **users.password**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      password?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
     }
     export interface Insertable {
       /**
@@ -903,6 +929,16 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       name: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **users.password**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      password?:
+        | string
+        | db.Parameter<string>
+        | db.DefaultType
+        | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -929,6 +965,20 @@ declare module "zapatos/schema" {
         | db.Parameter<string>
         | db.SQLFragment
         | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **users.password**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      password?:
+        | string
+        | db.Parameter<string>
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
+          >;
     }
     export type UniqueIndex = "unique_user_name" | "users_pkey";
     export type Column = keyof Selectable;
