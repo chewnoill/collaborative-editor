@@ -16,6 +16,7 @@ export default function Index() {
     <PageLayout>
       <Me />
       <a href="/login">Login</a>
+      <a href="/create_user">Create Account</a>
       <DocumentSelect />
       <Editor />
     </PageLayout>
