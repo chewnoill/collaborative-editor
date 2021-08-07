@@ -34,7 +34,7 @@ jobs:
       with:
         credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         path: ./service.tgz
-        destination: willdocs-1/service
+        destination: willdocs/service
     - id: upload-client-bundle
       uses: google-github-actions/upload-cloud-storage@main
       with:
