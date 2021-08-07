@@ -24,3 +24,10 @@ resource "google_storage_bucket" "private_bucket" {
   force_destroy = true
   uniform_bucket_level_access = true
 }
+
+output "static-bucket" {
+  value = google_storage_bucket.static-site.name
+}
+output "private-bucket" {
+  value = google_storage_bucket.private_bucket.name
+}
