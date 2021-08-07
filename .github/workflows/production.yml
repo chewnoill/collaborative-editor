@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env: 
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -25,8 +27,7 @@ jobs:
     - name: Init Terraform
       run: |
         terraform -chdir=terraform init
-      env: 
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        terraform -chdir=terraform output
     - run: yarn
     - run: |
         BASE_SERVICE_URL=$(terraform -chdir=terraform/ output --json | jq -r '.dns_name.value')
@@ -54,5 +55,3 @@ jobs:
       run: |
         terraform -chdir=terraform taint google_compute_instance.app
         terraform -chdir=terraform apply --auto-approve
-      env: 
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
