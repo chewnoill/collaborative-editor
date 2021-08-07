@@ -21,7 +21,7 @@ resource "google_compute_instance" "app" {
   metadata_startup_script = <<-EOF
     mkdir /workspace
     cd /workspace
-    gsutil cp -r gs://${var.private_gcs_bucket_name}/service download
+    gsutil cp -r gs://${google_storage_bucket.private_bucket.name}/service download
     curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
     apt-get install -y nodejs postgresql
     tar xvf download/service.tgz
