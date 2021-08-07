@@ -27,14 +27,14 @@ jobs:
     - name: Init Terraform
       run: |
         terraform -chdir=terraform init
-        terraform -chdir=terraform output
-    - run: yarn
-    - run: |
-        # Build client bundle
-        echo $(terraform -chdir=terraform/ output --json)
         BASE_SERVICE_URL=$(terraform -chdir=terraform/ output -raw dns_name)
         export NEXT_PUBLIC_SIGNAL_URL="ws://$BASE_SERVICE_URL/ws/signal"
         export NEXT_PUBLIC_PROVIDER_URL="ws://$BASE_SERVICE_URL/ws/provider"
+        export WEB_BUCKET=$(terraform -chdir=terraform/ output -raw static-bucket)
+        export SERVICE_BUCKET=$(terraform -chdir=terraform/ output -raw private-bucket)
+    - run: yarn
+    - run: |
+        # Build client bundle
         yarn client build
     - run: yarn service build
     - run: |
@@ -45,13 +45,13 @@ jobs:
       with:
         credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         path: ./service.tgz
-        destination: willdocs/service
+        destination: ${{ env.SERVICE_BUCKET }}/service
     - id: upload-client-bundle
       uses: google-github-actions/upload-cloud-storage@main
       with:
         credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         path: ./packages/client/out
-        destination: willdocs-2/client
+        destination: ${{ env.WEB_BUCKET }}/client
         parent: false
     - name: Terraform Deploy
       run: |
