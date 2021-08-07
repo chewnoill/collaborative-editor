@@ -6,8 +6,7 @@ terraform {
     }
   }
   backend "gcs" {
-    # var.public_gcs_bucket_name
-    bucket  = "willdocs-1"
+    bucket  = "willdocs-terraform"
     prefix  = "terraform/state"
   }
 }
