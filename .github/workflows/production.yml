@@ -30,26 +30,30 @@ jobs:
         args: info
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_wrapper: false
+
     - name: Init Terraform
       run: |
         terraform -chdir=terraform init
-        export WEB_BUCKET=$(terraform -chdir=terraform/ output -raw static-bucket)
-        export SERVICE_BUCKET=$(terraform -chdir=terraform/ output -raw private-bucket)
+        terraform -chdir=terraform output
     - run: yarn
-    - run: |
-        # Build client bundle
-        BASE_SERVICE_URL=$(terraform -chdir=terraform/ output -raw dns_name)
-        export NEXT_PUBLIC_SIGNAL_URL="ws://$BASE_SERVICE_URL/ws/signal"
-        export NEXT_PUBLIC_PROVIDER_URL="ws://$BASE_SERVICE_URL/ws/provider"
-        yarn client build
+    - name: Build Client
+      run: |
+        # Build Client
         STATIC_BUCKET=$(terraform -chdir=terraform/ output -raw static-bucket)
-        gsutil cp -r ./packages/client/out gs://$STATIC_BUCKET/client
+        export NEXT_PUBLIC_SIGNAL_URL=ws://${STATIC_BUCKET}/ws/signal
+        export NEXT_PUBLIC_PROVIDER_URL=ws://${STATIC_BUCKET}/ws/provider
+        yarn client build
+
+        echo "Static Bucket STATIC_BUCKET: ${STATIC_BUCKET}"
+        gsutil cp -r ./packages/client/out gs://${STATIC_BUCKET}/client
     - run: yarn service build
     - run: |
         # zip up service bundle
-        tar cfz service.tgz packages/service/dist/* packages/service/db/migrations
         PRIVATE_BUCKET=$(terraform -chdir=terraform/ output -raw private-bucket)
-        gsutil cp service.tgx gs://$PRIVATE_BUCKET/service
+        tar cfz service.tgz packages/service/dist/* packages/service/db/migrations
+        gsutil cp service.tgz gs://${PRIVATE_BUCKET}/service
     - name: Terraform Deploy
       run: |
         terraform -chdir=terraform taint google_compute_instance.app
