@@ -43,14 +43,26 @@ resource "google_compute_instance" "app" {
     # required roles:
     #   * storage object viewer
     #   * secret manager accessor
-    email  = google_service_account.default.email
+    email  = google_service_account.app-user.email
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     scopes = ["cloud-platform"]
   }
 }
 
-resource "google_service_account" "default" {
-  account_id   = "terraform-account"
-  display_name = "Terraform Account"
+resource "google_service_account" "app-user" {
+  account_id   = "app-account"
+  display_name = "App Account"
   project = var.project_name
+}
+
+resource "google_service_account_iam_binding" "app-user-iam" {
+  service_account_id = google_service_account.app-user.name
+  role               = "projects/${var.project_name}/roles/${google_project_iam_custom_role.app-user-role.role_id}"
+  members = [ "serviceAccount:${google_service_account.app-user.email}" ]
+}
+
+resource "google_project_iam_custom_role" "app-user-role" {
+  role_id     = "appUserRole"
+  title       = "Role for the app user"
+  permissions = ["secretmanager.versions.access"]
 }
