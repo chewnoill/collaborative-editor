@@ -55,20 +55,14 @@ resource "google_service_account" "app-user" {
   project = var.project_name
 }
 
-resource "google_service_account_iam_binding" "app-user-iam" {
-  service_account_id = google_service_account.app-user.name
-  role               = "projects/${var.project_name}/roles/${google_project_iam_custom_role.app-user-role.role_id}"
-  members = [ "serviceAccount:${google_service_account.app-user.email}" ]
-}
-
-resource "google_project_iam_custom_role" "app-user-role" {
-  role_id     = "appUserRole"
-  title       = "Role for the app user"
-  permissions = ["secretmanager.versions.access", "storage.objects.get"]
-}
-
 resource "google_secret_manager_secret_iam_member" "app-member" {
   secret_id = google_secret_manager_secret.database-url.secret_id
   role = "roles/secretmanager.secretAccessor"
+  member = "serviceAccount:${google_service_account.app-user.email}"
+}
+
+resource "google_storage_bucket_iam_member" "member" {
+  bucket = google_storage_bucket.private_bucket.name
+  role = "roles/storage.objectViewer"
   member = "serviceAccount:${google_service_account.app-user.email}"
 }
