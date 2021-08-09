@@ -5,11 +5,9 @@ server {
 
   location = / {
     proxy_pass  ${STATIC_URL}/index.html;
-    proxy_redirect off;
   }
   location = /login {
-    proxy_pass  ${STATIC_URL}/login.html;
-    proxy_redirect off;
+    proxy_pass  ${STATIC_URL}/login/index.html;
   }
   location = /editor {
     proxy_pass  ${STATIC_URL}/editor.html;
@@ -25,7 +23,6 @@ server {
   }
   location / {
      proxy_pass  ${STATIC_URL}/;
-     proxy_redirect off;
   }
 
   location /ws/ {

@@ -35,7 +35,7 @@ resource "google_compute_instance" "gateway" {
     EOF
 
   service_account {
-    email  = google_service_account.default.email
+    email  = google_service_account.app-user.email
     scopes = ["cloud-platform"]
   }
 }
