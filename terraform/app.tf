@@ -64,5 +64,11 @@ resource "google_service_account_iam_binding" "app-user-iam" {
 resource "google_project_iam_custom_role" "app-user-role" {
   role_id     = "appUserRole"
   title       = "Role for the app user"
-  permissions = ["secretmanager.versions.access"]
+  permissions = ["secretmanager.versions.access", "storage.objects.get"]
+}
+
+resource "google_secret_manager_secret_iam_member" "app-member" {
+  secret_id = google_secret_manager_secret.database-url.secret_id
+  role = "roles/secretmanager.secretAccessor"
+  member = "serviceAccount:${google_service_account.app-user.email}"
 }
