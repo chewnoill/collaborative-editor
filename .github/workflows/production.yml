@@ -68,7 +68,7 @@ jobs:
         PROJECT_ID: willdocs
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-        args: cp ./service.tgz gs://${{env.PRIVATE_BUCKET}}/service
+        args: cp ./service.tgz gs://${{env.PRIVATE_BUCKET}}/service/service.tgz
         cli: gsutil
     - name: Terraform Deploy
       run: |
