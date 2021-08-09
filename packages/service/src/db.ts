@@ -5,6 +5,7 @@ import { postgraphile } from "postgraphile";
 import type * as schema from "zapatos/schema";
 import url from "whatwg-url";
 import Pool from "pg-pool";
+import { IS_PROD } from "./config";
 export { schema };
 
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -30,7 +31,7 @@ const postgraphile_options: any = {
       "app.user_id": req.user?.id,
     };
   },
-  watchPg: true,
+  watchPg: IS_PROD ? false : true,
   graphiql: true,
   enhanceGraphiql: true,
   subscriptions: true,
