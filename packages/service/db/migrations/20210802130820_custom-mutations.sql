@@ -29,15 +29,6 @@ AS $$
     RETURNING *;
 $$ LANGUAGE sql VOLATILE STRICT;
 
-CREATE FUNCTION create_document(value text, origin bytea)
-RETURNS document
-AS $$
-  INSERT INTO document
-    (creator_id, value, origin)
-    VALUES (current_user_id(), value, origin)
-    RETURNING *;
-$$ LANGUAGE sql VOLATILE STRICT;
-
 CREATE FUNCTION invite_user_to_document(name text, document_id uuid)
 RETURNS user_document
 AS $$
@@ -47,11 +38,8 @@ AS $$
     RETURNING *;
 $$ LANGUAGE sql VOLATILE STRICT;
 
-
-
 -- migrate:down
 
 DROP FUNCTION create_user;
-DROP FUNCTION create_document;
 DROP FUNCTION invite_user_to_document;
 

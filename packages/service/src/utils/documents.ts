@@ -1,3 +1,4 @@
+import { Pool } from "pg";
 import * as Y from "yjs";
 import { db, pool, schema } from "../db";
 
@@ -12,20 +13,14 @@ export function insertUpdate(document_id: string, document_update: Uint8Array) {
     .run(pool);
 }
 
-export const createDocument = ({
-  doc,
-  user,
-}: {
-  doc: Y.Doc;
-  user: { id: string };
-}) =>
+export const createDocument = (pool: Pool, doc: Y.Doc = new Y.Doc()) =>
   db
     .insert("document", {
       value: doc.getText(TEXT_NAME).toJSON(),
       origin: Buffer.from(Y.encodeStateAsUpdate(doc)),
-      web_rtc_key: "",
-      creator_id: user.id,
-      latest_update_time: new Date(),
+      web_rtc_key: "web_rtc_key",
+      creator_id: db.sql`current_user_id()`,
+      latest_update_time: db.sql`now()`,
     })
     .run(pool);
 
@@ -83,7 +78,8 @@ export function fetchDocument(id: string): Promise<DocumentWithUpdates> {
 
 export const selectUserDocuments = (user: { id: string }) =>
   db.sql`
-SELECT ${"document"}.* FROM document 
-LEFT JOIN ${"user_document"} ON ${"user_document"}.${"document_id"} = ${"document"}.${"id"}
-WHERE ${{ user_id: user.id }}
-OR ${{ creator_id: user.id }}`.run(pool);
+SELECT ${"document"}.* FROM document
+  LEFT JOIN ${"user_document"}
+  ON ${"user_document"}.${"document_id"} = ${"document"}.${"id"}
+  WHERE ${{ user_id: user.id }}
+  OR ${{ creator_id: user.id }}`.run(pool);

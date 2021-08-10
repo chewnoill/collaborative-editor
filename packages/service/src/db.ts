@@ -6,6 +6,7 @@ import type * as schema from "zapatos/schema";
 import url from "whatwg-url";
 import Pool from "pg-pool";
 import { IS_PROD } from "./config";
+import DocumentMutations from "./resolvers/documents";
 export { schema };
 
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -43,6 +44,7 @@ const postgraphile_options: any = {
   allowExplain: true,
   legacyRelations: "omit",
   sortExport: true,
+  appendPlugins: [DocumentMutations],
 };
 
 export function gqlMiddleware() {
