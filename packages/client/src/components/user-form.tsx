@@ -12,23 +12,31 @@ function UserForm({
 }: React.FormHTMLAttributes<HTMLFormElement>) {
   return (
     <Form {...props}>
-      <label>username</label> <input name="username" type="text" />
-      <label>password</label> <input name="password" type="password" />
+      <label>Username</label> <input name="username" type="text" />
+      <label>Password</label> <input name="password" type="password" />
       {children}
-      <button type="submit">submit</button>
     </Form>
   );
 }
 export function LoginForm() {
-  return <UserForm action="/api/login" method="post" />;
+  return (
+    <UserForm action="/api/login" method="post">
+      <button type="submit">Log in</button>
+    </UserForm>
+  );
 }
 export function CreateUserForm() {
-  return <UserForm action="/api/users/create" method="post" />;
+  return (
+    <UserForm action="/api/user/create-user" method="post">
+      <button type="submit">Create Account</button>
+    </UserForm>
+  );
 }
 export function UpdatePasswordForm() {
   return (
     <UserForm action="/api/users/update-password" method="post">
-      <label>new password</label> <input name="new-password" type="password" />
+      <label>New Password</label> <input name="new-password" type="password" />
+      <button type="submit">Update Password</button>
     </UserForm>
   );
 }
