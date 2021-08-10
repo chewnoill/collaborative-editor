@@ -7,9 +7,9 @@ import "codemirror/lib/codemirror.css";
 import { useSelector } from "react-redux";
 import { selectDocument } from "ducks/appState/document";
 import styled from "@emotion/styled";
-import { selectUser } from "ducks/appState/user";
 import useYDoc from "hooks/use-y-doc";
 import DrawingCanvas from "./drawing-canvas";
+import { useCurrentUser } from "apollo/selectors";
 
 const Header = styled.div`
   margin-top: 20px;
@@ -25,7 +25,7 @@ const Doc = {
 };
 
 export default function Editor() {
-  const user = useSelector(selectUser);
+  const user = useCurrentUser();
   const doc = useSelector(selectDocument);
   const [docType, setDocType] = useState("text");
   if (!user) {
