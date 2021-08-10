@@ -3,7 +3,7 @@ import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import { WebrtcProvider } from "y-webrtc";
 
-const SIGNALLING_SERVICE =
+const SIGNALING_SERVICE =
   process.env.NEXT_PUBLIC_SIGNAL_URL || "ws://localhost:3000/ws/signal";
 const CENTRAL_AUTHORITY =
   process.env.NEXT_PUBLIC_PROVIDER_URL || "ws://localhost:3000/ws/provider";
@@ -62,7 +62,7 @@ export default function useYDoc(id) {
 
     try {
       newYState.rtcProvider = new WebrtcProvider(id, newYState.ydoc, {
-        signaling: [SIGNALLING_SERVICE],
+        signaling: [SIGNALING_SERVICE],
       } as any);
     } catch (e) {
       dispatch({
