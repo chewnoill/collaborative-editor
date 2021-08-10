@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import Me from "components/me";
 import DocumentSelect from "components/select-document";
+import DocumentCreate from "components/create-document";
 import React from "react";
 import dynamic from "next/dynamic";
 
@@ -18,6 +19,7 @@ export default function Index() {
       <a href="/login">Login</a>
       <a href="/create-user">Create Account</a>
       <a href="/update-password">Update Password</a>
+      <DocumentCreate />
       <DocumentSelect />
       <Editor />
     </PageLayout>
