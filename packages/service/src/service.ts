@@ -33,7 +33,6 @@ const auth = (req, resp, next) => {
 passport.use(
   new LocalStrategy(async function (username, password, done) {
     const user = await validateUser({ name: username, password: password });
-    console.log(user);
     if (!user) {
       return false;
     }
@@ -65,19 +64,30 @@ app.use(passport.session());
 
 app.post("/login", passport.authenticate("local", { successRedirect: "/" }));
 
-app.post("/user/update_password", async function (req, resp) {
-  await updatePassword(req.body);
+app.post("/user/update-password", async function (req, resp, next) {
+  const result = await updatePassword(req.body);
+  if (!result) {
+    resp.send(401);
+  }
   resp.redirect(307, "/");
 });
-app.post("/user/create_user", async function (req, resp) {
+app.post("/user/create-user", async function (req, resp, next) {
   const user = await createUser(req.body);
-  resp.redirect(307, "/");
+  if (!user) {
+    resp.send(401);
+  } else {
+    resp.redirect(307, "/");
+  }
 });
 app.get("/users", auth, async function (resp) {
   const users = await selectUsers();
-  resp.send({
-    user: users,
-  });
+  if (!users) {
+    resp.send(404);
+  } else {
+    resp.send({
+      user: users,
+    });
+  }
 });
 app.post("/document", auth, async function (req, resp) {
   const dbDoc = await createDocument({ doc: new Y.Doc(), user: req.user });

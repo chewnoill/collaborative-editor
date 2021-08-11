@@ -34,8 +34,8 @@ export function CreateUserForm() {
 }
 export function UpdatePasswordForm() {
   return (
-    <UserForm action="/api/users/update-password" method="post">
-      <label>New Password</label> <input name="new-password" type="password" />
+    <UserForm action="/api/user/update-password" method="post">
+      <label>New Password</label> <input name="new_password" type="password" />
       <button type="submit">Update Password</button>
     </UserForm>
   );

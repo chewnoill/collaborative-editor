@@ -35,7 +35,7 @@ export const updatePassword = (props: {
   new_password: string;
   username: string;
 }) => {
-  db.sql`UPDATE ${"users"} SET ${"password"} = crypt(${db.param(
+  return db.sql`UPDATE ${"users"} SET ${"password"} = crypt(${db.param(
     props.new_password
   )}, gen_salt('md5')) WHERE ${{
     name: props.username,
