@@ -1,32 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Y from "yjs";
 import { CodemirrorBinding } from "y-codemirror";
-import { WebrtcProvider } from "y-webrtc";
 import CodeMirror from "codemirror";
 import "codemirror/mode/markdown/markdown.js";
 import "codemirror/lib/codemirror.css";
-import { WebsocketProvider } from "y-websocket";
 import { useSelector } from "react-redux";
 import { selectDocument } from "ducks/appState/document";
 import styled from "@emotion/styled";
 import { selectUser } from "ducks/appState/user";
-
-const SIGNALLING_SERVICE =
-  process.env.NEXT_PUBLIC_SIGNAL_URL || "ws://localhost:6006/ws/signal";
-const PROVIDER_SERVICE =
-  process.env.NEXT_PUBLIC_PROVIDER_URL || "ws://localhost:6006/ws/provider";
+import useYDoc from "hooks/use-y-doc";
+import DrawingCanvas from "./drawing-canvas";
 
 const Header = styled.div`
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   background-color: #f7f4d4;
 `;
 
+const Doc = {
+  text: TextCanvas,
+  drawing: DrawingCanvas,
+};
+
 export default function Editor() {
   const user = useSelector(selectUser);
   const doc = useSelector(selectDocument);
+  const [docType, setDocType] = useState("text");
   if (!user) {
     return <p style={{ textAlign: "center" }}>need to login...</p>;
   }
@@ -35,12 +36,14 @@ export default function Editor() {
       <p style={{ textAlign: "center" }}>Select a document to start editing</p>
     );
   }
+  const Canvas = Doc[docType];
   return (
     <div>
       <Header>
-        <label style={{ textAlign: "center" }}>{doc.id}</label>
+        <button onClick={() => setDocType("text")}>Text</button>
+        <button onClick={() => setDocType("drawing")}>Sketch</button>
       </Header>
-      <TextCanvas document_id={doc.id} name={user.username} />
+      <Canvas document_id={doc.id} name={user.username} />
     </div>
   );
 }
@@ -72,40 +75,41 @@ const TextBox = styled.div`
 
 function TextCanvas({ document_id, name }) {
   const ref = React.useRef();
+  const { data, error, isLoading, isError } = useYDoc(document_id);
+
+  if (isError) {
+    console.error(error.message);
+  }
 
   React.useEffect(() => {
-    const ydoc = new Y.Doc();
-    const provider = new WebrtcProvider(document_id, ydoc, {
-      signaling: [SIGNALLING_SERVICE],
-    } as any);
-    const yText = ydoc.getText("codemirror");
-    const yUndoManager = new Y.UndoManager(yText);
-
-    const wsProvider = new WebsocketProvider(
-      PROVIDER_SERVICE,
-      document_id,
-      ydoc
-    );
-
-    wsProvider.on("status", (event) => {
+    if (isLoading || isError) {
+      return;
+    }
+    data.wsProvider.on("status", (event) => {
       console.log(event.status); // logs "connected" or "disconnected"
     });
+    data.rtcProvider.awareness.setLocalStateField("user", {
+      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      name,
+    });
+    const yText = data.ydoc.getText("codemirror");
+    const yUndoManager = new Y.UndoManager(yText);
 
     const editor = CodeMirror(ref.current, {
       mode: "markdown",
       lineNumbers: true,
     });
 
-    provider.awareness.setLocalStateField("user", {
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-      name,
+    new CodemirrorBinding(yText, editor, data.rtcProvider.awareness, {
+      yUndoManager,
     });
-    new CodemirrorBinding(yText, editor, provider.awareness, { yUndoManager });
+  }, [ref, data]);
 
-    return () => {
-      provider.destroy();
-      wsProvider.destroy();
-    };
-  }, [ref]);
-  return <TextBox ref={ref} />;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  } else if (isError) {
+    return <div>Error connecting to collab service</div>;
+  } else {
+    return <TextBox ref={ref} />;
+  }
 }
