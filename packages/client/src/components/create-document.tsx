@@ -6,7 +6,6 @@ import { usePostDocumentMutation } from "../ducks/api";
 import { useGetDocumentsQuery } from "../ducks/api";
 
 const Form = styled.form`
-  max-width: 300px;
   display: flex;
   flex-direction: column;
 `;
@@ -24,11 +23,11 @@ export default function CreateDocument() {
 
   return (
     <Form onSubmit={(e) => handleCreate(e)}>
-      <h2>
+      <h2 style={{ textAlign: "center" }}>
         {me ? "create a new document" : "log in to create a new document"}
       </h2>
       <button type={"submit"} disabled={postLoading || !me}>
-        submit
+        New Document
       </button>
     </Form>
   );

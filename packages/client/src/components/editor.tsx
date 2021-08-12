@@ -16,16 +16,33 @@ const SIGNALLING_SERVICE =
 const PROVIDER_SERVICE =
   process.env.NEXT_PUBLIC_PROVIDER_URL || "ws://localhost:6006/ws/provider";
 
+const Header = styled.div`
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: #f7f4d4;
+`;
+
 export default function Editor() {
   const user = useSelector(selectUser);
   const doc = useSelector(selectDocument);
   if (!user) {
-    return <p>need to login...</p>;
+    return <p style={{ textAlign: "center" }}>need to login...</p>;
   }
   if (!doc) {
-    return <p>Select a document to start editing</p>;
+    return (
+      <p style={{ textAlign: "center" }}>Select a document to start editing</p>
+    );
   }
-  return <TextCanvas document_id={doc.id} name={user.username} />;
+  return (
+    <div>
+      <Header>
+        <label style={{ textAlign: "center" }}>{doc.id}</label>
+      </Header>
+      <TextCanvas document_id={doc.id} name={user.username} />
+    </div>
+  );
 }
 
 const TextBox = styled.div`
