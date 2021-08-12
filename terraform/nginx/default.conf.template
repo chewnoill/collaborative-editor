@@ -11,6 +11,10 @@ server {
     proxy_pass  ${STATIC_URL}/login.html;
     proxy_redirect off;
   }
+  location = /editor {
+    proxy_pass  ${STATIC_URL}/editor.html;
+    proxy_redirect off;
+  }
   location / {
      proxy_pass  ${STATIC_URL}/;
      proxy_redirect off;
