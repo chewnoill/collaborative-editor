@@ -8,7 +8,6 @@ const AppLayout = styled.div`
 `;
 const Page = styled.div`
   width: 100%;
-  max-width: 500px;
 `;
 
 export default function MyApp({ Component, pageProps }) {
