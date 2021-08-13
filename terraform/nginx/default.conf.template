@@ -2,15 +2,6 @@
 server { 
   listen       ${PORT};
   
-
-  location = / {
-    proxy_pass  ${STATIC_URL}/index.html;
-    proxy_redirect off;
-  }
-  location = /login {
-    proxy_pass  ${STATIC_URL}/login.html;
-    proxy_redirect off;
-  }
   location / {
      proxy_pass  ${STATIC_URL}/;
      proxy_redirect off;
