@@ -5,10 +5,11 @@ export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
   endpoints: (builder) => ({
-    postDocument: builder.mutation<UserDocument, void>({
-      query: () => ({
+    postDocument: builder.mutation<UserDocument, Partial<UserDocument>>({
+      query: ({name}) => ({
         url: "/document",
         method: "POST",
+        body: name,
       }),
       transformResponse: (response: { document: UserDocument }) =>
         response.document,

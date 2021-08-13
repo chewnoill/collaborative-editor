@@ -6,4 +6,5 @@ export type User = {
 export type UserDocument = {
   id: string;
   creator_id: string;
+  name: string;
 };

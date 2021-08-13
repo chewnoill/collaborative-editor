@@ -51,7 +51,8 @@ CREATE TABLE public.document (
     web_rtc_key text NOT NULL,
     origin bytea NOT NULL,
     latest_update_time timestamp without time zone NOT NULL,
-    creator_id uuid NOT NULL
+    creator_id uuid NOT NULL,
+    name text DEFAULT ''::text NOT NULL
 );
 
 
@@ -204,4 +205,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210722181845'),
     ('20210723153150'),
     ('20210726125556'),
-    ('20210729151156');
+    ('20210729151156'),
+    ('20210812163559');

@@ -64,7 +64,7 @@ app.use(passport.session());
 
 app.post("/login", passport.authenticate("local", { successRedirect: "/" }));
 
-app.post("/user/update-password", async function (req, resp, next) {
+app.post("/user/update-password", async function (req, resp) {
   const result = await updatePassword(req.body);
   if (!result) {
     resp.send(401);
@@ -90,7 +90,8 @@ app.get("/users", auth, async function (resp) {
   }
 });
 app.post("/document", auth, async function (req, resp) {
-  const dbDoc = await createDocument({ doc: new Y.Doc(), user: req.user });
+  console.log("Made it to server: ", req.body);
+  const dbDoc = await createDocument({ new_doc: new Y.Doc(), doc: req.document, user: req.user });
   resp.send({
     user: req.user,
     document: dbDoc,
