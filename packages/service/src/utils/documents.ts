@@ -13,13 +13,17 @@ export function insertUpdate(document_id: string, document_update: Uint8Array) {
     .run(pool);
 }
 
-export const createDocument = (pool: Pool, doc: Y.Doc = new Y.Doc()) =>
+export const createDocument = (
+  pool: Pool,
+  creator_id: any = db.sql`current_user_id()`,
+  doc: Y.Doc = new Y.Doc()
+) =>
   db
     .insert("document", {
       value: doc.getText(TEXT_NAME).toJSON(),
       origin: Buffer.from(Y.encodeStateAsUpdate(doc)),
       web_rtc_key: "web_rtc_key",
-      creator_id: db.sql`current_user_id()`,
+      creator_id,
       latest_update_time: db.sql`now()`,
     })
     .run(pool);
