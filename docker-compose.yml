@@ -47,6 +47,7 @@ services:
     environment:
       - PORT=6001
       - DATABASE_URL=postgres://postgres:password@db:5432/postgres
+      - DEV=true
     depends_on:
       - "db"
       
