@@ -1,9 +1,9 @@
 version: "3"
 services:
   proxy:
-    image: nginx
+    image: nginx:1.21.1
     volumes:
-      - ./terraform/nginx:/etc/nginx/templates
+      - ./terraform/nginx-dev:/etc/nginx/templates
     depends_on:
       - "web"
       - "signal"
