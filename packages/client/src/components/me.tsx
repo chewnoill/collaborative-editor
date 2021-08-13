@@ -16,5 +16,9 @@ export default function Me() {
   }, []);
 
   console.log({ me });
-  return <label>{me?.username || "not logged in"}</label>;
+  return (
+    <label style={{ textAlign: "center" }}>
+      {`Logged in as: ${me?.username || "not logged in"}`}
+    </label>
+  );
 }
