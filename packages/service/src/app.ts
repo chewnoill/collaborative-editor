@@ -1,22 +1,22 @@
 import express from "express";
 import passport from "passport";
 import LocalStrategy from "passport-local";
-import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import session from "express-session";
-import {
-  createUser,
-  validateUser,
-  selectUsers,
-  updatePassword,
-} from "./utils/users";
-import { selectUserDocuments, createDocument } from "./utils/documents";
-import * as Y from "yjs";
+import { validateUser } from "./utils/users";
 import { gqlMiddleware } from "./db";
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "big secret";
 
 const app = express();
+
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 const auth = (req, resp, next) => {
   if (!req.user) {
@@ -46,7 +46,7 @@ passport.deserializeUser(function (data, done) {
   done(null, user);
 });
 
-app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
@@ -60,6 +60,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(gqlMiddleware());
 
-app.post("/login", passport.authenticate("local", { successRedirect: "/" }));
+app.post(
+  "/login",
+  passport.authenticate("local", { successRedirect: "/", session: true })
+);
 
 export default app;
