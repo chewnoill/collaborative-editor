@@ -62,26 +62,21 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const redirectLink = process.env.DEV ? "/" : "/index.html";
-
-app.post(
-  "/login",
-  passport.authenticate("local", { successRedirect: redirectLink })
-);
+app.post("/login", passport.authenticate("local", { successRedirect: "/" }));
 
 app.post("/user/update-password", async function (req, resp, next) {
   const result = await updatePassword(req.body);
   if (!result) {
     resp.send(401);
   }
-  resp.redirect(307, redirectLink);
+  resp.redirect(302, "/");
 });
 app.post("/user/create-user", async function (req, resp, next) {
   const user = await createUser(req.body);
   if (!user) {
     resp.send(401);
   } else {
-    resp.redirect(307, redirectLink);
+    resp.redirect(302, "/");
   }
 });
 app.get("/users", auth, async function (resp) {
