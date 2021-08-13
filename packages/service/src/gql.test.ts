@@ -1,45 +1,74 @@
-import * as Y from "yjs";
 import request from "supertest";
 import app from "./app";
 import { db, pool } from "./db";
 import { createDocument } from "./utils/documents";
 
-describe("Test a 200", () => {
-  test("It should respond with a 200 status", async () => {
-  const user_a = await db
-    .upsert("users", { name: "test user a" }, "name")
-    .run(pool);
-  // create a yjs document A
-  const ydoc = new Y.Doc();
-  const { id: id_a } = await createDocument({ doc: ydoc, user: user_a });
+let agent;
 
+beforeAll(function () {
+  agent = request.agent(app);
+});
 
-    const auth = await login(user_a.name);
-    const response = await request(app)
-      .post("/graphql")
-      .set("cookie", auth)
-      .send({
-        operationName: "MyQuery",
-        query: `
-query MyQuery {
+describe("User Access", () => {
+  test("can access their own documents", async () => {
+    const user_a = await db
+      .upsert("users", { name: "test user a" }, "name")
+      .run(pool);
+    // get login tokens
+    await login(user_a.name);
+
+    const user_a_document = await createDocument(pool, user_a.id);
+    // make query
+    const response = await agent.post("/graphql").send({
+      operationName: "DocumentTest",
+      query: `
+query DocumentTest($id: UUID!) {
   allDocuments {
-    edges {
-      node {
-	      id
-      }
-    }
+    totalCount
+  }
+  documentById(id: $id) {
+    id
+  }
+  me {
+    id
+    name
   }
 }`,
-        variables: null,
-      });
-      console.log(response.text);
+      variables: { id: user_a_document.id },
+    });
+
+    const value = JSON.parse(response.text);
     expect(response.statusCode).toBe(200);
+    expect(value.data.documentById.id).toBe(user_a_document.id);
+  });
+  test("can not access other users documents", async () => {
+    const user_a = await db
+      .upsert("users", { name: "test user a" }, "name")
+      .run(pool);
+    // get login tokens
+    await login(user_a.name);
+    const user_b = await db
+      .upsert("users", { name: "test user b" }, "name")
+      .run(pool);
+    const user_b_document = await createDocument(pool, user_b.id);
+    // make query
+    const response = await agent.post("/graphql").send({
+      operationName: "DocumentTest",
+      query: `
+query DocumentTest($id: UUID!) {
+  documentById(id: $id) {
+    id
+  }
+}`,
+      variables: { id: user_b_document.id },
+    });
+
+    const value = JSON.parse(response.text);
+    expect(response.statusCode).toBe(200);
+    expect(value.data.documentById).toBe(null);
   });
 });
 
 async function login(name: string) {
-  const loginResponse: Response = await request(app)
-    .post("/auth/login")
-    .send({ username: name, password: "123" });
-  return loginResponse.headers["set-cookie"];
+  await agent.post("/login").send({ username: name, password: "password" });
 }
