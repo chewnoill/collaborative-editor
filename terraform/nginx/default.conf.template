@@ -15,11 +15,11 @@ server {
     proxy_pass  ${STATIC_URL}/editor.html;
     proxy_redirect off;
   }
-  location = /editor {
+  location = /create-user {
     proxy_pass  ${STATIC_URL}/create-user.html;
     proxy_redirect off;
   }
-  location = /editor {
+  location = /update-password {
     proxy_pass  ${STATIC_URL}/update-password.html;
     proxy_redirect off;
   }
