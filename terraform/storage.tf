@@ -11,7 +11,7 @@ resource "google_storage_bucket" "static-site" {
 
   cors {
     origin          = ["http://${var.dns_name}"]
-    method          = ["GET", "HEAD", "PUT", "POST", "DELETE"]
+    method          = ["GET"]
     response_header = ["*"]
     max_age_seconds = 3600
   }
