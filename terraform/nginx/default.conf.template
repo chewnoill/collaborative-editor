@@ -1,6 +1,7 @@
 
 server { 
   listen       ${PORT};
+  server_name ${DNS_NAME};
   
 
   location = / {

@@ -27,6 +27,19 @@ resource "google_compute_instance" "gateway" {
     echo "*****    Configure Nginx    *****"
     echo '${data.template_file.nginx_config.rendered}' > /etc/nginx/conf.d/default.conf
     rm -rf /etc/nginx/sites-enabled
+
+    echo "*****    Configure SSL cert    *****"
+    apt install -y snapd
+    snap install core
+    snap refresh core
+    snap install --classic certbot
+    ln -s /snap/bin/certbot /usr/bin/certbot
+    certbot --standalone certonly -n --agree-tos \
+      --email nobody@${var.dns_name} \
+      --domains ${var.dns_name}
+    certbot --nginx -n --agree-tos \
+      --email nobody@${var.dns_name} \
+      --domains ${var.dns_name}
     
     echo "*****    Start Nginx    *****"
     systemctl enable nginx
@@ -44,6 +57,7 @@ data "template_file" "nginx_config" {
   template = file("nginx/default.conf.template")
   vars = {
     PORT = 80
+    DNS_NAME = var.dns_name
     STATIC_URL = "http://storage.googleapis.com/${google_storage_bucket.static-site.name}/client"
     WEBSOCKET_URL = "http://${google_compute_instance.app.network_interface.0.network_ip}:6001"
     API_URL = "http://${google_compute_instance.app.network_interface.0.network_ip}:6001"
