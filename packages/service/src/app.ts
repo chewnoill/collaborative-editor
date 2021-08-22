@@ -60,6 +60,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(gqlMiddleware());
 
+app.get(
+  "/health-check",
+  (_,resp)=>{
+    resp.send("OK")
+  }
+);
+
 app.post(
   "/login",
   passport.authenticate("local", { successRedirect: "/", session: true })
