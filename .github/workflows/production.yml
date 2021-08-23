@@ -54,7 +54,7 @@ jobs:
         PROJECT_ID: willdocs
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-        args: cp -r packages/client/out gs://${{env.STATIC_BUCKET}}/client
+        args: cp -r packages/client/out/* gs://${{env.STATIC_BUCKET}}/
         cli: gsutil
     - run: yarn service build
     - run: |
