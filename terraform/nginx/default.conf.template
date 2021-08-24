@@ -8,7 +8,8 @@ server {
     proxy_pass  ${STATIC_URL}/index.html;
   }
   location = /login {
-    proxy_pass  ${STATIC_URL}/login/index.html;
+    proxy_pass  ${STATIC_URL}/login.html;
+    proxy_redirect off;
   }
   location = /editor {
     proxy_pass  ${STATIC_URL}/editor.html;
