@@ -35,6 +35,15 @@ server {
     proxy_pass      ${API_URL}/;
   }
 
+  location = /document/[id].html {
+    proxy_pass  ${STATIC_URL}/document/[id].html;
+    proxy_redirect off;
+  }
+
+  location /document/ {
+    rewrite /document/(.*)$ /document/[id].html;
+  }
+
   location / {
     proxy_pass  ${STATIC_URL}/;
     proxy_redirect off;
