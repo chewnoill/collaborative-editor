@@ -23,9 +23,6 @@ server {
     proxy_pass  ${STATIC_URL}/update-password.html;
     proxy_redirect off;
   }
-  location / {
-     proxy_pass  ${STATIC_URL}/;
-  }
 
   location /ws/ {
     proxy_pass      ${WEBSOCKET_URL}/;
@@ -36,5 +33,10 @@ server {
   }
   location /api/ {
     proxy_pass      ${API_URL}/;
+  }
+
+  location / {
+    proxy_pass  ${STATIC_URL}/;
+    proxy_redirect off;
   }
 }
