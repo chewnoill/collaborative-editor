@@ -58,7 +58,7 @@ data "template_file" "nginx_config" {
   vars = {
     PORT = 80
     DNS_NAME = var.dns_name
-    STATIC_URL = "http://storage.googleapis.com/${google_storage_bucket.static-site.name}/client"
+    STATIC_URL = "http://storage.googleapis.com/${google_storage_bucket.static-site.name}"
     WEBSOCKET_URL = "http://${google_compute_instance.app.network_interface.0.network_ip}:6001"
     API_URL = "http://${google_compute_instance.app.network_interface.0.network_ip}:6001"
   }
