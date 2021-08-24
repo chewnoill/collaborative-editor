@@ -2,7 +2,7 @@
 resource "google_compute_instance" "gateway" {
   project = var.project_name
   name         = "gateway"
-  machine_type = "e2-micro"
+  machine_type = "f1-micro"
   zone = "us-east1-b"
 
   boot_disk {
