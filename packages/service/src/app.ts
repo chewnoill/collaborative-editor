@@ -31,7 +31,7 @@ passport.use(
   new LocalStrategy(async function (username, password, done) {
     const user = await validateUser({ name: username, password: password });
     if (!user) {
-      return false;
+      return done('invalid user');
     }
     return done(null, { username: user.name, id: user.id });
   })
