@@ -7,6 +7,14 @@ const USER_FRAGMENT = gql`
   }
 `;
 
+const DOCUMENT_FRAGMENT = gql`
+  fragment base_document on Document {
+    id
+    origin
+    value
+  }
+`;
+
 export function useCurrentUserQuery() {
   return useQuery(
     gql`
@@ -22,4 +30,22 @@ export function useCurrentUserQuery() {
 }
 export function useCurrentUser() {
   return useCurrentUserQuery().data?.me;
+}
+
+export function useAllDocumentsQuery() {
+  return useQuery(
+    gql`
+      query AllDocuments {
+        allDocuments {
+          edges {
+            node {
+              ...base_document
+            }
+          }
+        }
+      }
+      ${DOCUMENT_FRAGMENT}
+    `,
+    { fetchPolicy: "cache-first" }
+  );
 }

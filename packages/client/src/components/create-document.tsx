@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { useSelector } from "react-redux";
-import { selectUser } from "../ducks/appState/user";
 import { usePostDocumentMutation } from "../ducks/api";
 import { useGetDocumentsQuery } from "../ducks/api";
+import { useCurrentUserQuery } from "apollo/selectors";
+import { gql, useMutation } from "@apollo/client";
 
 const Form = styled.form`
   display: flex;
@@ -11,13 +11,20 @@ const Form = styled.form`
 `;
 
 export default function CreateDocument() {
-  const me = useSelector(selectUser);
+  const me = useCurrentUserQuery();
+  const [mutation] = useMutation(gql`
+    mutation createDocument {
+      createDocument {
+        id
+      }
+    }
+  `);
   const [postDocument, { isLoading: postLoading }] = usePostDocumentMutation();
   const { refetch } = useGetDocumentsQuery();
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    await postDocument();
+    await mutation();
     await refetch();
   };
 

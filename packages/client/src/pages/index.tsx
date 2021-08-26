@@ -1,4 +1,7 @@
 import styled from "@emotion/styled";
+import { useCurrentUserQuery } from "apollo/selectors";
+import CreateDocument from "components/create-document";
+import DocumentList from "components/document-list";
 import Me from "components/me";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -17,7 +20,7 @@ const Link = styled.a`
 `;
 
 export default function Index() {
-  const me = useSelector(selectUser);
+  const me = useCurrentUserQuery();
   return (
     <div>
       <PageLayout>
@@ -26,6 +29,8 @@ export default function Index() {
         <Link href="/create-user">Create Account</Link>
         <Link href="/update-password">Update Password</Link>
         {me ? <Link href="/editor">Documents</Link> : null}
+        <CreateDocument />
+        <DocumentList />
       </PageLayout>
     </div>
   );

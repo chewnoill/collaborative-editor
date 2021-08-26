@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { gql, useMutation } from "@apollo/client";
 
 const Form = styled.form`
   display: flex;
@@ -23,7 +24,28 @@ export function LoginForm() {
   return <UserForm action="/api/login" method="post" />;
 }
 export function CreateUserForm() {
-  return <UserForm action="/api/users/create" method="post" />;
+  const [mutate] = useMutation(gql`
+    mutation CreateUser($username: String!, $password: String!) {
+      createUser(input: { name: $username, password: $password }) {
+        user {
+          id
+          name
+        }
+      }
+    }
+  `);
+  return (
+    <UserForm
+      onSubmit={(e) => {
+        e.preventDefault();
+        const data = new FormData(e.target as any);
+        mutate({ variables: Object.fromEntries(data) }).then(
+          () => (window.location.href = "/")
+        );
+      }}
+      method="post"
+    />
+  );
 }
 export function UpdatePasswordForm() {
   return (
