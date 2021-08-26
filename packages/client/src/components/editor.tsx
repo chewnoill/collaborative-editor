@@ -4,11 +4,8 @@ import { CodemirrorBinding } from "y-codemirror";
 import CodeMirror from "codemirror";
 import "codemirror/mode/markdown/markdown.js";
 import "codemirror/lib/codemirror.css";
-import { useSelector } from "react-redux";
-import { selectDocument } from "ducks/appState/document";
 import styled from "@emotion/styled";
 import useYDoc from "hooks/use-y-doc";
-import DrawingCanvas from "./drawing-canvas";
 import { useCurrentUser } from "apollo/selectors";
 
 const Header = styled.div`
@@ -19,33 +16,12 @@ const Header = styled.div`
   background-color: #f7f4d4;
 `;
 
-const Doc = {
-  text: TextCanvas,
-  drawing: DrawingCanvas,
-};
-
-export default function Editor() {
+export default function Editor({ document_id }: { document_id: string }) {
   const user = useCurrentUser();
-  const doc = useSelector(selectDocument);
-  const [docType, setDocType] = useState("text");
   if (!user) {
     return <p style={{ textAlign: "center" }}>need to login...</p>;
   }
-  if (!doc) {
-    return (
-      <p style={{ textAlign: "center" }}>Select a document to start editing</p>
-    );
-  }
-  const Canvas = Doc[docType];
-  return (
-    <div>
-      <Header>
-        <button onClick={() => setDocType("text")}>Text</button>
-        <button onClick={() => setDocType("drawing")}>Sketch</button>
-      </Header>
-      <Canvas document_id={doc.id} name={user.username} />
-    </div>
-  );
+  return <TextCanvas document_id={document_id} name={user.name} />;
 }
 
 const TextBox = styled.div`
@@ -75,14 +51,10 @@ const TextBox = styled.div`
 
 function TextCanvas({ document_id, name }) {
   const ref = React.useRef();
-  const { data, error, isLoading, isError } = useYDoc(document_id);
-
-  if (isError) {
-    console.error(error.message);
-  }
+  const data = useYDoc(document_id);
 
   React.useEffect(() => {
-    if (isLoading || isError) {
+    if (!data.ydoc) {
       return;
     }
     data.wsProvider.on("status", (event) => {
@@ -105,11 +77,5 @@ function TextCanvas({ document_id, name }) {
     });
   }, [ref, data]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  } else if (isError) {
-    return <div>Error connecting to collab service</div>;
-  } else {
-    return <TextBox ref={ref} />;
-  }
+  return <TextBox ref={ref} />;
 }
