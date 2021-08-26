@@ -47,6 +47,9 @@ const TextBox = styled.div`
     padding-right: 2px;
     z-index: 3;
   }
+  .CodeMirror {
+    height: 100%;
+  }
 `;
 
 function TextCanvas({ document_id, name }) {
