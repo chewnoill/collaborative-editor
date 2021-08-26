@@ -111,15 +111,15 @@ COMMENT ON TABLE public.users IS '
 
 
 --
--- Name: create_user(text); Type: FUNCTION; Schema: public; Owner: -
+-- Name: create_user(text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.create_user(name text) RETURNS public.users
+CREATE FUNCTION public.create_user(name text, password text) RETURNS public.users
     LANGUAGE sql STRICT
     AS $$
   INSERT INTO users
-    (name)
-    VALUES (name)
+    (name, password)
+    VALUES (name, crypt(password, gen_salt('bf')))
     RETURNING *;
 $$;
 
@@ -345,6 +345,7 @@ ALTER TABLE ONLY public.user_document
 
 CREATE POLICY create_document_for_current_user ON public.document FOR INSERT TO postgraphile_user WITH CHECK ((creator_id = public.current_user_id()));
 
+
 --
 -- Name: document; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -412,4 +413,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210726125556'),
     ('20210726224018'),
     ('20210729151156'),
-    ('20210802130820');
+    ('20210802130820'),
+    ('20210824213638');
