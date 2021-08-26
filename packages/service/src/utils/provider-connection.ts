@@ -18,6 +18,9 @@ const providerMessageResolver = (conn, message, doc) => {
       syncProtocol.readSyncMessage(decoder, encoder, doc, null);
       if (encoding.length(encoder) > 1) {
         doc.send(conn, encoding.toUint8Array(encoder));
+      } else {
+        syncProtocol.writeSyncStep2(encoder,doc);
+        doc.send(conn, encoding.toUint8Array(encoder));
       }
       break;
     case messageAwareness: {
