@@ -42,11 +42,7 @@ const lines = new Map();
 let svg;
 
 function DrawingCanvas({ document_id, name }) {
-  const { data, error, isLoading, isError } = useYDoc(document_id);
-
-  if (isError) {
-    console.error(error.message);
-  }
+  const { ydoc } = useYDoc(document_id);
 
   const renderPath = d3.svg
     .line()
@@ -100,8 +96,8 @@ function DrawingCanvas({ document_id, name }) {
   };
 
   // WIP
-  const undoManager = (ydoc) => {
-    const drawing = data.ydoc.getArray("drawing");
+  const undoManager = () => {
+    const drawing = ydoc.getArray("drawing");
     const item = drawing.get(drawing.length - 1)["_item"];
     if (drawing.length > 0 && item.id.client === ydoc.clientID) {
       drawing.delete(drawing.length - 1, 1);
@@ -109,18 +105,8 @@ function DrawingCanvas({ document_id, name }) {
   };
 
   useEffect(() => {
-    if (isLoading || isError) {
-      return;
-    }
-    data.wsProvider.on("status", (event) => {
-      console.log(event.status); // logs "connected" or "disconnected"
-    });
-    data.rtcProvider.awareness.setLocalStateField("user", {
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-      name,
-    });
     svg = d3.select("#drawingCanvas");
-    const drawing = data.ydoc.getArray("drawing");
+    const drawing = ydoc.getArray("drawing");
 
     svg.call(
       d3.behavior
@@ -148,20 +134,14 @@ function DrawingCanvas({ document_id, name }) {
     for (let i = 0; i < drawing.length; i++) {
       drawLine(drawing.get(i));
     }
-  }, [data]);
+  }, [ydoc]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  } else if (isError) {
-    return <div>Error connecting to collab service</div>;
-  } else {
     return (
       <div>
-        <button onClick={() => undoManager(data.ydoc)}>Undo</button>
+        <button onClick={() => undoManager()}>Undo</button>
         <svg id="drawingCanvas" viewBox="0 0 200 200" width="100%"></svg>
       </div>
     );
-  }
 }
 
 export default DrawingCanvas;
