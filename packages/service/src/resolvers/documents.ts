@@ -2,9 +2,6 @@ import { makeExtendSchemaPlugin, gql } from "graphile-utils";
 import { createDocument } from "../utils/documents";
 
 const DocumentMutations = makeExtendSchemaPlugin((build) => {
-  // Get any helpers we need from `build`
-  const { pgSql: sql, inflection } = build;
-
   return {
     typeDefs: gql`
       extend type Mutation {
@@ -14,7 +11,7 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
     `,
     resolvers: {
       Mutation: {
-        createDocument(a, b, { pgClient }, d) {
+        createDocument(_, __, { pgClient }) {
           return createDocument(pgClient);
         },
       },
