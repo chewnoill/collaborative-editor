@@ -31,7 +31,7 @@ passport.use(
   new LocalStrategy(async function (username, password, done) {
     const user = await validateUser({ name: username, password: password });
     if (!user) {
-      return done('invalid user');
+      return done("invalid user");
     }
     return done(null, { username: user.name, id: user.id });
   })
@@ -60,12 +60,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(gqlMiddleware());
 
-app.get(
-  "/health-check",
-  (_,resp)=>{
-    resp.send("OK")
-  }
-);
+app.get("/health-check", (_, resp) => {
+  resp.send("OK");
+});
 
 app.post(
   "/login",

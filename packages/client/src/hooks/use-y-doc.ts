@@ -11,7 +11,11 @@ const cleanupProvider = (provider) => {
 };
 
 export default function useYDoc(id) {
-  const [state, setState] = useState({ ydoc: null, rtcProvider: null, wsProvider: null });
+  const [state, setState] = useState({
+    ydoc: null,
+    rtcProvider: null,
+    wsProvider: null,
+  });
 
   useEffect(() => {
     const ydoc = new Y.Doc();
@@ -19,11 +23,7 @@ export default function useYDoc(id) {
     const rtcProvider = new WebrtcProvider(id, ydoc, {
       signaling: [SIGNALING_SERVICE],
     } as any);
-    const wsProvider = new WebsocketProvider(
-      CENTRAL_AUTHORITY,
-      id,
-      ydoc
-    );
+    const wsProvider = new WebsocketProvider(CENTRAL_AUTHORITY, id, ydoc);
     setState({ ydoc, rtcProvider, wsProvider });
 
     return () => {
@@ -32,5 +32,5 @@ export default function useYDoc(id) {
     };
   }, []);
 
-  return state
+  return state;
 }

@@ -19,7 +19,7 @@ const providerMessageResolver = (conn, message, doc) => {
       if (encoding.length(encoder) > 1) {
         doc.send(conn, encoding.toUint8Array(encoder));
       } else {
-        syncProtocol.writeSyncStep2(encoder,doc);
+        syncProtocol.writeSyncStep2(encoder, doc);
         doc.send(conn, encoding.toUint8Array(encoder));
       }
       break;

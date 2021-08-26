@@ -136,12 +136,12 @@ function DrawingCanvas({ document_id, name }) {
     }
   }, [ydoc]);
 
-    return (
-      <div>
-        <button onClick={() => undoManager()}>Undo</button>
-        <svg id="drawingCanvas" viewBox="0 0 200 200" width="100%"></svg>
-      </div>
-    );
+  return (
+    <div>
+      <button onClick={() => undoManager()}>Undo</button>
+      <svg id="drawingCanvas" viewBox="0 0 200 200" width="100%"></svg>
+    </div>
+  );
 }
 
 export default DrawingCanvas;
