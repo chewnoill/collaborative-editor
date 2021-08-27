@@ -190,7 +190,8 @@ CREATE TABLE public.document (
     web_rtc_key text NOT NULL,
     origin bytea NOT NULL,
     latest_update_time timestamp without time zone NOT NULL,
-    creator_id uuid NOT NULL
+    creator_id uuid NOT NULL,
+    is_public boolean DEFAULT true NOT NULL
 );
 
 
@@ -365,7 +366,7 @@ CREATE POLICY invite_to_document_if_allowed ON public.user_document FOR INSERT T
 -- Name: document select_document_if_allowed; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY select_document_if_allowed ON public.document FOR SELECT TO postgraphile_user USING (((creator_id = public.current_user_id()) OR (id IN ( SELECT user_document.document_id
+CREATE POLICY select_document_if_allowed ON public.document FOR SELECT TO postgraphile_user USING (((creator_id = public.current_user_id()) OR (is_public = true) OR (id IN ( SELECT user_document.document_id
    FROM public.user_document
   WHERE (user_document.user_id = public.current_user_id())))));
 
@@ -414,4 +415,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210726224018'),
     ('20210729151156'),
     ('20210802130820'),
-    ('20210824213638');
+    ('20210824213638'),
+    ('20210827184910');
