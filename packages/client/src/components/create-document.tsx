@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { usePostDocumentMutation } from "../ducks/api";
-import { useGetDocumentsQuery } from "../ducks/api";
 import { useCurrentUserQuery } from "apollo/selectors";
 import { gql, useMutation } from "@apollo/client";
 
@@ -19,13 +17,10 @@ export default function CreateDocument() {
       }
     }
   `);
-  const [postDocument, { isLoading: postLoading }] = usePostDocumentMutation();
-  const { refetch } = useGetDocumentsQuery();
-
   const handleCreate = async (e) => {
     e.preventDefault();
-    await mutation();
-    await refetch();
+    const { data } = await mutation();
+    window.location.href = `/document/${data?.createDoc?.id}`;
   };
 
   return (
@@ -33,7 +28,7 @@ export default function CreateDocument() {
       <h2 style={{ textAlign: "center" }}>
         {me ? "create a new document" : "log in to create a new document"}
       </h2>
-      <button type={"submit"} disabled={postLoading || !me}>
+      <button type={"submit"} disabled={!me}>
         New Document
       </button>
     </Form>
