@@ -6,12 +6,12 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
     typeDefs: gql`
       extend type Mutation {
         # Individual record
-        createDocument: Document
+        createDoc: Document
       }
     `,
     resolvers: {
       Mutation: {
-        createDocument(_, __, { pgClient }) {
+        createDoc(_, __, { pgClient }) {
           return createDocument(pgClient);
         },
       },

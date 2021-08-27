@@ -14,7 +14,7 @@ export default function CreateDocument() {
   const me = useCurrentUserQuery();
   const [mutation] = useMutation(gql`
     mutation createDocument {
-      createDocument {
+      createDoc {
         id
       }
     }
