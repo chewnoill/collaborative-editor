@@ -6,7 +6,7 @@ import "codemirror/mode/markdown/markdown.js";
 import "codemirror/lib/codemirror.css";
 import styled from "@emotion/styled";
 import useYDoc from "hooks/use-y-doc";
-import { useCurrentUser } from "apollo/selectors";
+import { useCurrentUserQuery } from "apollo/selectors";
 
 const Header = styled.div`
   margin-top: 20px;
@@ -17,11 +17,11 @@ const Header = styled.div`
 `;
 
 export default function Editor({ document_id }: { document_id: string }) {
-  const user = useCurrentUser();
-  if (!user) {
-    return <p style={{ textAlign: "center" }}>need to login...</p>;
-  }
-  return <TextCanvas document_id={document_id} name={user.name} />;
+  const {data} = useCurrentUserQuery();
+  const name = data?.me?.name || data?.random?.name
+  if(!name) return null;
+  
+  return <TextCanvas document_id={document_id} name={name} />;
 }
 
 const TextBox = styled.div`
@@ -80,5 +80,8 @@ function TextCanvas({ document_id, name }) {
     });
   }, [ref, data]);
 
-  return <TextBox ref={ref} />;
+  return <div>
+    <span>You're logged in as {name}</span>
+    <TextBox ref={ref} />
+    </div>
 }

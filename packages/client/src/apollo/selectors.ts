@@ -22,6 +22,9 @@ export function useCurrentUserQuery() {
         me {
           ...base_user
         }
+        random {
+          name
+        }
       }
       ${USER_FRAGMENT}
     `,

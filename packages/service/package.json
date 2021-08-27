@@ -30,6 +30,7 @@
     "express-session": "^1.17.2",
     "http": "^0.0.1-security",
     "lib0": "^0.2.42",
+    "moniker": "^0.1.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^8.6.0",
