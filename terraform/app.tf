@@ -33,7 +33,8 @@ resource "google_compute_instance" "app" {
     ./dbmate.bin  -d ./packages/service/db/migrations -s ./packages/service/db/schema.sql up
 
     echo "starting application..."
-    node packages/service/dist/bundle.js 
+    cd packages/service
+    node dist/bundle.js 
   EOF
 
   service_account {
