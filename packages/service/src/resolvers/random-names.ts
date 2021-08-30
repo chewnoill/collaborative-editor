@@ -1,8 +1,9 @@
 import { makeExtendSchemaPlugin, gql } from "graphile-utils";
-import Moniker from 'moniker';
+import Moniker from "moniker";
 
-const names = Moniker.generator([Moniker.adjective, Moniker.noun], {glue: ' '});
-
+const names = Moniker.generator([Moniker.adjective, Moniker.noun], {
+  glue: " ",
+});
 
 const RandomQueries = makeExtendSchemaPlugin((build) => {
   return {
@@ -12,7 +13,7 @@ const RandomQueries = makeExtendSchemaPlugin((build) => {
       }
 
       type RandomQuery {
-	name: String!
+        name: String!
       }
     `,
     resolvers: {
@@ -22,8 +23,8 @@ const RandomQueries = makeExtendSchemaPlugin((build) => {
         },
       },
       RandomQuery: {
-	name: () => names.choose()
-      }
+        name: () => names.choose(),
+      },
     },
   };
 });

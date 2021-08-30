@@ -17,10 +17,10 @@ const Header = styled.div`
 `;
 
 export default function Editor({ document_id }: { document_id: string }) {
-  const {data} = useCurrentUserQuery();
-  const name = data?.me?.name || data?.random?.name
-  if(!name) return null;
-  
+  const { data } = useCurrentUserQuery();
+  const name = data?.me?.name || data?.random?.name;
+  if (!name) return null;
+
   return <TextCanvas document_id={document_id} name={name} />;
 }
 
@@ -80,8 +80,10 @@ function TextCanvas({ document_id, name }) {
     });
   }, [ref, data]);
 
-  return <div>
-    <span>You're logged in as {name}</span>
-    <TextBox ref={ref} />
+  return (
+    <div>
+      <span>You're logged in as {name}</span>
+      <TextBox ref={ref} />
     </div>
+  );
 }
