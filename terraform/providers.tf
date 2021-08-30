@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket  = "willdocs-terraform"
+    bucket  = "willdocs-1"
     prefix  = "terraform/state"
   }
 }

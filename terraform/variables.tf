@@ -1,11 +1,11 @@
 variable "project_name" {
   type = string
   description = "Project name"
-  default     = "willdocs"
+  default     = "willdocs-1"
 }
 
 variable "dns_name" {
   type = string
   description = "dns name"
-  default = "www.willtech.ml"
+  default = "bingobongo.ml"
 }
