@@ -111,6 +111,15 @@ COMMENT ON TABLE public.users IS '
 
 
 --
+-- Name: COLUMN users.password; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.users.password IS '
+@name password
+@omit';
+
+
+--
 -- Name: create_user(text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -416,4 +425,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210729151156'),
     ('20210802130820'),
     ('20210824213638'),
-    ('20210827184910');
+    ('20210827184910'),
+    ('20210830223744');
