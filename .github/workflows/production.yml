@@ -43,7 +43,7 @@ jobs:
     - name: Build Client
       run: |
         # Build Client
-        DNS_NAME=$(terraform -chdir=terraform/ output -raw dns_name)
+        STATIC_BUCKET=$(terraform -chdir=terraform/ output -raw static-bucket)
         echo "STATIC_BUCKET=$STATIC_BUCKET" >> $GITHUB_ENV
         DNS_NAME=$(terraform -chdir=terraform/ output -raw dns_name)
         export NEXT_PUBLIC_SIGNAL_URL=wss://${DNS_NAME}/ws/signal
