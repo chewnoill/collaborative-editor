@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { gql, useMutation } from "@apollo/client";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 const Form = styled.form`
   display: flex;
@@ -13,15 +15,33 @@ function UserForm({
 }: React.FormHTMLAttributes<HTMLFormElement>) {
   return (
     <Form {...props}>
-      <label>username</label> <input name="username" type="text" />
-      <label>password</label> <input name="password" type="password" />
+      <TextField
+        sx={{ marginY: "15px" }}
+        id="outlined-basic"
+        label="username"
+        variant="outlined"
+        name="username"
+      />
+      <TextField
+        sx={{ marginBottom: "15px" }}
+        id="outlined-basic"
+        label="password"
+        variant="outlined"
+        name="password"
+        type="password"
+      />
       {children}
-      <button type="submit">submit</button>
     </Form>
   );
 }
 export function LoginForm() {
-  return <UserForm action="/api/login" method="post" />;
+  return (
+    <UserForm action="/api/login" method="post">
+      <Button variant="outlined" type="submit">
+        Login
+      </Button>
+    </UserForm>
+  );
 }
 export function CreateUserForm() {
   const [mutate] = useMutation(gql`
@@ -44,13 +64,28 @@ export function CreateUserForm() {
         );
       }}
       method="post"
-    />
+    >
+      <Button variant="outlined" type="submit">
+        Create Account
+      </Button>
+    </UserForm>
   );
 }
 export function UpdatePasswordForm() {
   return (
     <UserForm action="/api/users/update-password" method="post">
+      <TextField
+        sx={{ marginBottom: "15px" }}
+        id="outlined-basic"
+        label="New Password"
+        variant="outlined"
+        name="new-password"
+        type="password"
+      />
       <label>new password</label> <input name="new-password" type="password" />
+      <Button variant="outlined" type="submit">
+        Update Password
+      </Button>
     </UserForm>
   );
 }
