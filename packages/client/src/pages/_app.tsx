@@ -4,6 +4,8 @@ import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ApolloProvider } from "@apollo/client";
 import client from "utils/apollo";
+import { Global } from "@emotion/react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const AppLayout = styled.div`
   max-width: 100%;
@@ -16,18 +18,21 @@ const Page = styled.div`
 
 export default function MyApp({ Component, pageProps }) {
   return (
-    <AppLayout>
-      <Page>
-        <ApolloProvider client={client}>
-          <ErrorBoundary
-            fallbackRender={({ error }) => <div>{error.message}</div>}
-          >
-            <ReduxProvider>
-              <Component {...pageProps} />
-            </ReduxProvider>
-          </ErrorBoundary>
-        </ApolloProvider>
-      </Page>
-    </AppLayout>
+    <ThemeProvider theme={createTheme({})}>
+      <AppLayout>
+        <Global styles={{ body: { margin: 0 } }} />
+        <Page>
+          <ApolloProvider client={client}>
+            <ErrorBoundary
+              fallbackRender={({ error }) => <div>{error.message}</div>}
+            >
+              <ReduxProvider>
+                <Component {...pageProps} />
+              </ReduxProvider>
+            </ErrorBoundary>
+          </ApolloProvider>
+        </Page>
+      </AppLayout>
+    </ThemeProvider>
   );
 }

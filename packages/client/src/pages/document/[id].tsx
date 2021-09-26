@@ -1,3 +1,4 @@
+import AppLayout from "layout/app";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
@@ -11,8 +12,8 @@ export default function Document() {
 
   if (!id) return null;
   return (
-    <div>
+    <AppLayout>
       <EditorComponent document_id={id.toString()} />
-    </div>
+    </AppLayout>
   );
 }
