@@ -13,6 +13,27 @@ export function insertUpdate(document_id: string, document_update: Uint8Array) {
     .run(pool);
 }
 
+export function updateDocument(
+  document_id: string,
+  value: string,
+  origin: Buffer,
+  latest_update_time: Date
+) {
+  return db
+    .update(
+      "document",
+      {
+        value,
+        origin,
+        latest_update_time,
+      },
+      {
+        id: document_id,
+      }
+    )
+    .run(pool);
+}
+
 export const createDocument = (
   pool: Pool,
   creator_id: any = db.sql`current_user_id()`,
