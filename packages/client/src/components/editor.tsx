@@ -80,10 +80,5 @@ function TextCanvas({ document_id, name }) {
     });
   }, [ref, data]);
 
-  return (
-    <div>
-      <span>You're logged in as {name}</span>
-      <TextBox ref={ref} />
-    </div>
-  );
+  return <TextBox ref={ref} />;
 }
