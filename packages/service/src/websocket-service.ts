@@ -11,7 +11,7 @@ export default function upgradeWebsockets(request, socket, head) {
     wss.handleUpgrade(request, socket, head, (ws) =>
       wss.emit("connection-signaling", ws, request)
     );
-  } else if (request.url.substring(0, 9) === "/provider") {
+  } else if (request.url.startsWith("/provider")) {
     wss.handleUpgrade(request, socket, head, (ws) =>
       wss.emit("connection-provider", ws, request)
     );
