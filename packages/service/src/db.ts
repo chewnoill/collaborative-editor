@@ -8,6 +8,7 @@ import Pool from "pg-pool";
 import { IS_PROD } from "./config";
 import DocumentMutations from "./resolvers/documents";
 import RandomQueries from "./resolvers/random-names";
+import MdxQueries from "./resolvers/render-mdx";
 export { schema };
 
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -45,7 +46,7 @@ const postgraphile_options: any = {
   allowExplain: true,
   legacyRelations: "omit",
   sortExport: true,
-  appendPlugins: [DocumentMutations, RandomQueries],
+  appendPlugins: [DocumentMutations, RandomQueries, MdxQueries],
 };
 
 export function gqlMiddleware() {
