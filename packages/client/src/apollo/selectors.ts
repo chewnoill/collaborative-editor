@@ -12,6 +12,12 @@ const DOCUMENT_FRAGMENT = gql`
     id
     origin
     value
+    latestUpdateTime
+    mdx {
+      staticMDX
+      code
+      scope
+    }
   }
 `;
 

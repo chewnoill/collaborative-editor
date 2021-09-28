@@ -1,6 +1,42 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useAllDocumentsQuery } from "apollo/selectors";
+import { hydrate } from "mdx-hydra/build/hydrate";
+import { Box, Button } from "@mui/material";
+import { useRouter } from "next/router";
+import DocumentMenu from "./document-menu";
+
+function DocumentView({ id, mdx }: any) {
+  const router = useRouter();
+  return (
+    <Box sx={{ position: "relative", width: "100%", minHeight: "60px" }}>
+      <Button
+        onClick={() => router.push(`/document/${id}`)}
+        sx={{
+          width: "100%",
+          color: "text.primary",
+          border: "2px solid",
+          borderColor: "primary.main",
+          borderRadius: "5px",
+          marginY: "10px",
+          padding: "5px",
+          backgroundColor: "white",
+          cursor: "pointer",
+          textAlign: "inherit",
+          textTransform: "none",
+          minHeight: "60px",
+        }}
+      >
+        {hydrate({
+          ...mdx,
+          components: {},
+          Wrapper: ({ children }) => children,
+        })}
+      </Button>
+      <DocumentMenu />
+    </Box>
+  );
+}
 
 const List = styled.div`
   max-width: 300px;
@@ -19,13 +55,8 @@ export default function DocumentList() {
 
   return (
     <List>
-      {list.length} documents have been found
       {list.map((doc) => (
-        <li key={doc.id}>
-          <p>{"DOC ID: " + doc.id}</p>
-          <p>{"DOC OWNER " + doc.creator_id}</p>
-          <a href={`/document/${doc.id}`}>document</a>
-        </li>
+        <DocumentView key={doc.id} id={doc.id} mdx={doc.mdx} />
       ))}
     </List>
   );
