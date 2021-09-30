@@ -58,3 +58,22 @@ export function useAllDocumentsQuery() {
     { fetchPolicy: "cache-first" }
   );
 }
+export function usePreviewMdx(id, value) {
+  return useQuery(
+    gql`
+      query previewMdx($id: ID!, $value: String!) {
+        render {
+          preview(id: $id, value: $value) {
+            id
+            mdx {
+              staticMDX
+              scope
+              code
+            }
+          }
+        }
+      }
+    `,
+    { fetchPolicy: "cache-first", variables: { id, value } }
+  );
+}
