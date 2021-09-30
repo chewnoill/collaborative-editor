@@ -1,3 +1,4 @@
+import PreviewMdx from "components/document-render-mdx";
 import AppLayout from "layout/app";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -14,6 +15,7 @@ export default function Document() {
   return (
     <AppLayout>
       <EditorComponent document_id={id.toString()} />
+      <PreviewMdx id={id.toString()} />
     </AppLayout>
   );
 }
