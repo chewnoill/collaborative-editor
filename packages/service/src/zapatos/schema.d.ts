@@ -53,10 +53,14 @@ declare module "zapatos/schema" {
        */
       origin: Buffer;
       /**
-       * **document.latest_update_time**
-       * - `timestamp` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.latest_update_time**
+      *
+      * 
+  @name latest_update_time
+  @omit create,update
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
       latest_update_time: Date;
       /**
        * **document.creator_id**
@@ -64,6 +68,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       creator_id: string;
+      /**
+       * **document.is_public**
+       * - `bool` in database
+       * - `NOT NULL`, default: `true`
+       */
+      is_public: boolean;
     }
     export interface JSONSelectable {
       /**
@@ -91,10 +101,14 @@ declare module "zapatos/schema" {
        */
       origin: db.ByteArrayString;
       /**
-       * **document.latest_update_time**
-       * - `timestamp` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.latest_update_time**
+      *
+      * 
+  @name latest_update_time
+  @omit create,update
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
       latest_update_time: db.TimestampString;
       /**
        * **document.creator_id**
@@ -102,6 +116,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       creator_id: string;
+      /**
+       * **document.is_public**
+       * - `bool` in database
+       * - `NOT NULL`, default: `true`
+       */
+      is_public: boolean;
     }
     export interface Whereable {
       /**
@@ -164,10 +184,14 @@ declare module "zapatos/schema" {
             | db.ParentColumn
           >;
       /**
-       * **document.latest_update_time**
-       * - `timestamp` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.latest_update_time**
+      *
+      * 
+  @name latest_update_time
+  @omit create,update
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
       latest_update_time?:
         | (db.TimestampString | Date)
         | db.Parameter<db.TimestampString | Date>
@@ -193,6 +217,20 @@ declare module "zapatos/schema" {
         | db.SQLFragment<
             any,
             string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **document.is_public**
+       * - `bool` in database
+       * - `NOT NULL`, default: `true`
+       */
+      is_public?:
+        | boolean
+        | db.Parameter<boolean>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn
           >;
     }
     export interface Insertable {
@@ -224,10 +262,14 @@ declare module "zapatos/schema" {
         | db.Parameter<db.ByteArrayString | Buffer>
         | db.SQLFragment;
       /**
-       * **document.latest_update_time**
-       * - `timestamp` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.latest_update_time**
+      *
+      * 
+  @name latest_update_time
+  @omit create,update
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
       latest_update_time:
         | (db.TimestampString | Date)
         | db.Parameter<db.TimestampString | Date>
@@ -238,6 +280,16 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       creator_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **document.is_public**
+       * - `bool` in database
+       * - `NOT NULL`, default: `true`
+       */
+      is_public?:
+        | boolean
+        | db.Parameter<boolean>
+        | db.DefaultType
+        | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -290,10 +342,14 @@ declare module "zapatos/schema" {
             | db.SQLFragment
           >;
       /**
-       * **document.latest_update_time**
-       * - `timestamp` in database
-       * - `NOT NULL`, no default
-       */
+      * **document.latest_update_time**
+      *
+      * 
+  @name latest_update_time
+  @omit create,update
+      * - `timestamp` in database
+      * - `NOT NULL`, no default
+      */
       latest_update_time?:
         | (db.TimestampString | Date)
         | db.Parameter<db.TimestampString | Date>
@@ -314,6 +370,20 @@ declare module "zapatos/schema" {
         | db.Parameter<string>
         | db.SQLFragment
         | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **document.is_public**
+       * - `bool` in database
+       * - `NOT NULL`, default: `true`
+       */
+      is_public?:
+        | boolean
+        | db.Parameter<boolean>
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment
+          >;
     }
     export type UniqueIndex = "document_pkey";
     export type Column = keyof Selectable;
@@ -846,10 +916,14 @@ declare module "zapatos/schema" {
        */
       name: string;
       /**
-       * **users.password**
-       * - `text` in database
-       * - `NOT NULL`, default: `''::text`
-       */
+      * **users.password**
+      *
+      * 
+  @name password
+  @omit
+      * - `text` in database
+      * - `NOT NULL`, default: `''::text`
+      */
       password: string;
     }
     export interface JSONSelectable {
@@ -866,10 +940,14 @@ declare module "zapatos/schema" {
        */
       name: string;
       /**
-       * **users.password**
-       * - `text` in database
-       * - `NOT NULL`, default: `''::text`
-       */
+      * **users.password**
+      *
+      * 
+  @name password
+  @omit
+      * - `text` in database
+      * - `NOT NULL`, default: `''::text`
+      */
       password: string;
     }
     export interface Whereable {
@@ -902,10 +980,14 @@ declare module "zapatos/schema" {
             string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
           >;
       /**
-       * **users.password**
-       * - `text` in database
-       * - `NOT NULL`, default: `''::text`
-       */
+      * **users.password**
+      *
+      * 
+  @name password
+  @omit
+      * - `text` in database
+      * - `NOT NULL`, default: `''::text`
+      */
       password?:
         | string
         | db.Parameter<string>
@@ -930,10 +1012,14 @@ declare module "zapatos/schema" {
        */
       name: string | db.Parameter<string> | db.SQLFragment;
       /**
-       * **users.password**
-       * - `text` in database
-       * - `NOT NULL`, default: `''::text`
-       */
+      * **users.password**
+      *
+      * 
+  @name password
+  @omit
+      * - `text` in database
+      * - `NOT NULL`, default: `''::text`
+      */
       password?:
         | string
         | db.Parameter<string>
@@ -966,10 +1052,14 @@ declare module "zapatos/schema" {
         | db.SQLFragment
         | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-       * **users.password**
-       * - `text` in database
-       * - `NOT NULL`, default: `''::text`
-       */
+      * **users.password**
+      *
+      * 
+  @name password
+  @omit
+      * - `text` in database
+      * - `NOT NULL`, default: `''::text`
+      */
       password?:
         | string
         | db.Parameter<string>
