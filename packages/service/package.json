@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.2",
+    "express-ws": "^5.0.2",
     "front-matter": "^4.0.2",
     "graphql-type-json": "^0.3.2",
     "http": "^0.0.1-security",

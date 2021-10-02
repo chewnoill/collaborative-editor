@@ -1,14 +1,16 @@
 import http from "http";
-import upgradeWebsockets from "./websocket-service";
 import app from "./app";
+import setupSignalingConnection from "./utils/signaling-connection";
+import setupProviderConnection from "./utils/provider-connection";
 
 const host = process.env.HOST || "0.0.0.0";
 const port = process.env.PORT || 6001;
 
 const server = http.createServer(app);
 
-server.on("upgrade", upgradeWebsockets);
+app.ws("/signal", setupSignalingConnection);
+app.ws("/provider/*", setupProviderConnection);
 
-server.listen({ host, port });
+app.listen({ host, port });
 
 console.log("Signaling server running on", host, ":", port);
