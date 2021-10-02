@@ -2,21 +2,17 @@ import express from "express";
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import bodyParser from "body-parser";
-import session from "express-session";
 import { validateUser } from "./utils/users";
 import { gqlMiddleware } from "./db";
+import Session from "./session";
+import expressWs from "express-ws";
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "big secret";
 
 const app = express();
+expressWs(app);
 
-app.use(
-  session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+app.use(Session);
 
 const auth = (req, resp, next) => {
   if (!req.user) {
@@ -48,14 +44,6 @@ passport.deserializeUser(function (data, done) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: "auto" },
-  })
-);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(gqlMiddleware());
