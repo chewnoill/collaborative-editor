@@ -301,6 +301,13 @@ ALTER TABLE ONLY public.user_document
 
 
 --
+-- Name: document all_for_owner; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY all_for_owner ON public.document TO postgraphile_user USING ((creator_id = public.current_user_id())) WITH CHECK ((creator_id = public.current_user_id()));
+
+
+--
 -- Name: document create_document_for_current_user; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -360,4 +367,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210802130820'),
     ('20210824213638'),
     ('20210827184910'),
-    ('20210830223744');
+    ('20210830223744'),
+    ('20211001124627');

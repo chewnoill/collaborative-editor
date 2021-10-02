@@ -13,6 +13,21 @@ export function insertUpdate(document_id: string, document_update: Uint8Array) {
     .run(pool);
 }
 
+export function updateDocumentMeta(
+  document_id: string,
+  meta: { isPublic: boolean }
+) {
+  return db.update(
+    "document",
+    {
+      is_public: meta.isPublic,
+    },
+    {
+      id: document_id,
+    }
+  );
+}
+
 export function updateDocument(
   document_id: string,
   value: string,
