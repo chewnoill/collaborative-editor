@@ -7,12 +7,13 @@ const USER_FRAGMENT = gql`
   }
 `;
 
-const DOCUMENT_FRAGMENT = gql`
+export const DOCUMENT_FRAGMENT = gql`
   fragment base_document on Document {
     id
     origin
     value
     latestUpdateTime
+    isPublic
     mdx {
       staticMDX
       code
@@ -39,6 +40,20 @@ export function useCurrentUserQuery() {
 }
 export function useCurrentUser() {
   return useCurrentUserQuery().data?.me;
+}
+
+export function useDocument(id: string) {
+  return useQuery(
+    gql`
+      query Document($id: UUID!) {
+        documentById(id: $id) {
+          ...base_document
+        }
+      }
+      ${DOCUMENT_FRAGMENT}
+    `,
+    { fetchPolicy: "cache-first", variables: { id } }
+  );
 }
 
 export function useAllDocumentsQuery() {
