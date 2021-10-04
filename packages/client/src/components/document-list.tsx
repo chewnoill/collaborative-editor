@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "@emotion/styled";
 import { useAllDocumentsQuery } from "apollo/selectors";
 import { hydrate } from "mdx-hydra/build/hydrate";
@@ -7,9 +7,13 @@ import { useRouter } from "next/router";
 import DocumentMenu from "./document-menu";
 
 function DocumentView({ id, mdx }: any) {
+  const ref = useRef();
   const router = useRouter();
   return (
-    <Box sx={{ position: "relative", width: "100%", minHeight: "60px" }}>
+    <Box
+      ref={ref}
+      sx={{ position: "relative", width: "100%", minHeight: "60px" }}
+    >
       <Button
         onClick={() => router.push(`/document/${id}`)}
         sx={{
@@ -25,6 +29,9 @@ function DocumentView({ id, mdx }: any) {
           textAlign: "inherit",
           textTransform: "none",
           minHeight: "60px",
+          maxHeight: "200px",
+          overflow: "hidden",
+          alignItems: "normal",
         }}
       >
         {hydrate({
@@ -33,7 +40,7 @@ function DocumentView({ id, mdx }: any) {
           Wrapper: ({ children }) => children,
         })}
       </Button>
-      <DocumentMenu />
+      <DocumentMenu document_id={id} />
     </Box>
   );
 }
