@@ -1,8 +1,3 @@
-resource "google_storage_bucket_iam_member" "public" {
-  bucket = google_storage_bucket.static-site.name
-  role = "roles/storage.objectViewer"
-  member = "allUsers"
-}
 
 resource "random_uuid" "private_bucket" { }
 
