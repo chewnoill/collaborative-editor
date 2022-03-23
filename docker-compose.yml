@@ -1,19 +1,5 @@
 version: "3"
 services:
-  gateway:
-    image: nginx
-    volumes:
-      - ./terraform/nginx-dev:/etc/nginx/templates
-    depends_on:
-      - "web"
-      - "signal"
-    ports:
-      - "8080:80"
-    environment:
-      - PORT=80
-      - STATIC_URL=http://web:3000
-      - WEBSOCKET_URL=http://signal:6001
-      - API_URL=http://signal:6001
   db:
     environment:
       - POSTGRES_PASSWORD=password
@@ -22,22 +8,7 @@ services:
       - "5432:5432"
     volumes:
       - "./volumes/postgres:/var/lib/postgresql/data"
-  web:
-    build: .
-    command: bash -lc "yarn client dev"
-    hostname: editor-dev
-    tty: true
-    stdin_open: true
-    volumes:
-      - .:/editor:delegated
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_SIGNAL_URL=ws://localhost:8080/ws/signal
-      - NEXT_PUBLIC_PROVIDER_URL=ws://localhost:8080/ws/provider
-    depends_on:
-      - "signal"
-  signal:
+  service:
     build: .
     command: bash -lc "yarn service dev"
     volumes:

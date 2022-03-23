@@ -12,7 +12,7 @@ const nextConfig = {
       },
     ];
   },
-  trailingSlash: false,
+  trailingSlash: true,
 };
 
 module.exports = nextConfig;

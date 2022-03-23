@@ -43,26 +43,16 @@ jobs:
     - name: Build Client
       run: |
         # Build Client
-        STATIC_BUCKET=$(terraform -chdir=terraform/ output -raw static-bucket)
-        echo "STATIC_BUCKET=$STATIC_BUCKET" >> $GITHUB_ENV
         DNS_NAME=$(terraform -chdir=terraform/ output -raw dns_name)
         export NEXT_PUBLIC_SIGNAL_URL=wss://${DNS_NAME}/ws/signal
         export NEXT_PUBLIC_PROVIDER_URL=wss://${DNS_NAME}/ws/provider
         yarn client build
-    - name: upload client 
-      uses: actions-hub/gcloud@master
-      env:
-        PROJECT_ID: willdocs
-        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      with:
-        args: cp -r packages/client/out/* gs://${{env.STATIC_BUCKET}}/
-        cli: gsutil
     - run: yarn service build
     - run: |
         # zip up service bundle
         PRIVATE_BUCKET=$(terraform -chdir=terraform/ output -raw private-bucket)
         echo "PRIVATE_BUCKET=$PRIVATE_BUCKET" >> $GITHUB_ENV
-        tar cfz service.tgz packages/service/dist/* packages/service/db/migrations node_modules/moniker/dict/*
+        tar cfz service.tgz packages/client/out/* packages/service/dist/* packages/service/db/migrations node_modules/moniker/dict/*
     - name: upload service 
       uses: actions-hub/gcloud@master
       env:
