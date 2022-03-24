@@ -58,7 +58,7 @@ app.get("/health-check", (_, resp) => {
 });
 
 app.post(
-  "/login",
+  "/api/login",
   passport.authenticate("local", { successRedirect: "/", session: true })
 );
 

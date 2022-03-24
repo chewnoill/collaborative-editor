@@ -8,8 +8,9 @@ const port = process.env.PORT || 6001;
 
 const server = http.createServer(app);
 
-app.ws("/signal", setupSignalingConnection);
-app.ws("/provider/*", setupProviderConnection);
+app.ws("/ws/signal", setupSignalingConnection);
+app.ws("/ws/provider/*", setupProviderConnection);
+
 
 app.listen({ host, port });
 

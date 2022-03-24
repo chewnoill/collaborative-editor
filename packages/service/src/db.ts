@@ -26,8 +26,7 @@ const config = {
 export const pool = new Pool(config);
 
 const postgraphile_options: any = {
-  externalUrlBase: "/api",
-  graphqlRoute: "/graphql",
+  graphqlRoute: "/api/graphql",
   pgSettings(req) {
     return {
       role: "postgraphile_user",
