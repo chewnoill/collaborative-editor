@@ -44,8 +44,8 @@ jobs:
       run: |
         # Build Client
         DNS_NAME=$(terraform -chdir=terraform/ output -raw dns_name)
-        export NEXT_PUBLIC_SIGNAL_URL=wss://${DNS_NAME}/ws/signal
-        export NEXT_PUBLIC_PROVIDER_URL=wss://${DNS_NAME}/ws/provider
+        export NEXT_PUBLIC_SIGNAL_URL=ws://${DNS_NAME}/ws/signal
+        export NEXT_PUBLIC_PROVIDER_URL=ws://${DNS_NAME}/ws/provider
         yarn client build
     - run: yarn service build
     - run: |
