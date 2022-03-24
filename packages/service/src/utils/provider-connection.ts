@@ -43,7 +43,7 @@ const providerMessageResolver = (conn, message, doc) => {
 const setupProviderConnection = async (
   conn,
   req,
-  { docName = req.url.slice(1).split("/")[1], gc = true } = {}
+  { docName = req.url.slice(1).split("/")[2], gc = true } = {}
 ) => {
   let closed = false;
 
