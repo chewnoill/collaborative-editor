@@ -27,6 +27,7 @@ resource "google_compute_instance" "app" {
     apt-get install -y nodejs postgresql
     tar xvf download/service.tgz
     export DATABASE_URL=$(gcloud secrets versions access latest --secret="database-url")
+    export PORT=80
 
     echo "running migrations..."
     curl -fsSL -o dbmate.bin https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64

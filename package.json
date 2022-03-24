@@ -8,13 +8,12 @@
   ],
   "devDependencies": {
     "prettier": "^2.3.1",
-    "typescript": "^4.3.2",
-    "reveal-md": "^5.1.1"
+    "reveal-md": "^5.1.1",
+    "typescript": "^4.3.2"
   },
   "scripts": {
     "slides": "reveal-md docs/slides/slides.md --scripts docs/slides/lib/mermaid.min.js,docs/slides/lib/mermaid-plugin.js  -w",
     "slides:build": "yarn slides --static packages/client/public/slides",
-    "storybook": "yarn client storybook",
     "build": "yarn client build && yarn service build",
     "client": "cd packages/client && yarn",
     "service": "cd packages/service && yarn",

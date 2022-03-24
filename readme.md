@@ -3,8 +3,6 @@
 
 Using CRDTs to build a collaborative text editor, is mostly a solved problem. Turning it into a usable app is a matter of doing regular app work. Adding user accounts, adding authentication and authorization, storing user data. The new complicated bits, syncing a distributed data store over webrtc/websockets, is basically just plug and play.
 
-[Storybook](http://bingobongo.ml)
-
 [Slides](http://bingobongo.ml/slides/index.html)
 
 [Repo](https://github.com/chewnoill/collaborative-editor)
