@@ -12,6 +12,13 @@ const SESSION_SECRET = process.env.SESSION_SECRET || "big secret";
 
 const app = express();
 
+app.use(function(req, _res, next) {
+  if (req.url.startsWith('/document/')) {
+    req.url = '/document/[id]/';
+  }
+  next();
+});
+
 const STATIC_PATH = path.resolve(__dirname,'../../client/out');
 
 app.use("/", express.static(STATIC_PATH))
@@ -61,5 +68,6 @@ app.post(
   "/api/login",
   passport.authenticate("local", { successRedirect: "/", session: true })
 );
+
 
 export default app;
