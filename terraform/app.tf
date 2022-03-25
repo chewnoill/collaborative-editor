@@ -36,7 +36,9 @@ resource "google_compute_instance" "app" {
 
     echo "starting application..."
     cd packages/service
-    node dist/bundle.js 
+    # TODO: remove this
+    # run bundle as root so we can use port 80
+    sudo node dist/bundle.js 
   EOF
 
   service_account {
