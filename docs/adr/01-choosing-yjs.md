@@ -1,6 +1,7 @@
 # Choosing YJS
 
-## Accepted
+## Status
+Accepted
 
 ## Context
 
@@ -41,3 +42,4 @@ WebSocket Provider for Yjs
 
 We need to do some work familiarizing with how yjs works.
 We get all CRDT transport layers basically for free.
+This locks the project into the node ecosystem for both front and backends.
