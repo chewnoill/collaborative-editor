@@ -13,7 +13,7 @@ Using CRDTs to build a collaborative text editor, is mostly a solved problem. Tu
 |-- package.json: defines project setup/dependencies
 |-- docker-compose.yml: defines docker config for local development
 |-- Dockerfile: defines the base image used in development
-|-- terraform: provisioning infrastruction 
+|-- terraform: provisioning infrastructure 
 |-- packages
     |-- client: node project that builds a web bundle
     |   |-- package.json: defines client specific setup/dependencies
@@ -23,7 +23,7 @@ Using CRDTs to build a collaborative text editor, is mostly a solved problem. Tu
         |-- package.json: defines how the service is setup
         |-- db
         |   |-- schema.sql: current database schema dump
-        |   |-- migratations: A ordered set of database migrations to run to produce the schema.sql 
+        |   |-- migrations: A ordered set of database migrations to run to produce the schema.sql 
         |-- src: Service source code
 ```
 
