@@ -1,16 +1,14 @@
----
-title: Building A Collabrative Text Editor
----
 
-# Untitled
+# Collabrative Text Editor
 
-Building A Collabrative Text Editor
+Building an application on top of shared mutable state.
 
 ---
 
 # [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
 
-> <div style="text-align: left">
+<div style="text-align: left">
+
 >
 > It is impossible for a distributed 
 > data store to simultaneously provide 
@@ -21,7 +19,8 @@ Building A Collabrative Text Editor
 > * Consistency
 > * Availability 
 > * Partition Tolerance
-> </div>
+
+</div>
 
 ---
 
@@ -34,6 +33,7 @@ Operational Transformation
 </div>
   
 ---
+
 
 ```mermaid
 sequenceDiagram
@@ -160,7 +160,8 @@ https://chewnoill.github.io/collaborative-editor
 
 ---
 
-<pre><code data-line-numbers="5|6|7|10-13|15-17|">
+
+```
 export default function Editor() {
   const ref = React.useRef();
   React.useEffect(() => {
@@ -180,4 +181,4 @@ export default function Editor() {
   }, [ref]);
   return &lt;div ref={ref} />;
 }
-</code></pre>
+```
