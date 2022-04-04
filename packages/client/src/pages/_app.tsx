@@ -8,12 +8,14 @@ import { Global } from "@emotion/react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const AppLayout = styled.div`
-  max-width: 100%;
+  height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
 `;
 const Page = styled.div`
   width: 100%;
+  height: 100%;
 `;
 
 export default function MyApp({ Component, pageProps }) {

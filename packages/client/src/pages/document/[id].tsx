@@ -19,12 +19,9 @@ export default function Document() {
 
   if (!id) return null;
   return (
-    <TwoColumnLayout>
+    <AppLayout>
       <EditorComponent document_id={id.toString()} />
-      <Box ref={ref}>
-        <PreviewMdx id={id.toString()} />
-        <DocumentMenu parent={ref} document_id={id.toString()} />
-      </Box>
-    </TwoColumnLayout>
+      <DocumentMenu parent={ref} document_id={id.toString()} />
+    </AppLayout>
   );
 }

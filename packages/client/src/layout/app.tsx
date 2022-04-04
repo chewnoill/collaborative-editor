@@ -10,12 +10,19 @@ import CreateDocumentButton from "components/create-document";
 const PageLayout = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 100%;
 `;
 export function SimpleLayout({ children }) {
   return (
     <Container
       maxWidth="sm"
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
     >
       <Box
         sx={{
@@ -33,7 +40,13 @@ export function SimpleLayout({ children }) {
 
 export default function AppLayout({ children }) {
   return (
-    <Container maxWidth="sm">
+    <Container
+      maxWidth="sm"
+      sx={{
+        width: "100%",
+        height: "100%",
+      }}
+    >
       <PageLayout>
         <AppBar>
           <Toolbar>

@@ -25,6 +25,8 @@ export default function Editor({ document_id }: { document_id: string }) {
 }
 
 const TextBox = styled.div`
+  height: 100%;
+  width: 100%;
   .remote-caret {
     position: absolute;
     border-left: black;
@@ -73,6 +75,8 @@ function TextCanvas({ document_id, name }) {
     const editor = CodeMirror(ref.current, {
       mode: "markdown",
       lineNumbers: true,
+      height: "100%",
+      width: "100%",
     });
 
     new CodemirrorBinding(yText, editor, data.rtcProvider.awareness, {
