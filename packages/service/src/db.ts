@@ -9,9 +9,8 @@ import { IS_PROD } from "./config";
 import DocumentMutations from "./resolvers/documents";
 import RandomQueries from "./resolvers/random-names";
 import MdxQueries from "./resolvers/render-mdx";
+import { DATABASE_URL } from "./env";
 export { schema };
-
-const DATABASE_URL = process.env.DATABASE_URL;
 
 const params = url.parseURL(DATABASE_URL);
 
