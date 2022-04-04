@@ -6,22 +6,22 @@ import { validateUser } from "./utils/users";
 import { gqlMiddleware } from "./db";
 import Session from "./session";
 import expressWs from "express-ws";
-import path from 'path';
+import path from "path";
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "big secret";
 
 const app = express();
 
-app.use(function(req, _res, next) {
-  if (req.url.startsWith('/document/')) {
-    req.url = '/document/[id]/';
+app.use(function (req, _res, next) {
+  if (req.url.startsWith("/document/")) {
+    req.url = "/document/[id]/";
   }
   next();
 });
 
-const STATIC_PATH = path.resolve(__dirname,'../../client/out');
+const STATIC_PATH = path.resolve(__dirname, "../../client/out");
 
-app.use("/", express.static(STATIC_PATH))
+app.use("/", express.static(STATIC_PATH));
 expressWs(app);
 
 app.use(Session);
@@ -68,6 +68,5 @@ app.post(
   "/api/login",
   passport.authenticate("local", { successRedirect: "/", session: true })
 );
-
 
 export default app;

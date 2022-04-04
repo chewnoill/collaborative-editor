@@ -9,7 +9,6 @@ http.createServer(app);
 app.ws("/ws/signal", setupSignalingConnection);
 app.ws("/ws/provider/*", setupProviderConnection);
 
-
 app.listen({ host: HOST, port: PORT });
 
 console.log("Signaling server running on", HOST, ":", PORT);
