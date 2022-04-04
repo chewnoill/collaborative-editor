@@ -38,7 +38,13 @@ export function SimpleLayout({ children }) {
   );
 }
 
-export default function AppLayout({ children }) {
+export default function AppLayout({
+  children,
+  fab,
+}: {
+  children: any;
+  fab?: any;
+}) {
   return (
     <Container
       maxWidth="sm"
@@ -63,9 +69,12 @@ export default function AppLayout({ children }) {
             </div>
           </Toolbar>
         </AppBar>
-        <Box sx={{ height: "64px" }} />
-        {children}
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box sx={{ height: "64px" }} children={" "} />
+          {children}
+        </Box>
       </PageLayout>
+      {fab}
     </Container>
   );
 }

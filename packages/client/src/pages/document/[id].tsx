@@ -15,9 +15,10 @@ export default function Document() {
 
   if (!id) return null;
   return (
-    <AppLayout>
+    <AppLayout
+      fab={<DocumentMenu document_id={id.toString()} position="fixed" />}
+    >
       <EditorComponent document_id={id.toString()} />
-      <DocumentMenu parent={ref} document_id={id.toString()} />
     </AppLayout>
   );
 }
