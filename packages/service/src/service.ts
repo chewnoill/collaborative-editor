@@ -14,4 +14,8 @@ app.ws("/ws/provider/*", setupProviderConnection);
 
 app.listen({ host, port });
 
+if(NODE_ENV === 'production'){
+  app.listen({ host, port: 443 });
+}
+
 console.log("Signaling server running on", host, ":", port);

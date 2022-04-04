@@ -7,10 +7,19 @@ import { gqlMiddleware } from "./db";
 import Session from "./session";
 import expressWs from "express-ws";
 import path from 'path';
+import redirectSSL from 'redirect-ssl';
+import { NODE_ENV, PORT } from "./env";
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "big secret";
 
 const app = express();
+
+/*
+app.use(redirectSSL.create({
+  enabled: NODE_ENV === 'production',
+  redirectPort: PORT,
+}))
+*/
 
 app.use(function(req, _res, next) {
   if (req.url.startsWith('/document/')) {
