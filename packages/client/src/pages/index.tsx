@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { useCurrentUserQuery } from "apollo/selectors";
-import CreateDocument from "components/create-document";
 import DocumentList from "components/document-list";
 import React from "react";
 import AppLayout from "layout/app";

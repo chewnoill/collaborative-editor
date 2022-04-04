@@ -1,9 +1,5 @@
-import Box from "@mui/material/Box";
 import DocumentMenu from "components/document-menu";
-import PreviewMdx from "components/document-render-mdx";
-import { DocumentSettings } from "components/document-settings";
 import AppLayout from "layout/app";
-import { TwoColumnLayout } from "layout/two-column";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
