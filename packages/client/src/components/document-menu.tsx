@@ -8,8 +8,8 @@ import { DocumentPublicToggle } from "./document-public-toggle";
 import Box from "@mui/system/Box";
 
 export default function DocumentMenu({
-  parent = undefined,
   document_id,
+  position = "absolute",
   disabled = false,
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -25,7 +25,7 @@ export default function DocumentMenu({
     <>
       <Fab
         sx={{
-          position: "absolute",
+          position,
           bottom: 15,
           right: 10,
         }}
