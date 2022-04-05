@@ -213,6 +213,15 @@ COMMENT ON TABLE public.schema_migrations IS '
 
 
 --
+-- Name: session; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.session (
+    sid character varying NOT NULL,
+    sess json NOT NULL,
+    expire timestamp(6) without time zone NOT NULL
+);
+--
 -- Name: document document_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -234,6 +243,14 @@ ALTER TABLE ONLY public.document_updates_queue
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.session
+    ADD CONSTRAINT session_pkey PRIMARY KEY (sid);
 
 
 --
@@ -266,6 +283,13 @@ ALTER TABLE ONLY public.user_document
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: IDX_session_expire; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "IDX_session_expire" ON public.session USING btree (expire);
 
 
 --
@@ -368,4 +392,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210824213638'),
     ('20210827184910'),
     ('20210830223744'),
-    ('20211001124627');
+    ('20211001124627'),
+    ('20220405024517');
