@@ -6,7 +6,7 @@ import { Box, Button } from "@mui/material";
 import { useRouter } from "next/router";
 import DocumentMenu from "./document-menu";
 
-function DocumentView({ id, mdx }: any) {
+export function DocumentView({ id, mdx }: any) {
   const ref = useRef();
   const router = useRouter();
   return (

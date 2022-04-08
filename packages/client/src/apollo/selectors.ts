@@ -73,6 +73,25 @@ export function useAllDocumentsQuery() {
     { fetchPolicy: "cache-first" }
   );
 }
+export function useMyDocumentsQuery() {
+  return useQuery(
+    gql`
+      query MyDocuments {
+        me {
+          documentsByCreatorId{
+            edges {
+              node {
+                ...base_document
+              }
+            }
+          }
+        }
+      }
+      ${DOCUMENT_FRAGMENT}
+    `,
+    { fetchPolicy: "cache-first" }
+  );
+}
 export function usePreviewMdx(id, value) {
   return useQuery(
     gql`
