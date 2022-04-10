@@ -69,7 +69,7 @@ export default function AppLayout({
             </div>
           </Toolbar>
         </AppBar>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
           <Box sx={{ height: "64px" }} children={" "} />
           {children}
         </Box>
