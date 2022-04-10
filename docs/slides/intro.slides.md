@@ -152,9 +152,12 @@ C --> E
 
 ## Demo
 
-# [shorturl.at/puAIV](https://shorturl.at/puAIV)
+# [http://bingobongo.ml/document/f7f86c84-7d2d-44de-a783-89740fcc2637/](http://bingobongo.ml/document/f7f86c84-7d2d-44de-a783-89740fcc2637/)
 
-https://chewnoill.github.io/collaborative-editor
+---
+
+find this on github
+https://github.com/chewnoill/collaborative-editor
 
 
 
