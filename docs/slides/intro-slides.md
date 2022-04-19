@@ -7,31 +7,31 @@ Building an application on top of shared mutable state.
 
 # [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem)
 
-<div style="text-align: left">
+<div>
 
 >
-> It is impossible for a distributed 
-> data store to simultaneously provide 
-> more than two out of the following 
+> It is impossible for a distributed
+> data store to simultaneously provide
+> more than two out of the following
 > three guarantees:
 >
 >
 > * Consistency
-> * Availability 
+> * Availability
 > * Partition Tolerance
 
 </div>
 
 ---
 
-<div style="text-align: left">
+<div>
 
 # OT
 
 Operational Transformation
 
 </div>
-  
+
 ---
 
 
@@ -42,8 +42,8 @@ sequenceDiagram
     Central Authority-->>+Peer A: update A (txn 1)
     Central Authority-->>+Peer B: update A (txn 1)
     Central Authority-->>+Peer A: update B (txn 2)
-    Central Authority-->>+Peer B: update B (txn 2)      
-```  
+    Central Authority-->>+Peer B: update B (txn 2)
+```
 
 Requires a central authority to order all of the transactions
 
@@ -55,8 +55,8 @@ websockets
 
 ---
 
-> ... there's a hack that works simply and efficiently, 
-> but completely falls apart when you add more 
+> ... there's a hack that works simply and efficiently,
+> but completely falls apart when you add more
 > requirements. OT is such a hack.
 >
 > -- Marijn Haverbeke
@@ -72,7 +72,7 @@ https://codemirror.net/6/examples/collab/
 
 ---
 
-<strong style="font-size:60px">CRDTs</strong>
+<strong>CRDTs</strong>
 
 Conflict-free Replicated Data Types
 
@@ -144,9 +144,9 @@ E --> D
 C --> A
 C --> B
 C --> D
-C --> E 
+C --> E
 
-```  
+```
 
 ---
 
@@ -172,7 +172,7 @@ export default function Editor() {
     const provider = new WebrtcProvider("new-room", ydoc);
     const yText = ydoc.getText("codemirror");
     const yUndoManager = new Y.UndoManager(yText);
-    
+
     const editor = CodeMirror(ref.current, {
       mode: "markdown",
       lineNumbers: true,
