@@ -24,14 +24,14 @@ const config = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl: "http://docs-edit-url",
+          editUrl: "https://github.com/chewnoill/collaborative-editor/edit/master/",
           remarkPlugins: [require("mdx-mermaid")],
           path: "../docs",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl: "http://blog-edit-url",
+          editUrl: "https://github.com/chewnoill/collaborative-editor/edit/master/website/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -58,7 +58,7 @@ const config = {
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
-            href: `http://github-url`,
+            href: 'https://github.com/chewnoill/collaborative-editor',
             label: "GitHub",
             position: "right",
           },
@@ -85,7 +85,7 @@ const config = {
               },
               {
                 label: "GitHub",
-                href: "http://github-footer",
+                href: 'https://github.com/chewnoill/collaborative-editor',
               },
             ],
           },
