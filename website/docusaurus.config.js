@@ -8,7 +8,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const config = {
   title: "Collaborative Editor",
   tagline: "",
-  url: "https://bingobongo.ml",
+  url: "http://34.139.212.183",
   baseUrl: "/website/",
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
@@ -44,7 +44,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "My Site",
+        title: "Collaborative Editor Doc Site",
         logo: {
           alt: "My Site Logo",
           src: "img/logo.svg",
@@ -52,7 +52,7 @@ const config = {
         items: [
           {
             type: "doc",
-            docId: "intro",
+            docId: "index",
             position: "left",
             label: "Docs",
           },
@@ -71,8 +71,8 @@ const config = {
             title: "Docs",
             items: [
               {
-                label: "Tutorial",
-                to: "/docs/intro",
+                label: "README",
+                to: "/docs/README",
               },
             ],
           },
