@@ -1,3 +1,8 @@
+---
+slug: 00-name
+title: Title
+---
+
 # Title
 
 ## Status

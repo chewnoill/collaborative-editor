@@ -1,4 +1,7 @@
-
+---
+slug: 05-docusaurus
+title: 5 - Docusaurus
+---
 # Document Site with Docusaurus
 
 ## Status

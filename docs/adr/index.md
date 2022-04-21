@@ -1,5 +1,5 @@
 ---
-title: Collaberative Editor
+title: Architectural Decision Records (ADR)
 ---
 
 

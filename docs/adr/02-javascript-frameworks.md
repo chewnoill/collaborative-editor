@@ -1,3 +1,7 @@
+---
+slug: 02-javascript-frameworks
+title: 2 - Javascript Frameworks
+---
 # Javascript Frameworks
 
 ## Status
@@ -5,7 +9,7 @@ Accepted
 
 ## Context
 
-For node stacks, the most popular web framework is express. 
+For node stacks, the most popular web framework is express.
 
 ## Decision and Consequences
 
@@ -14,7 +18,7 @@ The following application dependencies will be adopted.
 [express](https://www.npmjs.com/package/express) manages handling network requests.
 
 [passport](https://www.npmjs.com/package/passport)
-manages an authentication for incoming requests, works well with express. 
+manages an authentication for incoming requests, works well with express.
 
 [postgraphile](https://www.npmjs.com/package/postgraphile) manages introspecting a postgres database, and serving it as a graphql api.
 

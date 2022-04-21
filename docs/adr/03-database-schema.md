@@ -1,3 +1,8 @@
+---
+slug: 03-database-schema
+title: 3 - Data
+---
+
 # Database Schema
 
 ## Status
@@ -27,9 +32,9 @@ Database schema defines the important db entities and their relationships betwee
 │ has_many documents through    │
 │                               │
 └───────────────────────────────┘
-                ▲                
-                │                
-                │                
+                ▲
+                │
+                │
 ┌───────────────────────────────┐
 │░░░░░░░░░user_document░░░░░░░░░│
 ├───────────────────────────────┤
@@ -41,8 +46,8 @@ Database schema defines the important db entities and their relationships betwee
 │ user_id                       │
 │                               │
 └───────────────────────────────┘
-                │                
-                ▼                
+                │
+                ▼
 ┌───────────────────────────────┐
 │░░░░░░░░░░░document░░░░░░░░░░░░│
 ├───────────────────────────────┤
@@ -57,9 +62,9 @@ Database schema defines the important db entities and their relationships betwee
 │ creator_id                    │
 │ is_public                     │
 └───────────────────────────────┘
-                ▲                
-                │                
-                │                
+                ▲
+                │
+                │
 ┌───────────────────────────────┐
 │░░░░document_updates_queue░░░░░│
 ├───────────────────────────────┤

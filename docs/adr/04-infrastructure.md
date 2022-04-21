@@ -1,4 +1,8 @@
-# Creating and Managing Infrastructure 
+---
+slug: 04-infrastructure
+title: 4 - Infrastructure
+---
+# Creating and Managing Infrastructure
 
 ## Status
 

@@ -1,3 +1,8 @@
+---
+slug: 01-choosing-yjs
+title: 1 - Choosing YJS
+---
+
 # Choosing YJS
 
 ## Status
