@@ -12,7 +12,14 @@ Accepted
 
 Production infrastructure needs to be created and managed. The initial application structure will look like this:
 
-```
+<style>{`
+.language-md-diagram {
+  font-size: 10px;
+  line-height: 12px;
+}
+`}</style>
+
+```md-diagram
 ┌───────────────────┐   ┌────────────────────────────────────────────────┐
 │      Github       │   │                   Terraform                    │
 │                   │   │┌──────────────────────┐                        │

@@ -14,7 +14,14 @@ Database schema defines the important db entities and their relationships betwee
 
 ## Decision & Consequences
 
-```
+<style>{`
+.language-md-diagram {
+  font-size: 10px;
+  line-height: 12px;
+}
+`}</style>
+
+```md-diagram
 ┌───────────────────────────────┐
 │░░░░░░░░░░░░░User░░░░░░░░░░░░░░│
 ├───────────────────────────────┤
