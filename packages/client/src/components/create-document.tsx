@@ -15,8 +15,8 @@ const Form = styled.form`
 export default function CreateDocumentButton() {
   const me = useCurrentUser();
   const [mutation] = useMutation(gql`
-    mutation createDocument {
-      createDoc {
+    mutation createDocument($name: String!) {
+      createDoc(name: $name) {
         id
       }
     }

@@ -74,6 +74,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, default: `true`
        */
       is_public: boolean;
+      /**
+       * **document.name**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      name: string;
     }
     export interface JSONSelectable {
       /**
@@ -122,6 +128,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, default: `true`
        */
       is_public: boolean;
+      /**
+       * **document.name**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      name: string;
     }
     export interface Whereable {
       /**
@@ -232,6 +244,20 @@ declare module "zapatos/schema" {
             any,
             boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn
           >;
+      /**
+       * **document.name**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      name?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
     }
     export interface Insertable {
       /**
@@ -290,6 +316,12 @@ declare module "zapatos/schema" {
         | db.Parameter<boolean>
         | db.DefaultType
         | db.SQLFragment;
+      /**
+       * **document.name**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      name?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -383,6 +415,20 @@ declare module "zapatos/schema" {
         | db.SQLFragment<
             any,
             boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment
+          >;
+      /**
+       * **document.name**
+       * - `text` in database
+       * - `NOT NULL`, default: `''::text`
+       */
+      name?:
+        | string
+        | db.Parameter<string>
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
           >;
     }
     export type UniqueIndex = "document_pkey";
@@ -689,6 +735,181 @@ declare module "zapatos/schema" {
         | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = "schema_migrations_pkey";
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >;
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | (keyof Updatable)[]>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **session**
+   * - Table in database
+   */
+  export namespace session {
+    export type Table = "session";
+    export interface Selectable {
+      /**
+       * **session.sid**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      sid: string;
+      /**
+       * **session.sess**
+       * - `json` in database
+       * - `NOT NULL`, no default
+       */
+      sess: db.JSONValue;
+      /**
+       * **session.expire**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      expire: Date;
+    }
+    export interface JSONSelectable {
+      /**
+       * **session.sid**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      sid: string;
+      /**
+       * **session.sess**
+       * - `json` in database
+       * - `NOT NULL`, no default
+       */
+      sess: db.JSONValue;
+      /**
+       * **session.expire**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      expire: db.TimestampString;
+    }
+    export interface Whereable {
+      /**
+       * **session.sid**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      sid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **session.sess**
+       * - `json` in database
+       * - `NOT NULL`, no default
+       */
+      sess?:
+        | db.JSONValue
+        | db.Parameter<db.JSONValue>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | db.JSONValue
+            | db.Parameter<db.JSONValue>
+            | db.SQLFragment
+            | db.ParentColumn
+          >;
+      /**
+       * **session.expire**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      expire?:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampString | Date)
+            | db.Parameter<db.TimestampString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >;
+    }
+    export interface Insertable {
+      /**
+       * **session.sid**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      sid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **session.sess**
+       * - `json` in database
+       * - `NOT NULL`, no default
+       */
+      sess: db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment;
+      /**
+       * **session.expire**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      expire:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+       * **session.sid**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      sid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **session.sess**
+       * - `json` in database
+       * - `NOT NULL`, no default
+       */
+      sess?:
+        | db.JSONValue
+        | db.Parameter<db.JSONValue>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment
+          >;
+      /**
+       * **session.expire**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      expire?:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampString | Date)
+            | db.Parameter<db.TimestampString | Date>
+            | db.SQLFragment
+          >;
+    }
+    export type UniqueIndex = "session_pkey";
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<
       Selectable,
@@ -1092,54 +1313,63 @@ declare module "zapatos/schema" {
     | document.Table
     | document_updates_queue.Table
     | schema_migrations.Table
+    | session.Table
     | user_document.Table
     | users.Table;
   export type Selectable =
     | document.Selectable
     | document_updates_queue.Selectable
     | schema_migrations.Selectable
+    | session.Selectable
     | user_document.Selectable
     | users.Selectable;
   export type JSONSelectable =
     | document.JSONSelectable
     | document_updates_queue.JSONSelectable
     | schema_migrations.JSONSelectable
+    | session.JSONSelectable
     | user_document.JSONSelectable
     | users.JSONSelectable;
   export type Whereable =
     | document.Whereable
     | document_updates_queue.Whereable
     | schema_migrations.Whereable
+    | session.Whereable
     | user_document.Whereable
     | users.Whereable;
   export type Insertable =
     | document.Insertable
     | document_updates_queue.Insertable
     | schema_migrations.Insertable
+    | session.Insertable
     | user_document.Insertable
     | users.Insertable;
   export type Updatable =
     | document.Updatable
     | document_updates_queue.Updatable
     | schema_migrations.Updatable
+    | session.Updatable
     | user_document.Updatable
     | users.Updatable;
   export type UniqueIndex =
     | document.UniqueIndex
     | document_updates_queue.UniqueIndex
     | schema_migrations.UniqueIndex
+    | session.UniqueIndex
     | user_document.UniqueIndex
     | users.UniqueIndex;
   export type Column =
     | document.Column
     | document_updates_queue.Column
     | schema_migrations.Column
+    | session.Column
     | user_document.Column
     | users.Column;
   export type AllBaseTables = [
     document.Table,
     document_updates_queue.Table,
     schema_migrations.Table,
+    session.Table,
     user_document.Table,
     users.Table
   ];
@@ -1150,6 +1380,7 @@ declare module "zapatos/schema" {
     document.Table,
     document_updates_queue.Table,
     schema_migrations.Table,
+    session.Table,
     user_document.Table,
     users.Table
   ];
@@ -1158,6 +1389,7 @@ declare module "zapatos/schema" {
     document: document.Selectable;
     document_updates_queue: document_updates_queue.Selectable;
     schema_migrations: schema_migrations.Selectable;
+    session: session.Selectable;
     user_document: user_document.Selectable;
     users: users.Selectable;
   }[T];
@@ -1166,6 +1398,7 @@ declare module "zapatos/schema" {
     document: document.JSONSelectable;
     document_updates_queue: document_updates_queue.JSONSelectable;
     schema_migrations: schema_migrations.JSONSelectable;
+    session: session.JSONSelectable;
     user_document: user_document.JSONSelectable;
     users: users.JSONSelectable;
   }[T];
@@ -1174,6 +1407,7 @@ declare module "zapatos/schema" {
     document: document.Whereable;
     document_updates_queue: document_updates_queue.Whereable;
     schema_migrations: schema_migrations.Whereable;
+    session: session.Whereable;
     user_document: user_document.Whereable;
     users: users.Whereable;
   }[T];
@@ -1182,6 +1416,7 @@ declare module "zapatos/schema" {
     document: document.Insertable;
     document_updates_queue: document_updates_queue.Insertable;
     schema_migrations: schema_migrations.Insertable;
+    session: session.Insertable;
     user_document: user_document.Insertable;
     users: users.Insertable;
   }[T];
@@ -1190,6 +1425,7 @@ declare module "zapatos/schema" {
     document: document.Updatable;
     document_updates_queue: document_updates_queue.Updatable;
     schema_migrations: schema_migrations.Updatable;
+    session: session.Updatable;
     user_document: user_document.Updatable;
     users: users.Updatable;
   }[T];
@@ -1198,6 +1434,7 @@ declare module "zapatos/schema" {
     document: document.UniqueIndex;
     document_updates_queue: document_updates_queue.UniqueIndex;
     schema_migrations: schema_migrations.UniqueIndex;
+    session: session.UniqueIndex;
     user_document: user_document.UniqueIndex;
     users: users.UniqueIndex;
   }[T];
@@ -1206,6 +1443,7 @@ declare module "zapatos/schema" {
     document: document.Column;
     document_updates_queue: document_updates_queue.Column;
     schema_migrations: schema_migrations.Column;
+    session: session.Column;
     user_document: user_document.Column;
     users: users.Column;
   }[T];
@@ -1214,6 +1452,7 @@ declare module "zapatos/schema" {
     document: document.SQL;
     document_updates_queue: document_updates_queue.SQL;
     schema_migrations: schema_migrations.SQL;
+    session: session.SQL;
     user_document: user_document.SQL;
     users: users.SQL;
   }[T];

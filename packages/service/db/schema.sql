@@ -151,7 +151,8 @@ CREATE TABLE public.document (
     origin bytea NOT NULL,
     latest_update_time timestamp without time zone NOT NULL,
     creator_id uuid NOT NULL,
-    is_public boolean DEFAULT true NOT NULL
+    is_public boolean DEFAULT true NOT NULL,
+    name text DEFAULT ''::text NOT NULL
 );
 
 
@@ -393,4 +394,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210827184910'),
     ('20210830223744'),
     ('20211001124627'),
-    ('20220405024517');
+    ('20220405024517'),
+    ('20220429204045');

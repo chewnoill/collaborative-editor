@@ -15,20 +15,21 @@ export function insertUpdate(document_id: string, document_update: Uint8Array) {
 
 export function updateDocumentMeta(
   document_id: string,
-  meta: { isPublic: boolean }
+  meta: {
+    is_public?: boolean,
+    name?: string,
+   }
 ) {
   return db.update(
     "document",
-    {
-      is_public: meta.isPublic,
-    },
+    meta,
     {
       id: document_id,
     }
   );
 }
 
-export function updateDocument(
+export function updateDocumentContent(
   document_id: string,
   value: string,
   origin: Buffer,
@@ -51,11 +52,19 @@ export function updateDocument(
 
 export const createDocument = (
   pool: Pool,
-  creator_id: any = db.sql`current_user_id()`,
-  doc: Y.Doc = new Y.Doc()
+  {
+    creator_id = db.sql`current_user_id()`,
+    doc = new Y.Doc(),
+    name,
+  }: {
+    creator_id?: any;
+    doc?: Y.Doc;
+    name: string;
+  }
 ) =>
   db
     .insert("document", {
+      name,
       value: doc.getText(TEXT_NAME).toJSON(),
       origin: Buffer.from(Y.encodeStateAsUpdate(doc)),
       web_rtc_key: "web_rtc_key",

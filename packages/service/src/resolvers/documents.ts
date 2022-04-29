@@ -6,20 +6,24 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
     typeDefs: gql`
       extend type Mutation {
         # Individual record
-        createDoc: Document
+        createDoc(name: String!): Document
         updateDocument(id: UUID!, update: DocumentUpdateInput!): Document
       }
       input DocumentUpdateInput {
-        isPublic: Boolean!
+        isPublic: Boolean
+        name: String
       }
     `,
     resolvers: {
       Mutation: {
-        createDoc(_, __, { pgClient }) {
-          return createDocument(pgClient);
+        createDoc(_, { name }, { pgClient }) {
+          return createDocument(pgClient, { name });
         },
         async updateDocument(_, { id, update }, { pgClient }) {
-          const meta = await updateDocumentMeta(id, update).run(pgClient);
+          const meta = await updateDocumentMeta(id, {
+            name: update.name,
+            is_public: update.isPublic,
+          }).run(pgClient);
           if (meta.length === 0) return null;
           return {
             ...meta[0],

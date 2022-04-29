@@ -1,7 +1,7 @@
 import { encoding, mutex } from "lib0";
 import * as Y from "yjs";
 import * as awarenessProtocol from "y-protocols/awareness";
-import { fetchDocument, insertUpdate, updateDocument } from "./documents";
+import { fetchDocument, insertUpdate, updateDocumentContent } from "./documents";
 
 const messageAwareness = 1;
 const wsReadyStateConnecting = 0;
@@ -32,7 +32,7 @@ async function fetchYDoc(document_id) {
   );
   const latest_update_time = updates[updates.length - 1].created_at;
 
-  await updateDocument(
+  await updateDocumentContent(
     document_id,
     yDoc.getText("codemirror").toJSON(),
     Buffer.from(Y.encodeStateAsUpdate(yDoc)),
