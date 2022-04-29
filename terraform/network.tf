@@ -46,7 +46,3 @@ resource "google_compute_address" "gateway-address" {
 output "gateway-ip" {
   value = google_compute_address.gateway-address.address
 }
-
-output "dns_name" {
-  value = var.dns_name
-}
