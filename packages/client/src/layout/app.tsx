@@ -55,7 +55,14 @@ export default function AppLayout({
         <AppBar>
           <AppToolBar/>
         </AppBar>
-        <Box sx={{ height: "calc(100% - 64px)", marginTop: "64px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "calc(100% - 64px)",
+            marginTop: "64px",
+          }}
+        >
           {children}
         </Box>
       </PageLayout>

@@ -20,7 +20,7 @@ export default function Document() {
       fab={<DocumentMenu document_id={id.toString()} position="fixed" />}
     >
       <DocumentName document_id={id.toString()} />
-      <div style={{ display: "flex", height: "100%" }}>
+      <div style={{ display: "flex", flex: "1" }}>
         <EditorComponent document_id={id.toString()} />
       </div>
     </AppLayout>
