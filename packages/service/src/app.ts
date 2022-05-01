@@ -37,13 +37,13 @@ const auth = (req, resp, next) => {
 
 passport.use(
   new LocalStrategy(async function (username, password, done) {
-    try{
+    try {
       const user = await validateUser({ name: username, password: password });
       if (!user) {
         return done("invalid user");
       }
       return done(null, { username: user.name, id: user.id });
-    } catch(e) {
+    } catch (e) {
       return done("invalid user");
     }
   })
@@ -73,4 +73,4 @@ app.post(
   passport.authenticate("local", { successRedirect: "/", session: true })
 );
 
-export default app;
+export default app as any;

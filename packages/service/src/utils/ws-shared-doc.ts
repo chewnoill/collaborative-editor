@@ -1,7 +1,11 @@
 import { encoding, mutex } from "lib0";
 import * as Y from "yjs";
 import * as awarenessProtocol from "y-protocols/awareness";
-import { fetchDocument, insertUpdate, updateDocumentContent } from "./documents";
+import {
+  fetchDocument,
+  insertUpdate,
+  updateDocumentContent,
+} from "./documents";
 
 const messageAwareness = 1;
 const wsReadyStateConnecting = 0;

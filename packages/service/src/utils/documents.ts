@@ -16,20 +16,17 @@ export function insertUpdate(document_id: string, document_update: Uint8Array) {
 export function updateDocumentMeta(
   document_id: string,
   meta: {
-    is_public?: boolean,
-    name?: string,
-   }
+    is_public?: boolean;
+    name?: string;
+  }
 ) {
   // remove undefined keys from metadata object
-  Object.keys(meta).forEach(key =>
-    meta[key] === undefined && delete meta[key])
-  return db.update(
-    "document",
-    meta,
-    {
-      id: document_id,
-    }
+  Object.keys(meta).forEach(
+    (key) => meta[key] === undefined && delete meta[key]
   );
+  return db.update("document", meta, {
+    id: document_id,
+  });
 }
 
 export function updateDocumentContent(
