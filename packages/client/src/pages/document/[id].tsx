@@ -1,4 +1,5 @@
 import DocumentMenu from "components/document-menu";
+import { DocumentName } from "components/document-name";
 import AppLayout from "layout/app";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -18,7 +19,10 @@ export default function Document() {
     <AppLayout
       fab={<DocumentMenu document_id={id.toString()} position="fixed" />}
     >
-      <EditorComponent document_id={id.toString()} />
+      <DocumentName document_id={id.toString()} />
+      <div style={{ display: "flex", height: "100%" }}>
+        <EditorComponent document_id={id.toString()} />
+      </div>
     </AppLayout>
   );
 }

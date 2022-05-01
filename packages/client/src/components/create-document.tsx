@@ -24,7 +24,7 @@ export default function CreateDocumentButton() {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    const { data } = await mutation();
+    const { data } = await mutation({ variables: { name: "" } });
     window.location.href = `/document/${data?.createDoc?.id}`;
   };
 

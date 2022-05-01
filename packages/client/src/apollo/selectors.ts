@@ -10,6 +10,7 @@ const USER_FRAGMENT = gql`
 export const DOCUMENT_FRAGMENT = gql`
   fragment base_document on Document {
     id
+    name
     origin
     value
     latestUpdateTime
