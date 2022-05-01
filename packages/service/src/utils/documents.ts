@@ -20,6 +20,9 @@ export function updateDocumentMeta(
     name?: string,
    }
 ) {
+  // remove undefined keys from metadata object
+  Object.keys(meta).forEach(key =>
+    meta[key] === undefined && delete meta[key])
   return db.update(
     "document",
     meta,
