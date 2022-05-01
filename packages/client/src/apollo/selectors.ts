@@ -101,6 +101,11 @@ export function useMyDocumentsQuery() {
     { fetchPolicy: "cache-first" }
   );
 }
+export const useMyDocuments = () => {
+  const { data, ...rest } = useMyDocumentsQuery();
+  return { documents: data?.me.documentsByCreatorId.edges, ...rest };
+};
+
 export function usePreviewMdx(id, value) {
   return useQuery(
     gql`
