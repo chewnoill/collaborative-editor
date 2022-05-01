@@ -4,12 +4,8 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*/",
-        destination: "http://localhost:8080/api/:path*", // Proxy to Backend
-      },
-      {
-        source: "/ws/:path*/",
-        destination: "http://localhost:8080/ws/:path*", // Proxy to Backend
-      },
+        destination: "http://localhost:6001/api/:path*", // Proxy to Backend
+      }
     ];
   },
   trailingSlash: true,
