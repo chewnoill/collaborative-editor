@@ -8,14 +8,6 @@ import styled from "@emotion/styled";
 import useYDoc from "hooks/use-y-doc";
 import { useCurrentUserQuery } from "apollo/selectors";
 
-const Header = styled.div`
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  background-color: #f7f4d4;
-`;
-
 export default function Editor({ document_id }: { document_id: string }) {
   const { data } = useCurrentUserQuery();
   const name = data?.me?.name || data?.random?.name;
