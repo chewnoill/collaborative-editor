@@ -12,7 +12,7 @@ const Form = styled.form`
 `;
 
 export function DocumentSettings({ document_id }) {
-  const { data } = useDocument(document_id);
+  const document = useDocument(document_id);
   const [mutation] = useMutation(gql`
     mutation updateDocument($id: UUID!, $isPublic: Boolean!) {
       updateDocument(id: $id, update: { isPublic: $isPublic }) {
@@ -22,7 +22,7 @@ export function DocumentSettings({ document_id }) {
     ${DOCUMENT_FRAGMENT}
   `);
 
-  if (!data?.documentById) return null;
+  if (!document) return null;
 
   return (
     <Form>
@@ -36,7 +36,7 @@ export function DocumentSettings({ document_id }) {
             />
           }
           label="Public"
-          checked={data.documentById.isPublic}
+          checked={document.isPublic}
         />
       </Box>
     </Form>

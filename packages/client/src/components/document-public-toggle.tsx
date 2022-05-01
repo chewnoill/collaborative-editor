@@ -12,7 +12,7 @@ const Form = styled.form`
 `;
 
 export function DocumentPublicToggle({ document_id }) {
-  const { data } = useDocument(document_id);
+  const document = useDocument(document_id);
   const [mutation] = useMutation(gql`
     mutation updateDocument($id: UUID!, $isPublic: Boolean!) {
       updateDocument(id: $id, update: { isPublic: $isPublic }) {
@@ -23,7 +23,7 @@ export function DocumentPublicToggle({ document_id }) {
   `);
 
   console.log({ data, document_id });
-  if (!data?.documentById) return null;
+  if (!document) return null;
 
   return (
     <FormControlLabel
@@ -35,7 +35,7 @@ export function DocumentPublicToggle({ document_id }) {
         />
       }
       label="Public"
-      checked={data.documentById.isPublic}
+      checked={document.isPublic}
     />
   );
 }

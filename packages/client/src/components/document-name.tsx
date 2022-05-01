@@ -10,7 +10,7 @@ const Form = styled.form`
 `;
 
 export function DocumentName({ document_id }) {
-  const { data } = useDocument(document_id);
+  const document = useDocument(document_id);
   const [mutation] = useMutation(gql`
     mutation updateDocumentName($id: UUID!, $name: String!) {
       updateDocument(id: $id, update: { name: $name }) {
@@ -19,7 +19,7 @@ export function DocumentName({ document_id }) {
     }
     ${DOCUMENT_FRAGMENT}
   `);
-  if (!data?.documentById) return null;
+  if (!document) return null;
 
   return (
     <TextField
@@ -31,7 +31,7 @@ export function DocumentName({ document_id }) {
       onChange={(evt) => {
         mutation({ variables: { id: document_id, name: evt.target.value } });
       }}
-      value={data.documentById.name}
+      value={document.name}
     />
   );
 }

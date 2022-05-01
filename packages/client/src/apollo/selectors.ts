@@ -43,7 +43,7 @@ export function useCurrentUser() {
   return useCurrentUserQuery().data?.me;
 }
 
-export function useDocument(id: string) {
+export function useDocumentQuery(id: string) {
   return useQuery(
     gql`
       query Document($id: UUID!) {
@@ -56,6 +56,9 @@ export function useDocument(id: string) {
     { fetchPolicy: "cache-first", variables: { id } }
   );
 }
+
+export const useDocument = (id: string) =>
+  useDocumentQuery(id).data?.documentById;
 
 export function useAllDocumentsQuery() {
   return useQuery(
