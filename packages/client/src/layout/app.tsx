@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
 import React from "react";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import AppToolBar from "components/tool-bar";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Account from "components/account";
-import CreateDocumentButton from "components/create-document";
 
 const PageLayout = styled.div`
   display: flex;
@@ -55,19 +53,7 @@ export default function AppLayout({
     >
       <PageLayout>
         <AppBar>
-          <Toolbar>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <CreateDocumentButton />
-              <Account />
-            </div>
-          </Toolbar>
+          <AppToolBar/>
         </AppBar>
         <Box sx={{ height: "calc(100% - 64px)", marginTop: "64px" }}>
           {children}
