@@ -20,6 +20,11 @@ export const DOCUMENT_FRAGMENT = gql`
       code
       scope
     }
+    creatorId
+    userByCreatorId {
+      id
+      name
+    }
   }
 `;
 
