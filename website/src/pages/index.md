@@ -1,5 +1,7 @@
 ---
-title: Main landing page
+title: Collaborative Editor
 ---
 
-# Collaborative Editor Document Site
+import Readme from '../../../README.md'
+
+<Readme/>
