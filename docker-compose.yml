@@ -1,5 +1,9 @@
 version: "3"
 services:
+  mq:
+    image: redis:latest
+    ports:
+      - "6379:6379"
   db:
     environment:
       - POSTGRES_PASSWORD=password

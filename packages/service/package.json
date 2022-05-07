@@ -25,6 +25,7 @@
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@types/ws": "^7.4.5",
     "bufferutil": "^4.0.3",
+    "bullmq": "^1.81.4",
     "connect-pg-simple": "^7.0.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
@@ -60,6 +61,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "nodemon -e ts -w src -x yarn start",
+    "mq-worker": "TS_NODE_FILES=true ts-node src/message-queue-worker.ts",
     "start": "TS_NODE_FILES=true ts-node src/service.ts",
     "start:prod": "node dist/bundle.js",
     "test": "jest --forceExit",

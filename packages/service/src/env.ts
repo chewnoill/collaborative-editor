@@ -13,3 +13,11 @@ try {
 } catch {
   throw `Invalid DATABASE_URL config`
 }
+
+export const REDIS_URL = process.env.REDIS_URL;
+
+try {
+  url.parseURL(REDIS_URL)
+} catch {
+  throw `Invalid REDIS_URL config`
+}
