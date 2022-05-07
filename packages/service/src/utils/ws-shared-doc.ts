@@ -24,17 +24,14 @@ async function fetchYDoc(document_id) {
   yDoc.on("update", (update) => {
     insertUpdate(document_id, update);
   });
+
+
   if (dbDoc.document_updates.length === 0) {
     // nothing to do
     return yDoc;
   }
 
-  // sort updates to find the latest update time.
-  // TODO: the db query can probably do this
-  const updates = dbDoc.document_updates.sort(
-    ({ created_at: a }, { created_at: b }) => a.getTime() - b.getTime()
-  );
-  const latest_update_time = updates[updates.length - 1].created_at;
+  const latest_update_time = dbDoc.document_updates[dbDoc.document_updates.length - 1].created_at;
 
   await updateDocumentContent(
     document_id,

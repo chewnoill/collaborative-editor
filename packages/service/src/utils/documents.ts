@@ -105,10 +105,14 @@ export function fetchDocument(id: string): Promise<DocumentWithUpdates> {
       { id },
       {
         lateral: {
-          document_updates: db.select("document_updates_queue", {
-            document_id: db.parent("id"),
-            created_at: db.conditions.gt(db.parent("latest_update_time")),
-          }),
+          document_updates: db.select(
+            "document_updates_queue",
+            {
+              document_id: db.parent("id"),
+              created_at: db.conditions.gt(db.parent("latest_update_time")),
+            },
+            { order: { by: "created_at", direction: "ASC" } }
+          ),
         },
       }
     )
