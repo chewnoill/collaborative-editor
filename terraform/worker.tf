@@ -12,7 +12,7 @@ resource "google_compute_instance" "worker" {
 
   network_interface {
     subnetwork = google_compute_subnetwork.default.name
-    network_ip = google_compute_address.worker-address.address
+    network_ip = google_compute_address.internal-worker-address.address
   }
 
   metadata_startup_script = <<-EOF
