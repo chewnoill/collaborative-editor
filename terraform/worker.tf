@@ -1,6 +1,6 @@
 resource "google_compute_instance" "worker" {
   project = var.project_name
-  name         = "app"
+  name         = "worker"
   machine_type = "e2-micro"
   zone = "us-east1-b"
 
