@@ -13,6 +13,10 @@ resource "google_compute_instance" "worker" {
   network_interface {
     subnetwork = google_compute_subnetwork.default.name
     network_ip = google_compute_address.internal-worker-address.address
+    access_config {
+      nat_ip = google_compute_address.external-worker-address.address
+      // Include this section to give the VM an external ip address
+    }
   }
 
   metadata_startup_script = <<-EOF
@@ -34,10 +38,6 @@ resource "google_compute_instance" "worker" {
   service_account {
     email  = google_service_account.app-user.email
     scopes = ["cloud-platform"]
-    access_config {
-      nat_ip = google_compute_address.external-worker-address.address
-      // Include this section to give the VM an external ip address
-    }
   }
 }
 
