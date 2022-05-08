@@ -30,14 +30,6 @@ resource "google_compute_address" "app-address" {
   name = "app-address"
 }
 
-resource "google_compute_address" "internal-worker-address" {
-  project = var.project_name
-  subnetwork   = google_compute_subnetwork.default.id
-  address_type = "INTERNAL"
-  address      = "10.0.0.43"
-  name = "internal-worker-address"
-}
-
 resource "google_compute_address" "gateway-address" {
   project = var.project_name
   name = "gateway-address"

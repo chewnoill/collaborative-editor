@@ -34,5 +34,23 @@ resource "google_compute_instance" "worker" {
   service_account {
     email  = google_service_account.app-user.email
     scopes = ["cloud-platform"]
+    access_config {
+      nat_ip = google_compute_address.external-worker-address.address
+      // Include this section to give the VM an external ip address
+    }
   }
+}
+
+resource "google_compute_address" "internal-worker-address" {
+  project = var.project_name
+  subnetwork   = google_compute_subnetwork.default.id
+  address_type = "INTERNAL"
+  address      = "10.0.0.43"
+  name = "internal-worker-address"
+}
+
+resource "google_compute_address" "external-worker-address" {
+  project = var.project_name
+  address_type = "EXTERNAL"
+  name = "external-worker-address"
 }
