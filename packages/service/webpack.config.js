@@ -8,6 +8,7 @@ module.exports = {
   mode: "production",
   entry: {
     bundle: "./src/service.ts",
+    mq: "./src/message-queue-worker.ts",
   },
   optimization: {
     minimize: false,

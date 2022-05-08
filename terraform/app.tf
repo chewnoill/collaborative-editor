@@ -28,6 +28,7 @@ resource "google_compute_instance" "app" {
     tar xvf download/service.tgz
     export DATABASE_URL=$(gcloud secrets versions access latest --secret="database-url")
     export PORT=80
+    export REDIS_URL=${var.redis_url}
 
     echo "running migrations..."
     curl -fsSL -o dbmate.bin https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64

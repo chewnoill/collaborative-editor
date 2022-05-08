@@ -15,6 +15,7 @@ jobs:
       PROJECT_ID: willdocs
       APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       BASE_DOMAIN: ${{secrets.BASE_DOMAIN}}
+      REDIS_URL: ${{secrets.REDIS_URL}}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -66,4 +67,4 @@ jobs:
     - name: Terraform Deploy
       run: |
         terraform -chdir=terraform taint google_compute_instance.app
-        terraform -chdir=terraform apply --auto-approve
+        terraform -chdir=terraform apply --auto-approve -var="redis_url=${REDIS_URL}"

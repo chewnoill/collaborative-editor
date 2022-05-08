@@ -33,7 +33,7 @@ export function updateDocumentContent(
   document_id: string,
   value: string,
   origin: Buffer,
-  latest_update_time: Date
+  latest_update_time: Date | db.SQLFragment
 ) {
   return db
     .update(
@@ -136,3 +136,11 @@ SELECT ${"document"}.* FROM document
   ON ${"user_document"}.${"document_id"} = ${"document"}.${"id"}
   WHERE ${{ user_id: user.id }}
   OR ${{ creator_id: user.id }}`.run(pool);
+
+
+export const selectAllUpdatedDocuments = () => db.sql`
+SELECT DISTINCT ${"document"}.${"id"}, ${"document"}.${"latest_update_time"} FROM ${"document_updates_queue"}
+  JOIN ${"document"} ON ${"document"}.${"id"} = ${"document_updates_queue"}.${"document_id"}
+  WHERE ${"document_updates_queue"}.${"created_at"} > ${"document"}.${"latest_update_time"}
+  ORDER BY ${"document"}.${"latest_update_time"} ASC
+`.run(pool)

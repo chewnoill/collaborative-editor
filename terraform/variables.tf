@@ -3,3 +3,8 @@ variable "project_name" {
   description = "Project name"
   default     = "willdocs-1"
 }
+
+variable "redis_url" {
+  type = string
+  description = "redis url"
+}
