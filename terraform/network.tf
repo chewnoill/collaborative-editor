@@ -35,7 +35,7 @@ resource "google_compute_address" "internal-worker-address" {
   subnetwork   = google_compute_subnetwork.default.id
   address_type = "INTERNAL"
   address      = "10.0.0.43"
-  name = "internal-gateway-address"
+  name = "internal-worker-address"
 }
 
 resource "google_compute_address" "gateway-address" {
