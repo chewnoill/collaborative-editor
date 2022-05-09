@@ -67,4 +67,5 @@ jobs:
     - name: Terraform Deploy
       run: |
         terraform -chdir=terraform taint google_compute_instance.app
+        terraform -chdir=terraform taint google_compute_instance.worker
         terraform -chdir=terraform apply --auto-approve -var="redis_url=${REDIS_URL}"
