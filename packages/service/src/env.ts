@@ -14,10 +14,24 @@ try {
   throw `Invalid DATABASE_URL config`
 }
 
-export const REDIS_URL = process.env.REDIS_URL;
+const REDIS_URL = process.env.REDIS_URL;
 
 try {
   url.parseURL(REDIS_URL)
 } catch {
   throw `Invalid REDIS_URL config`
 }
+
+function redisConfig(urlString: string) {
+  const params = url.parseURL(urlString);
+  return {
+    connection: {
+      port: params.port,
+      host: params.host,
+      user: params.username,
+      password: params.password,
+    },
+  };
+}
+
+export const REDIS_CONFIG = redisConfig(REDIS_URL);
