@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env: 
+    env:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       PROJECT_ID: willdocs
       APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
@@ -50,13 +50,14 @@ jobs:
         yarn website build
         cp -R website/build packages/client/public/website
         yarn client build
-    - run: yarn service build
+    - name: Build Service
+      run: yarn service build
     - run: |
         # zip up service bundle
         PRIVATE_BUCKET=$(terraform -chdir=terraform/ output -raw private-bucket)
         echo "PRIVATE_BUCKET=$PRIVATE_BUCKET" >> $GITHUB_ENV
-        tar cfz service.tgz packages/client/out/* packages/service/dist/* packages/service/db/migrations node_modules/moniker/dict/*
-    - name: upload service 
+        tar cfz service.tgz packages/client/out/* packages/service/dist/* packages/service/db/migrations node_modules/moniker/dict/* node_modules/bullmq/dist/commands/*
+    - name: upload service
       uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: willdocs
