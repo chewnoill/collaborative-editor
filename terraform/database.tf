@@ -11,6 +11,10 @@ resource "google_sql_database_instance" "master" {
         name = "app-connection"
         value = google_compute_instance.app.network_interface.0.access_config.0.nat_ip
       }
+      authorized_networks {
+        name = "worker-connection"
+        value = google_compute_instance.worker.network_interface.0.access_config.0.nat_ip
+      }
     }
   }
 }
