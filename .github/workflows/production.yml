@@ -56,7 +56,7 @@ jobs:
         # zip up service bundle
         PRIVATE_BUCKET=$(terraform -chdir=terraform/ output -raw private-bucket)
         echo "PRIVATE_BUCKET=$PRIVATE_BUCKET" >> $GITHUB_ENV
-        tar cfz service.tgz packages/client/out/* packages/service/dist/* packages/service/db/migrations node_modules/moniker/dict/* node_modules/bullmq/dist/commands/*
+        tar cfz service.tgz packages/client/out/* packages/service/dist/* packages/service/db/migrations node_modules/moniker/dict/* node_modules/bullmq/dist/esm/commands/*
     - name: upload service
       uses: actions-hub/gcloud@master
       env:
