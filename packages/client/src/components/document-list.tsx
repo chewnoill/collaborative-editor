@@ -32,6 +32,7 @@ export function DocumentView({ id, mdx }: any) {
           maxHeight: "200px",
           overflow: "hidden",
           alignItems: "normal",
+          justifyContent: "left",
         }}
       >
         {hydrate({
