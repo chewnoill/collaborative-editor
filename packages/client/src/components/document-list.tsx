@@ -47,7 +47,7 @@ export function DocumentView({ id, mdx }: any) {
 }
 
 const List = styled.div`
-  max-width: 300px;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
 `;
