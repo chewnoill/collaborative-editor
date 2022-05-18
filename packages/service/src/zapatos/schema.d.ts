@@ -478,6 +478,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, default: `now()`
        */
       created_at: Date;
+      /**
+       * **document_updates_queue.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id: string | null;
     }
     export interface JSONSelectable {
       /**
@@ -504,6 +510,12 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, default: `now()`
        */
       created_at: db.TimestampString;
+      /**
+       * **document_updates_queue.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id: string | null;
     }
     export interface Whereable {
       /**
@@ -568,6 +580,20 @@ declare module "zapatos/schema" {
             | db.SQLFragment
             | db.ParentColumn
           >;
+      /**
+       * **document_updates_queue.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
     }
     export interface Insertable {
       /**
@@ -599,6 +625,17 @@ declare module "zapatos/schema" {
       created_at?:
         | (db.TimestampString | Date)
         | db.Parameter<db.TimestampString | Date>
+        | db.DefaultType
+        | db.SQLFragment;
+      /**
+       * **document_updates_queue.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id?:
+        | string
+        | db.Parameter<string>
+        | null
         | db.DefaultType
         | db.SQLFragment;
     }
@@ -656,6 +693,25 @@ declare module "zapatos/schema" {
             any,
             | (db.TimestampString | Date)
             | db.Parameter<db.TimestampString | Date>
+            | db.DefaultType
+            | db.SQLFragment
+          >;
+      /**
+       * **document_updates_queue.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id?:
+        | string
+        | db.Parameter<string>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | string
+            | db.Parameter<string>
+            | null
             | db.DefaultType
             | db.SQLFragment
           >;
