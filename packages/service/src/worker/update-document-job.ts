@@ -11,9 +11,9 @@ const config = {
   key: "update-document",
   run: async function updateDocument(job) {
     const updatableDocuments = await selectAllUpdatedDocuments();
-    if(updatableDocuments.length === 0) {
-        console.log('nothing to update')
-        return;
+    if (updatableDocuments.length === 0) {
+      console.log("nothing to update");
+      return;
     }
     await Promise.all(updatableDocuments.map(updateSingleDocument));
   },
@@ -47,17 +47,20 @@ async function updateSingleDocument({ id: document_id }: { id: string }) {
 
   if (dbDoc.document_updates.length === 0) {
     // nothing to do?
-    console.log("why am I here?")
+    console.log("why am I here?");
     return yDoc;
   }
 
-  const latest_update = dbDoc.document_updates[dbDoc.document_updates.length - 1];
+  const latest_update =
+    dbDoc.document_updates[dbDoc.document_updates.length - 1];
 
   const updatedDoc = await updateDocumentContent(
     document_id,
     yDoc.getText("codemirror").toJSON(),
     Buffer.from(Y.encodeStateAsUpdate(yDoc)),
-    db.sql`(select ${"created_at"} from ${"document_updates_queue"} where ${"document_updates_queue"}.${"id"} = ${db.param(latest_update.id)})`
+    db.sql`(select ${"created_at"} from ${"document_updates_queue"} where ${"document_updates_queue"}.${"id"} = ${db.param(
+      latest_update.id
+    )})`
   );
 
   return yDoc;

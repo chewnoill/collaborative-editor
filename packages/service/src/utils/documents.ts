@@ -137,10 +137,10 @@ SELECT ${"document"}.* FROM document
   WHERE ${{ user_id: user.id }}
   OR ${{ creator_id: user.id }}`.run(pool);
 
-
-export const selectAllUpdatedDocuments = () => db.sql`
+export const selectAllUpdatedDocuments = () =>
+  db.sql`
 SELECT DISTINCT ${"document"}.${"id"}, ${"document"}.${"latest_update_time"} FROM ${"document_updates_queue"}
   JOIN ${"document"} ON ${"document"}.${"id"} = ${"document_updates_queue"}.${"document_id"}
   WHERE ${"document_updates_queue"}.${"created_at"} > ${"document"}.${"latest_update_time"}
   ORDER BY ${"document"}.${"latest_update_time"} ASC
-`.run(pool)
+`.run(pool);

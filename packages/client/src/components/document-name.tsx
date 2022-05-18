@@ -23,7 +23,7 @@ export function DocumentName({ document_id }) {
 
   return (
     <TextField
-      sx={{ marginY: "15px", width: '100%' }}
+      sx={{ marginY: "15px", width: "100%" }}
       id="outlined-basic"
       label="Name"
       variant="outlined"

@@ -9,17 +9,17 @@ const LOCALHOST_DB_URL =
 export const DATABASE_URL = process.env.DATABASE_URL || LOCALHOST_DB_URL;
 
 try {
-  url.parseURL(DATABASE_URL)
+  url.parseURL(DATABASE_URL);
 } catch {
-  throw `Invalid DATABASE_URL config`
+  throw `Invalid DATABASE_URL config`;
 }
 
 const REDIS_URL = process.env.REDIS_URL;
 
 try {
-  url.parseURL(REDIS_URL)
+  url.parseURL(REDIS_URL);
 } catch {
-  throw `Invalid REDIS_URL config`
+  throw `Invalid REDIS_URL config`;
 }
 
 function redisConfig(urlString: string) {

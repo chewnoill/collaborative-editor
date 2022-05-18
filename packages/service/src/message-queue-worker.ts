@@ -1,5 +1,5 @@
 import { Worker, QueueScheduler } from "bullmq";
-import workers from './worker';
+import workers from "./worker";
 import { REDIS_CONFIG } from "./env";
 
 async function main() {

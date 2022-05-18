@@ -87,7 +87,7 @@ export function useMyDocumentsQuery() {
     gql`
       query MyDocuments {
         me {
-          documentsByCreatorId{
+          documentsByCreatorId {
             edges {
               node {
                 ...base_document

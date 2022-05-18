@@ -5,7 +5,7 @@ const nextConfig = {
       {
         source: "/api/:path*/",
         destination: "http://localhost:6001/api/:path*", // Proxy to Backend
-      }
+      },
     ];
   },
   trailingSlash: true,

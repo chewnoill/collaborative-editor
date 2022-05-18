@@ -1,7 +1,11 @@
 import { gql, useMutation } from "@apollo/client";
 import styled from "@emotion/styled";
 import Switch from "@mui/material/Switch";
-import { DOCUMENT_FRAGMENT, useCurrentUser, useDocument } from "apollo/selectors";
+import {
+  DOCUMENT_FRAGMENT,
+  useCurrentUser,
+  useDocument,
+} from "apollo/selectors";
 import React from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
@@ -30,7 +34,8 @@ export function DocumentPublicToggle({ document_id }) {
       control={
         <Switch
           onChange={({ target: { checked } }) =>
-            !disabled && mutation({ variables: { id: document_id, isPublic: checked } })
+            !disabled &&
+            mutation({ variables: { id: document_id, isPublic: checked } })
           }
         />
       }

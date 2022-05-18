@@ -53,7 +53,7 @@ export default function AppLayout({
     >
       <PageLayout>
         <AppBar>
-          <AppToolBar/>
+          <AppToolBar />
         </AppBar>
         <Box
           sx={{

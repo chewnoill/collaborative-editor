@@ -25,13 +25,13 @@ async function fetchYDoc(document_id) {
     insertUpdate(document_id, update);
   });
 
-
   if (dbDoc.document_updates.length === 0) {
     // nothing to do
     return yDoc;
   }
 
-  const latest_update_time = dbDoc.document_updates[dbDoc.document_updates.length - 1].created_at;
+  const latest_update_time =
+    dbDoc.document_updates[dbDoc.document_updates.length - 1].created_at;
 
   await updateDocumentContent(
     document_id,

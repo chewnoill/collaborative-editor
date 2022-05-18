@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import {
-  useMyDocuments,
-} from "apollo/selectors";
+import { useMyDocuments } from "apollo/selectors";
 import { DocumentView } from "./document-list";
 
 const List = styled.div`
@@ -16,7 +14,7 @@ export default function MyDocuments() {
   if (error) {
     return null;
   }
-  console.log({documents, loading})
+  console.log({ documents, loading });
   if (loading) return <div>loading...</div>;
 
   const list = (documents || []).map(({ node }) => node);
