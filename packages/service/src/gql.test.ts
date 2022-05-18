@@ -56,7 +56,7 @@ query DocumentTest($id: UUID!) {
     const user_b_document = await createDocument(pool, {
       creator_id: user_b.id,
       name: "",
-      is_public: false
+      is_public: false,
     });
     // make query
     const response = await agent.post("/api/graphql").send({
