@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`document history can be generated 1`] = `
+Object {
+  "content": "hello world",
+  "diff": "@@ -0,0 +1 @@
++hello world
+\\\\ No newline at end of file
+",
+  "user": Object {
+    "id": Any<String>,
+    "name": "User B",
+  },
+}
+`;
+
+exports[`document history can be generated 2`] = `
+Object {
+  "content": "hello worlSecond Updated",
+  "diff": "@@ -1 +1 @@
+-hello world
+\\\\ No newline at end of file
++hello worlSecond Updated
+\\\\ No newline at end of file
+",
+  "user": Object {
+    "id": Any<String>,
+    "name": "User A",
+  },
+}
+`;
+
+exports[`document history can be generated 3`] = `
+Object {
+  "content": "#YOOOOO
+hello worlSecond Updated",
+  "diff": "@@ -1 +1,2 @@
++#YOOOOO
+ hello worlSecond Updated
+\\\\ No newline at end of file
+",
+  "user": Object {
+    "id": Any<String>,
+  },
+}
+`;
