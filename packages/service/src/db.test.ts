@@ -27,7 +27,10 @@ test("crdts can be persisted", async () => {
   const ydoc = new Y.Doc();
   const ytext = ydoc.getText("codemirror");
   ytext.insert(0, "hello world");
-  const { id, origin } = await createDocument(pool, user.id);
+  const { id, origin } = await createDocument(pool, {
+    creator_id: user.id,
+    name: "",
+  });
   // make a change to the document
   ytext.insert(0, "some new text");
   // persist this change to the database
@@ -48,7 +51,10 @@ test("users cannot see each other's documents", async () => {
     .run(pool);
   // create a yjs document A
   const ydoc = new Y.Doc();
-  const { id: id_a } = await createDocument(pool, user_a.id);
+  const { id: id_a } = await createDocument(pool, {
+    name: "",
+    creator_id: user_a.id,
+  });
 
   const docs_b = await selectUserDocuments(user_b);
   expect(docs_b.findIndex((doc) => doc.id === id_a)).toBe(-1);
@@ -65,7 +71,10 @@ test("users can see documents that have been shared with them", async () => {
     .run(pool);
   // create a yjs document A
   const ydoc = new Y.Doc();
-  const { id: id_a } = await createDocument(pool, user_a.id);
+  const { id: id_a } = await createDocument(pool, {
+    name: "",
+    creator_id: user_a.id,
+  });
 
   const docs_b = await selectUserDocuments(user_b);
   expect(docs_b.findIndex((doc) => doc.id === id_a)).toBe(-1);

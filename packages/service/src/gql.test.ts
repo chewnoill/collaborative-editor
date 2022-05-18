@@ -17,9 +17,12 @@ describe("User Access", () => {
     // get login tokens
     await login(user_a.name);
 
-    const user_a_document = await createDocument(pool, user_a.id);
+    const user_a_document = await createDocument(pool, {
+      creator_id: user_a.id,
+      name: "",
+    });
     // make query
-    const response = await agent.post("/graphql").send({
+    const response = await agent.post("/api/graphql").send({
       operationName: "DocumentTest",
       query: `
 query DocumentTest($id: UUID!) {
@@ -50,9 +53,13 @@ query DocumentTest($id: UUID!) {
     const user_b = await db
       .upsert("users", { name: "test user b" }, "name")
       .run(pool);
-    const user_b_document = await createDocument(pool, user_b.id);
+    const user_b_document = await createDocument(pool, {
+      creator_id: user_b.id,
+      name: "",
+      is_public: false
+    });
     // make query
-    const response = await agent.post("/graphql").send({
+    const response = await agent.post("/api/graphql").send({
       operationName: "DocumentTest",
       query: `
 query DocumentTest($id: UUID!) {

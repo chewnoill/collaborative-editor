@@ -55,10 +55,12 @@ export const createDocument = (
   {
     creator_id = db.sql`current_user_id()`,
     doc = new Y.Doc(),
+    is_public = true,
     name,
   }: {
     creator_id?: any;
     doc?: Y.Doc;
+    is_public?: boolean;
     name: string;
   }
 ) =>
@@ -70,6 +72,7 @@ export const createDocument = (
       web_rtc_key: "web_rtc_key",
       creator_id,
       latest_update_time: db.sql`now()`,
+      is_public,
     })
     .run(pool);
 
