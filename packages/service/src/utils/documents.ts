@@ -4,9 +4,14 @@ import { db, pool, schema } from "../db";
 
 const TEXT_NAME = "codemirror";
 
-export function insertUpdate(document_id: string, document_update: Uint8Array) {
+export function insertUpdate(
+  document_id: string,
+  document_update: Uint8Array,
+  { user_id }: { user_id?: string } = {}
+) {
   return db
     .insert("document_updates_queue", {
+      user_id,
       document_id,
       document_update: Buffer.from(document_update),
     })

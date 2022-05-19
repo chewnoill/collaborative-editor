@@ -1,11 +1,7 @@
 import { encoding, mutex } from "lib0";
 import * as Y from "yjs";
 import * as awarenessProtocol from "y-protocols/awareness";
-import {
-  fetchDocument,
-  insertUpdate,
-  updateDocumentContent,
-} from "./documents";
+import { fetchDocument, updateDocumentContent } from "./documents";
 
 const messageAwareness = 1;
 const wsReadyStateConnecting = 0;
@@ -21,9 +17,6 @@ async function fetchYDoc(document_id) {
       ...dbDoc.document_updates.map((update) => update.document_update),
     ])
   );
-  yDoc.on("update", (update) => {
-    insertUpdate(document_id, update);
-  });
 
   if (dbDoc.document_updates.length === 0) {
     // nothing to do
