@@ -2,6 +2,7 @@ import { decoding, encoding } from "lib0";
 import * as awarenessProtocol from "y-protocols/awareness";
 import * as syncProtocol from "y-protocols/sync";
 import logger from "../logger";
+import { insertUpdate } from "./documents";
 import { getYDoc } from "./ws-shared-doc";
 
 const messageSync = 0;
@@ -49,6 +50,11 @@ const setupProviderConnection = async (
   let closed = false;
 
   const doc = await getYDoc(docName, gc);
+  doc.on("update", (update) => {
+    insertUpdate(docName, update, {
+      user_id: req.user?.id,
+    });
+  });
   doc.conns.set(conn, new Set());
 
   // Check if connection is still alive
