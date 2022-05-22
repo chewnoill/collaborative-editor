@@ -9,6 +9,8 @@ title: Architectural Decision Records (ADR)
 1. [javascript frameworks](./02-javascript-frameworks)
 1. [database schema](./03-database-schema)
 1. [infrastructure](./04-infrastructure)
+1. [docusaurus](./05-docusaurus)
+1. [worker threads](./06-worker-threads.md)
 
 
 > An Architectural Decision (AD) is a software design choice that addresses a functional or non-functional requirement that is architecturally significant.
