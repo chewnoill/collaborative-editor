@@ -5,7 +5,8 @@ export default function BrowserSlides({deckName}) {
     return (
       <BrowserOnly>
         {() => {
-          const Slides = require("./slides");
+          const Slides = require("./slides").default;
+
           return <Slides deckName={deckName} />;
         }}
       </BrowserOnly>
