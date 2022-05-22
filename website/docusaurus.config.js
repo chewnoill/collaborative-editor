@@ -57,6 +57,7 @@ const config = {
             label: "Docs",
           },
           { to: "/blog", label: "Blog", position: "left" },
+          { to: "/slides/intro", label: "Intro Slide Deck", position: "left" },
           {
             href: 'https://github.com/chewnoill/collaborative-editor',
             label: "GitHub",
