@@ -9,9 +9,8 @@ import "reveal.js/dist/reveal.css";
 import "reveal.js/dist/theme/simple.css";
 import "reveal.js/plugin/highlight/zenburn.css";
 
-export default function Slides({deckName}) {
+export default function Slides({ deckName }) {
   React.useEffect(() => {
-    console.log("init...");
     Mermaid.initialize({
       logLevel: "error", // [1]
       securityLevel: "loose", // [2]
@@ -30,7 +29,7 @@ export default function Slides({deckName}) {
   }, []);
   return (
     <div className="reveal" style={{ height: "100vh" }}>
-<style>{`
+      <style>{`
 blockquote {
   text-align: left;
 }

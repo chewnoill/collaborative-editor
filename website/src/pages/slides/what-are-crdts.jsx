@@ -1,6 +1,8 @@
 import React from "react";
-import Slides from "../../components/slides";
+import BrowserSlides from "@site/src/components/browser-slides";
 
 export default function IntroSlides() {
-  return <Slides deckName={"crdt-slides"}/>
+  return (
+    <BrowserSlides deckName={"crdt-slides"}/>
+  );
 }
