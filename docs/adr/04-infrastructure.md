@@ -24,7 +24,7 @@ Production infrastructure needs to be created and managed. The initial applicati
 │      Github       │   │                   Terraform                    │
 │                   │   │┌──────────────────────┐                        │
 │                   │   ││     GCP Storage      │                        │
-│┌─────────────────┐│   ││                      │                        │
+│┌─ merge master ──┐│   ││                      │                        │
 ││                 ││   ││                      │                        │
 ││   Actions CI    │├───┼┼─build─────┐          │                        │
 ││                 ││   ││           ▼          │                        │
