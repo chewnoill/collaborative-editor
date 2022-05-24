@@ -3,7 +3,7 @@ slug: 07-security
 title: 7 - Adding Security Policy
 ---
 
-# Choosing YJS
+# Adding a Security Policy
 
 ## Status
 Accepted
