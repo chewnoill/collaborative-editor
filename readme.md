@@ -32,8 +32,18 @@
 install packages:
 
 ```shell
-brew install node docker postgres dbmate
+brew install node docker postgres dbmate terraform
 ```
+
+:::note
+
+You may need to install terraform from source for an m1 macbook. See [stackoverflow](https://stackoverflow.com/a/66281883).
+
+```shell
+brew install --build-from-source terraform
+```
+
+:::
 
 ## Getting started
 
