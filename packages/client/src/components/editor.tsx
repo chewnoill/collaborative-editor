@@ -46,6 +46,21 @@ const TextBox = styled.div`
   }
 `;
 
+const usercolors = [
+  "#30bced",
+  "#6eeb83",
+  "#ffbc42",
+  "#ecd444",
+  "#ee6352",
+  "#9ac2c9",
+  "#8acb88",
+  "#1be7ff",
+];
+
+function pickAColor() {
+  return usercolors[Math.floor(Math.random() * usercolors.length)];
+}
+
 function TextCanvas({ document_id, name }) {
   const ref = React.useRef();
   const data = useYDoc(document_id);
@@ -58,7 +73,7 @@ function TextCanvas({ document_id, name }) {
       console.log(event.status); // logs "connected" or "disconnected"
     });
     data.rtcProvider.awareness.setLocalStateField("user", {
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      color: pickAColor(),
       name,
     });
     const yText = data.ydoc.getText("codemirror");
