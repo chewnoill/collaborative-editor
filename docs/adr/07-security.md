@@ -6,7 +6,7 @@ title: 7 - Adding Security Policy
 # Adding a Security Policy
 
 ## Status
-Accepted
+In Progress
 
 ## Context
 
