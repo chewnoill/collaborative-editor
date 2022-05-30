@@ -1,5 +1,6 @@
 import DocumentMenu from "components/document-menu";
 import { DocumentName } from "components/document-name";
+import WhosHere from "components/whos-here";
 import AppLayout from "layout/app";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -22,6 +23,7 @@ export default function Document() {
       <DocumentName document_id={id.toString()} />
       <div style={{ display: "flex", flex: "1" }}>
         <EditorComponent document_id={id.toString()} />
+        <WhosHere document_id={id.toString()} />
       </div>
     </AppLayout>
   );
