@@ -44,6 +44,7 @@ const postgraphile_options: any = {
   allowExplain: true,
   legacyRelations: "omit",
   sortExport: true,
+  disableQueryLog: true,
   appendPlugins: [DocumentMutations, RandomQueries, MdxQueries],
 };
 
