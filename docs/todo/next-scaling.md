@@ -1,5 +1,5 @@
 ---
-title: next-scaling-infrastructure
+title: Scaling Infrastructure
 ---
 
 # Horizontal Scaling
