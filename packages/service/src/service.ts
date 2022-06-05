@@ -3,12 +3,25 @@ import app from "./app";
 import setupSignalingConnection from "./utils/signaling-connection";
 import setupProviderConnection from "./utils/provider-connection";
 import { HOST, PORT } from "./env";
+import ws from "ws";
 
 http.createServer(app);
 
-app.ws("/ws/signal", setupSignalingConnection);
-app.ws("/ws/provider/*", setupProviderConnection);
-
-app.listen({ host: HOST, port: PORT });
+const server = app.listen({ host: HOST, port: PORT });
 
 console.log("Signaling server running on", HOST, ":", PORT);
+
+const wsServer = new ws.Server({ noServer: true });
+
+wsServer.on("connection-signaling", setupSignalingConnection);
+wsServer.on("connection-provider", setupProviderConnection);
+
+server.on("upgrade", (request, socket, head) => {
+  wsServer.handleUpgrade(request, socket, head, (socket) => {
+    if (request.url.startsWith("/ws/provider")) {
+      wsServer.emit("connection-provider", socket, request);
+    } else if (request.url.startsWith("/ws/signal")) {
+      wsServer.emit("connection-signaling", socket, request);
+    }
+  });
+});

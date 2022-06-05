@@ -5,7 +5,6 @@ import bodyParser from "body-parser";
 import { validateUser } from "./utils/users";
 import { gqlMiddleware } from "./db";
 import Session from "./session";
-import expressWs from "express-ws";
 import path from "path";
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "big secret";
@@ -22,7 +21,6 @@ app.use(function (req, _res, next) {
 const STATIC_PATH = path.resolve(__dirname, "../../client/out");
 
 app.use("/", express.static(STATIC_PATH));
-expressWs(app);
 
 app.use(Session);
 
