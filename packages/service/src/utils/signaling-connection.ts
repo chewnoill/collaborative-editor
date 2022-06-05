@@ -1,4 +1,5 @@
 import * as map from "lib0/map";
+import { pub, sub } from "../pubsub";
 
 const wsReadyStateConnecting = 0;
 const wsReadyStateOpen = 1;
@@ -36,11 +37,10 @@ const signalerMessageResolver = (conn, message, subscribedTopics) => {
         (topicName) => {
           if (typeof topicName === "string") {
             // add conn to topic
-            const topic = map.setIfUndefined(
-              topics,
-              topicName,
-              () => new Set()
-            );
+            const topic = map.setIfUndefined(topics, topicName, () => {
+              sub.subscribe(topicName);
+              return new Set();
+            });
             topic.add(conn);
             // add topic to conn
             subscribedTopics.add(topicName);
@@ -60,18 +60,20 @@ const signalerMessageResolver = (conn, message, subscribedTopics) => {
       break;
     case "publish":
       if (message.topic) {
-        const receivers = topics.get(message.topic);
-        if (receivers) {
-          receivers.forEach((receiver) =>
-            sendSignal(receiver, JSON.stringify(message))
-          );
-        }
+        pub.publish(message.topic, JSON.stringify(message));
       }
       break;
     case "ping":
       sendSignal(conn, JSON.stringify({ type: "pong" }));
   }
 };
+
+sub.on("message", (topic, message) => {
+  const receivers = topics.get(topic);
+  if (receivers) {
+    receivers.forEach((receiver) => sendSignal(receiver, message));
+  }
+});
 
 /**
  * Setup a new client
