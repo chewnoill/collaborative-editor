@@ -1,5 +1,5 @@
 ---
-title: Adding Authentication Providers 
+title: Adding Authentication Providers
 ---
 
 ## Adding passport authentication providers
@@ -25,7 +25,7 @@ user ->> willdocs: /login?token
 Authentication Providers
 ---
 
-| Provider | repo url |
-|---|---|
-| Github | https://github.com/cfsghost/passport-github |
-| Google | https://github.com/mstade/passport-google-oauth2 |
+| Provider | repo url                                         |
+| -------- | ------------------------------------------------ |
+| Github   | https://github.com/cfsghost/passport-github      |
+| Google   | https://github.com/mstade/passport-google-oauth2 |
