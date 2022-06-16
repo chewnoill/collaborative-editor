@@ -61,4 +61,24 @@ Github's Actions jobs runner will make production infrastructure deployments on 
 
 This increases visibility of what the production infrastructure is, and makes it easier to track what changes need to be made.
 
-See [/terraform](../../terraform/) for implementation details.
+### Storing Secrets
+
+Terraform state might not be the best place to store secrets, although terraform does provide some means of easily rotating credentinals.
+
+import prodBuild from '!!raw-loader!../../.github/workflows/production.yml';
+import CodeBlock from '@theme/CodeBlock';
+
+:::tip
+
+Developers will need to aquire credentials inoder to access and update production configurations directly.
+
+
+Production credentials are used by CI to deployments are forced on merge to master.
+**.github/workflows/production.yml**: lines 68
+<CodeBlock language="yml">{prodBuild.split('\n').slice(68).join('\n')}</CodeBlock>
+
+
+:::
+
+
+
