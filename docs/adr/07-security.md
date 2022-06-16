@@ -14,7 +14,8 @@ Document Updates are processed from a websocket endpoint `/ws/provider/{document
 
 :::warning
 
-It is more unclear if an updates that come from connections actually originated from that connection. If an update originated from somewhere  else, how can it be authenticated, retroactively?
+It is possible for clients to retransmit updates that it recieves from peers, so no guarantee is made that the updates transmitted from a peer to the backend service actually came from that peer.
+If an update originated from somewhere  else, how can it be authenticated? This requires a not insignifican't amount of trust from each client that it is behaving properly.
 
 :::
 
