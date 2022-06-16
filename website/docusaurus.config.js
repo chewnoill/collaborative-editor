@@ -8,7 +8,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const config = {
   title: "Collaborative Editor",
   tagline: "",
-  url: "http://34.139.212.183",
+  url: "http://docs.williamcohen.com",
   baseUrl: "/website/",
   onBrokenLinks: "error",
   onBrokenMarkdownLinks: "error",
@@ -91,7 +91,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Project Name, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} WillDocs, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
