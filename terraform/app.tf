@@ -39,7 +39,8 @@ resource "google_compute_instance" "app" {
     cd packages/service
     # TODO: remove this
     # run bundle as root so we can use port 80
-    sudo -E node dist/bundle.js 
+    sudo npm add -g pm2
+    sudo -E pm2 start dist/bundle.js --no-daemon -i max
   EOF
 
   service_account {
