@@ -10,8 +10,8 @@ const config = {
   tagline: "",
   url: "http://34.139.212.183",
   baseUrl: "/website/",
-  onBrokenLinks: "warn",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenLinks: "error",
+  onBrokenMarkdownLinks: "error",
   favicon: "img/favicon.ico",
   organizationName: "chewnoill", // Usually your GitHub org/user name.
   projectName: "collaborative-editor", // Usually your repo name.
