@@ -25,7 +25,7 @@ export default function AppToolbar() {
             display: "flex",
           }}
         >
-          {pathname === "/document/[id]" && (
+          {pathname.startsWith("/document/[id]") && (
             <IconButton href="/">
               <ArrowLeft htmlColor="white" />
             </IconButton>
