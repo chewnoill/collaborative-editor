@@ -69,7 +69,7 @@ export function useAllDocumentsQuery() {
   return useQuery(
     gql`
       query AllDocuments {
-        allDocuments {
+        allDocuments(orderBy: LATEST_UPDATE_TIME_DESC, first: 10) {
           edges {
             node {
               ...base_document
@@ -87,7 +87,7 @@ export function useMyDocumentsQuery() {
     gql`
       query MyDocuments {
         me {
-          documentsByCreatorId {
+          documentsByCreatorId(orderBy: LATEST_UPDATE_TIME_DESC) {
             edges {
               node {
                 ...base_document
