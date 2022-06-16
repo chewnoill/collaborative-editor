@@ -14,7 +14,6 @@ export default function MyDocuments() {
   if (error) {
     return null;
   }
-  console.log({ documents, loading });
   if (loading) return <div>loading...</div>;
 
   const list = (documents || []).map(({ node }) => node);
