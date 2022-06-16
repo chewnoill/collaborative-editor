@@ -9,3 +9,4 @@ volumes
 credentials.json
 *creds.json
 .next
+wip-*
