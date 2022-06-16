@@ -17,6 +17,10 @@ wsServer.on("connection-signaling", setupSignalingConnection);
 wsServer.on("connection-provider", setupProviderConnection);
 
 server.on("upgrade", (request, socket, head) => {
+  // only handle upgrade if path matches
+  if (!request.url.startsWith("/ws/provider") && !request.url.startsWith("/ws/signal")) {
+    return;
+  }
   wsServer.handleUpgrade(request, socket, head, (socket) => {
     if (request.url.startsWith("/ws/provider")) {
       wsServer.emit("connection-provider", socket, request);
