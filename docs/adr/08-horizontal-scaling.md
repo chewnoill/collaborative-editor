@@ -1,4 +1,5 @@
 ---
+slug: 08-horizontal-scaling
 title: 8 - Horizontal Scaling with PM2
 ---
 

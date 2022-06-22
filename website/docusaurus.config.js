@@ -63,15 +63,6 @@ const config = {
         style: "dark",
         links: [
           {
-            title: "Docs",
-            items: [
-              {
-                label: "README",
-                to: "/docs/README",
-              },
-            ],
-          },
-          {
             title: "More",
             items: [
               {
