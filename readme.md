@@ -1,9 +1,11 @@
 
-# Collaborative Text Editor
+# Collaborative Editor
 
-[Repo](https://github.com/chewnoill/collaborative-editor)
+### [Getting Started](http://docs.williamcohen.com/website/docs/getting-started)
 
-## Project Structure
+### [github.com/chewnoill/collaborative-editor](https://github.com/chewnoill/collaborative-editor)
+
+### Project Structure
 
 ```
 .
@@ -25,78 +27,6 @@
 |           └-- message-queue-worker.ts: main entrypoint for the background job
 ├-- terraform: provisioning infrastructure
 └-- website: Base Docusaurus document site
-```
-
-## Prerequisites
-
-install packages:
-
-```shell
-brew install node docker postgres dbmate terraform
-```
-
-:::note
-
-You may need to install terraform from source for an m1 macbook. See [stackoverflow](https://stackoverflow.com/a/66281883).
-
-```shell
-brew install --build-from-source terraform
-```
-
-:::
-
-## Getting started
-
-### Install dependencies:
-
-```shell
-yarn
-```
-
-### Docker setup:
-
-build
-```shell
-docker-compose build
-```
-
-start containers
-```shell
-docker-compose up
-```
-
-### Service-specific setup:
-
-start service
-```shell
-yarn service dev
-```
-
-start storybook
-```shell
-yarn client dev
-```
-
-## Running database migrations
-Make sure your `DATABASE_URL` is set.
-
-create a new migration
-```shell
-yarn migrations new <name of migration>
-```
-
-Running migrations
-```shell
-yarn migrations up
-```
-OR
-```shell
-yarn migrations down
-```
-
-## Generating database ORM schema
-```shell
-yarn service zapatos
 ```
 
 # Data model

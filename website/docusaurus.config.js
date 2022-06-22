@@ -50,13 +50,7 @@ const config = {
           src: "img/logo.svg",
         },
         items: [
-          {
-            type: "doc",
-            docId: "index",
-            position: "left",
-            label: "Docs",
-          },
-          { to: "/blog", label: "Blog", position: "left" },
+          { to: "/docs/getting-started", label: "Getting Started", position: "left" },
           { to: "/slides/intro", label: "Intro Slide Deck", position: "left" },
           {
             href: 'https://github.com/chewnoill/collaborative-editor',

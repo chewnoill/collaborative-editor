@@ -1,6 +1,6 @@
 ---
-title: README
-slug: README
+title: WillDocs
+slug: /
 ---
 
 import Readme from '../readme.md';
