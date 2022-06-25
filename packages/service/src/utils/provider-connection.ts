@@ -1,6 +1,7 @@
 import { decoding, encoding } from "lib0";
 import * as awarenessProtocol from "y-protocols/awareness";
 import * as syncProtocol from "y-protocols/sync";
+import logger from "../logger";
 import { getYDoc } from "./ws-shared-doc";
 
 const messageSync = 0;
@@ -82,6 +83,12 @@ const setupProviderConnection = async (
     "message",
     /** @param {object} message */ (message) => {
       if (message && !closed) {
+        logger({
+          level: "info",
+          service: 'provider',
+          data: message,
+          document_id: docName,
+        });
         providerMessageResolver(conn, new Uint8Array(message), doc);
       }
     }

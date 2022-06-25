@@ -1,4 +1,5 @@
 import * as map from "lib0/map";
+import logger from "../logger";
 import { pub, sub } from "../pubsub";
 
 const wsReadyStateConnecting = 0;
@@ -31,6 +32,12 @@ const sendSignal = (conn, message) => {
 };
 
 const signalerMessageResolver = (conn, message, subscribedTopics) => {
+  logger({
+    level: 'info',
+    service: 'signal',
+    message_type: message.type,
+    data: message,
+  });
   switch (message.type) {
     case "subscribe":
       /** @type {Array<string>} */ (message.topics || []).forEach(
