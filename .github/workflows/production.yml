@@ -16,6 +16,8 @@ jobs:
       APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       BASE_DOMAIN: ${{secrets.BASE_DOMAIN}}
       REDIS_URL: ${{secrets.REDIS_URL}}
+      NEW_RELIC_API_KEY: ${{secrets.NEW_RELIC_API_KEY}}
+      NEW_RELIC_ACCOUNT_ID: ${{secrets.NEW_RELIC_ACCOUNT_ID}}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -69,4 +71,4 @@ jobs:
       run: |
         terraform -chdir=terraform taint google_compute_instance.app
         terraform -chdir=terraform taint google_compute_instance.worker
-        terraform -chdir=terraform apply --auto-approve -var="redis_url=${REDIS_URL}"
+        terraform -chdir=terraform apply --auto-approve -var="redis_url=${REDIS_URL}" -var="NEW_RELIC_ACCOUNT_ID=${NEW_RELIC_ACCOUNT_ID}" -var="NEW_RELIC_API_KEY=${NEW_RELIC_API_KEY}"

@@ -40,12 +40,13 @@ resource "google_compute_instance" "app" {
     # TODO: remove this
     # run bundle as root so we can use port 80
     sudo npm add -g pm2
+    curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY=${var.NEW_RELIC_API_KEY} NEW_RELIC_ACCOUNT_ID=${var.NEW_RELIC_ACCOUNT_ID} /usr/local/bin/newrelic install -y
     sudo -E pm2 start dist/bundle.js --no-daemon -i max
   EOF
 
   service_account {
     # TODO: This account account needs cloud storage permissions
-    # so that it can load the service bundle, I haven't figured 
+    # so that it can load the service bundle, I haven't figured
     # out how that works yet, other then manually
     # required roles:
     #   * storage object viewer

@@ -1,3 +1,4 @@
+import "newrelic";
 import http from "http";
 import app from "./app";
 import setupSignalingConnection from "./utils/signaling-connection";

@@ -37,6 +37,7 @@
     "lib0": "^0.2.42",
     "mdx-hydra": "^0.0.11",
     "moniker": "^0.1.2",
+    "newrelic": "^8.14.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^8.6.0",

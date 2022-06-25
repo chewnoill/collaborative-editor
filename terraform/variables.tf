@@ -8,3 +8,14 @@ variable "redis_url" {
   type = string
   description = "redis url"
 }
+
+variable "NEW_RELIC_ACCOUNT_ID" {
+  type = string
+  description = "NR Account ID"
+}
+
+variable "NEW_RELIC_API_KEY" {
+  type = string
+  description = "NR API key"
+}
+
