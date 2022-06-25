@@ -4,8 +4,11 @@ import bodyParser from "body-parser";
 import { gqlMiddleware } from "./db";
 import Session from "./session";
 import path from "path";
+import { loggerMiddleware } from "./logger";
 
 const app = express();
+
+app.use(loggerMiddleware);
 
 app.use(function (req, _res, next) {
   if (req.url.startsWith("/document/")) {

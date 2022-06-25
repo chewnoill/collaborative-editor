@@ -6,6 +6,7 @@ import { HOST, PORT } from "./env";
 import ws from "ws";
 import Session from "./session";
 import passport from "./utils/passport";
+import { loggerMiddleware } from "./logger";
 
 http.createServer(app);
 
@@ -21,24 +22,29 @@ wsServer.on("connection-provider", setupProviderConnection);
 const wrapMiddleware = (middleware) => (request, next) =>
   middleware(request, {}, next);
 
+const websocketMiddleware = (request, next) =>
+  wrapMiddleware(Session)(request, () =>
+    wrapMiddleware(passport.initialize())(request, () =>
+      wrapMiddleware(passport.session())(request, () =>
+        wrapMiddleware(loggerMiddleware)(request, next)
+      )
+    )
+  );
+
 server.on("upgrade", (request, socket, head) => {
   // only handle upgrade if path matches
   if (
     request.url.startsWith("/ws/provider") ||
     request.url.startsWith("/ws/signal")
   ) {
-    wrapMiddleware(Session)(request, () => {
-      wrapMiddleware(passport.initialize())(request, () =>
-        wrapMiddleware(passport.session())(request, () => {
-          wsServer.handleUpgrade(request, socket, head, (socket) => {
-            if (request.url.startsWith("/ws/provider")) {
-              wsServer.emit("connection-provider", socket, request);
-            } else if (request.url.startsWith("/ws/signal")) {
-              wsServer.emit("connection-signaling", socket, request);
-            }
-          });
-        })
-      );
+    websocketMiddleware(request, () => {
+      wsServer.handleUpgrade(request, socket, head, (socket) => {
+        if (request.url.startsWith("/ws/provider")) {
+          wsServer.emit("connection-provider", socket, request);
+        } else if (request.url.startsWith("/ws/signal")) {
+          wsServer.emit("connection-signaling", socket, request);
+        }
+      });
     });
   }
 });
