@@ -33,8 +33,8 @@ const sendSignal = (conn, message) => {
 
 const signalerMessageResolver = (conn, message, subscribedTopics) => {
   logger({
-    level: 'info',
-    service: 'signal',
+    level: "info",
+    service: "signal",
     message_type: message.type,
     data: message,
   });

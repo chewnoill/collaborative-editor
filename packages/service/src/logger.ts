@@ -6,7 +6,7 @@ import { NODE_ENV } from "./env";
 const CPU_ID = uuidv4().toString().substring(0, 4);
 
 export const loggerMiddleware = (request, response, next) => {
-    next();
+  next();
   if ("on" in response) {
     response.on("finish", () =>
       requestLogger({
@@ -23,7 +23,6 @@ export const loggerMiddleware = (request, response, next) => {
       level: "info",
     });
   }
-
 };
 
 const loggerInstance = winston.createLogger(

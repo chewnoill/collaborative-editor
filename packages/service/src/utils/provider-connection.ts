@@ -85,7 +85,7 @@ const setupProviderConnection = async (
       if (message && !closed) {
         logger({
           level: "info",
-          service: 'provider',
+          service: "provider",
           data: message,
           document_id: docName,
         });
