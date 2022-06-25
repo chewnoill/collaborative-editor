@@ -51,6 +51,7 @@
     "utf-8-validate": "^5.0.5",
     "whatwg-url": "^9.0.0",
     "winston": "^3.8.0",
+    "winston-console-format": "^1.0.8",
     "ws": "^7.4.6",
     "y-codemirror": "^2.1.1",
     "y-webrtc": "^10.2.0",
@@ -62,7 +63,7 @@
     "build": "webpack",
     "dev": "nodemon -e ts -w src -x yarn start",
     "mq-worker": "TS_NODE_FILES=true ts-node src/message-queue-worker.ts",
-    "start": "TS_NODE_FILES=true ts-node src/service.ts",
+    "start": "NODE_ENV=dev TS_NODE_FILES=true ts-node src/service.ts",
     "start:prod": "node dist/bundle.js",
     "test": "jest --forceExit",
     "codegen": "zapatos"
