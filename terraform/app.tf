@@ -35,16 +35,16 @@ resource "google_compute_instance" "app" {
     chmod +x ./dbmate.bin
     ./dbmate.bin  -d ./packages/service/db/migrations -s ./packages/service/db/schema.sql up
 
-    echo "starting application..."
     cd packages/service
-    # TODO: remove this
-    # run bundle as root so we can use port 80
     sudo npm add -g pm2
     curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY=${var.NEW_RELIC_API_KEY} NEW_RELIC_ACCOUNT_ID=${var.NEW_RELIC_ACCOUNT_ID} /usr/local/bin/newrelic install -y
     echo '
-    - name: service.log
-      file: /workspace/packages/service/output.log' >> /etc/newrelic-infra/logging.d/logging.yml
+      - name: service.log
+        file: /workspace/packages/service/output.log' >> /etc/newrelic-infra/logging.d/logging.yml
 
+    echo "starting application..."
+    # TODO: remove this
+    # run bundle as root so we can use port 80
     sudo -E pm2 start dist/bundle.js --no-daemon -i max
   EOF
 
