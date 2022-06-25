@@ -38,6 +38,9 @@ resource "google_compute_instance" "app" {
     cd packages/service
     sudo npm add -g pm2
     curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY=${var.NEW_RELIC_API_KEY} NEW_RELIC_ACCOUNT_ID=${var.NEW_RELIC_ACCOUNT_ID} /usr/local/bin/newrelic install -y
+    export NEW_RELIC_HOME=$(pwd)
+    export NEW_RELIC_APP_NAME=app
+    export NEW_RELIC_LICENSE_KEY=881ba2daa0a207ab2038f6b717f7233b6fb6NRAL
     echo '
       - name: service.log
         file: /workspace/packages/service/output.log' >> /etc/newrelic-infra/logging.d/logging.yml
