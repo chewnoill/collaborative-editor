@@ -9777,6 +9777,11 @@ is-root@^2.1.0:
   resolved "https://registry.yarnpkg.com/is-root/-/is-root-2.1.0.tgz#809e18129cf1129644302a4f8544035d51984a9c"
   integrity sha512-AGOriNp96vNBd3HtU+RzFEc75FfR5ymiYv8E553I71SCeXBiMsVDUtdio1OEFvrPyLIQ9tVR5RxXIFe5PUFjMg==
 
+is-secret@^1.0.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/is-secret/-/is-secret-1.2.1.tgz#04b9ca1880ea763049606cfe6c2a08a93f33abe3"
+  integrity sha512-VtBantcgKL2a64fDeCmD1JlkHToh3v0bVOhyJZ5aGTjxtCgrdNcjaC9GaaRFXi19gA4/pYFpnuyoscIgQCFSMQ==
+
 is-stream@^1.0.0, is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
@@ -13750,6 +13755,14 @@ recursive-readdir@^2.2.2:
   dependencies:
     minimatch "3.0.4"
 
+redact-secrets@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/redact-secrets/-/redact-secrets-1.0.0.tgz#60f1db56924fe90a203ba8ccb39283cdbb0d907c"
+  integrity sha512-/pf6REDcmIFIOeZdDl/1i7d6ypEkDXkGRMeSmuISUdk/mNgWYp4X/CdrHf/z4i0E4Ubti8kMxhyGMG3eBKqorw==
+  dependencies:
+    is-secret "^1.0.0"
+    traverse "^0.6.6"
+
 redis-commands@1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/redis-commands/-/redis-commands-1.7.0.tgz#15a6fea2d58281e27b1cd1acfb4b293e278c3a89"
@@ -15615,6 +15628,11 @@ tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
+
+traverse@^0.6.6:
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.6.6.tgz#cbdf560fd7b9af632502fed40f918c157ea97137"
+  integrity sha512-kdf4JKs8lbARxWdp7RKdNzoJBhGUcIalSYibuGyHJbmk40pOysQ0+QPvlkCOICOivDWU2IJo2rkrxyTK2AH4fw==
 
 trim-trailing-lines@^1.0.0:
   version "1.1.4"

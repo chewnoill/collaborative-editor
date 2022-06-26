@@ -46,6 +46,7 @@
     "postgraphile": "^4.12.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "redact-secrets": "^1.0.0",
     "remark-emoji": "^2.1.0",
     "socket.io": "^4.1.2",
     "ts-node": "^10.0.0",

@@ -2,7 +2,7 @@ import { uuidv4 } from "lib0/random";
 import winston from "winston";
 import { consoleFormat } from "winston-console-format";
 import { NODE_ENV } from "./env";
-
+const redact = require("redact-secrets")("[REDACTED]");
 const CPU_ID = uuidv4().toString().substring(0, 4);
 
 export const loggerMiddleware = (request, response, next) => {
@@ -33,7 +33,11 @@ const loggerInstance = winston.createLogger(
           winston.format.ms(),
           winston.format.errors({ stack: true }),
           winston.format.splat(),
-          winston.format.json()
+          winston.format.json(),
+          winston.format((info) => {
+            info.body = redact.map(JSON.parse(JSON.stringify(info.body)));
+            return info;
+          })(),
         ),
         transports: [
           new winston.transports.File({
@@ -48,6 +52,11 @@ const loggerInstance = winston.createLogger(
           winston.format.errors({ stack: true }),
           winston.format.colorize({ all: true }),
           winston.format.padLevels(),
+          winston.format((info) => {
+            info.body = redact.map(JSON.parse(JSON.stringify(info.body)));
+            return info;
+          })(),
+
           consoleFormat({
             showMeta: true,
             metaStrip: ["timestamp", "service"],
