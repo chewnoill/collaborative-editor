@@ -35,7 +35,7 @@ const loggerInstance = winston.createLogger(
           winston.format.splat(),
           winston.format.json(),
           winston.format((info) => {
-            info.body = redact.map(JSON.parse(JSON.stringify(info.body)));
+            info.body = info.body && redact.map(JSON.parse(JSON.stringify(info.body)));
             return info;
           })()
         ),
