@@ -25,9 +25,10 @@ export const loggerMiddleware = (request, response, next) => {
   }
 };
 
-const loggerInstance = winston.createLogger(
-  NODE_ENV === "production"
-    ? {
+function genLoggerConfig() {
+  switch (NODE_ENV) {
+    case "production":
+      return {
         format: winston.format.combine(
           winston.format.timestamp(),
           winston.format.ms(),
@@ -45,8 +46,13 @@ const loggerInstance = winston.createLogger(
             filename: "output.log",
           }),
         ],
-      }
-    : {
+      };
+    case "test":
+      return {
+        transports: [new winston.transports.Console()],
+      };
+    default:
+      return {
         format: winston.format.combine(
           winston.format.timestamp(),
           winston.format.ms(),
@@ -72,8 +78,11 @@ const loggerInstance = winston.createLogger(
           })
         ),
         transports: [new winston.transports.Console()],
-      }
-);
+      };
+  }
+}
+
+const loggerInstance = winston.createLogger(genLoggerConfig());
 
 export function requestLogger({ request, service, level, ...extra }) {
   loggerInstance[level || "info"](service, {
