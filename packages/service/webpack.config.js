@@ -35,7 +35,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
   },
   resolve: {
-    extensions: [".json", ".mjs", ".ts", ".tsx", ".js", ".jsx", ".md"],
+    extensions: [".mjs", ".ts", ".tsx", ".js", ".jsx", ".md", ".json"],
     plugins: [],
   },
   plugins: [new NodemonPlugin(), new DefinePlugin({ "global.GENTLY": false })],
