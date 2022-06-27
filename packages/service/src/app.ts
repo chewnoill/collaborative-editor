@@ -45,7 +45,7 @@ app.get("/health-check", (_, resp) => {
 
 app.post(
   "/api/login",
-  passport.authenticate("local", { successRedirect: "/", session: true })
+  passport.authenticate("local", { failureRedirect: "/failed-login", successRedirect: "/", session: true })
 );
 
 export default app as any;
