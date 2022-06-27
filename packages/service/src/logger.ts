@@ -37,7 +37,7 @@ const loggerInstance = winston.createLogger(
           winston.format((info) => {
             info.body = redact.map(JSON.parse(JSON.stringify(info.body)));
             return info;
-          })(),
+          })()
         ),
         transports: [
           new winston.transports.File({
@@ -53,7 +53,8 @@ const loggerInstance = winston.createLogger(
           winston.format.colorize({ all: true }),
           winston.format.padLevels(),
           winston.format((info) => {
-            info.body = redact.map(JSON.parse(JSON.stringify(info.body)));
+            info.body =
+              info.body && redact.map(JSON.parse(JSON.stringify(info.body)));
             return info;
           })(),
 
