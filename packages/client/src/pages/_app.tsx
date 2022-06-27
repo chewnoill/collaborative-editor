@@ -6,6 +6,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "utils/apollo";
 import { Global } from "@emotion/react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Head from "next/head";
 
 const AppLayout = styled.div`
   height: 100vh;
@@ -22,6 +23,9 @@ const Page = styled.div`
 export default function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={createTheme({})}>
+      <Head>
+        <script src="/newrelic.js" />
+      </Head>
       <AppLayout>
         <Global styles={{ body: { margin: 0 } }} />
         <Page>
