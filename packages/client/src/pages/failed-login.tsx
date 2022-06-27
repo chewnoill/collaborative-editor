@@ -9,9 +9,7 @@ import { SimpleLayout } from "layout/app";
 export default function FailedLoginPage() {
   return (
     <SimpleLayout>
-      <Alert severity="error">
-        Incorrect username and/or password
-      </Alert>
+      <Alert severity="error">Incorrect username and/or password</Alert>
       <LoginForm />
       <Box
         sx={{

@@ -7,7 +7,7 @@ passport.use(
     try {
       const user = await validateUser({ name: username, password: password });
       if (!user) {
-        return done(null,null);
+        return done(null, null);
       }
       return done(null, { username: user.name, id: user.id });
     } catch (e) {
