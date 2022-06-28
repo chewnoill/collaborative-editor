@@ -5,15 +5,16 @@ slug: market-research
 
 # Market Research
 
-| Feature               | Google Docs | Confluence |
-| --------------------- | ----------- | ---------- |
-| Collaborative Editing | ✅           | ✅          |
-| Inline comments       | ✅           | ✅          |
-| Templates             | ✅           | ✅          |
-| Sharing Controls      | ✅           | ✅          |
-| Multi-media documents | ✅           | ✅          |
-| Document History      | ✅           | ✅          |
-| Email Authentication  | ✅           | ✅          |
+| Feature               | Google Docs | Confluence | WillDocs:tm: |
+| --------------------- | ----------- | ---------- | ------------ |
+| Collaborative Editing | ✅           | ✅          | ✅           |
+| Multi-media documents | ✅           | ✅          | ❌           |
+| Document History      | ✅           | ✅          | ❌           |
+| Email Engagement      | ✅           | ✅          | ❌           |
+| Inline comments       | ✅           | ✅          | ❌           |
+| Templates             | ✅           | ✅          | ❌           |
+| Sharing Controls      | ✅           | ✅          | ❌           |
+
 
 :::info
 
