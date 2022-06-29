@@ -22,6 +22,358 @@ declare module "zapatos/schema" {
   /* --- tables --- */
 
   /**
+   * **data_upload**
+   * - Table in database
+   */
+  export namespace data_upload {
+    export type Table = "data_upload";
+    export interface Selectable {
+      /**
+       * **data_upload.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id: string;
+      /**
+       * **data_upload.confirmed**
+       * - `bool` in database
+       * - `NOT NULL`, default: `false`
+       */
+      confirmed: boolean;
+      /**
+       * **data_upload.file_name**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      file_name: string;
+      /**
+       * **data_upload.owner_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      owner_id: string;
+      /**
+       * **data_upload.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, default: `now()`
+       */
+      created_at: Date;
+      /**
+       * **data_upload.size**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      size: number;
+      /**
+       * **data_upload.mime_type**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      mime_type: string;
+    }
+    export interface JSONSelectable {
+      /**
+       * **data_upload.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id: string;
+      /**
+       * **data_upload.confirmed**
+       * - `bool` in database
+       * - `NOT NULL`, default: `false`
+       */
+      confirmed: boolean;
+      /**
+       * **data_upload.file_name**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      file_name: string;
+      /**
+       * **data_upload.owner_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      owner_id: string;
+      /**
+       * **data_upload.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, default: `now()`
+       */
+      created_at: db.TimestampString;
+      /**
+       * **data_upload.size**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      size: number;
+      /**
+       * **data_upload.mime_type**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      mime_type: string;
+    }
+    export interface Whereable {
+      /**
+       * **data_upload.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **data_upload.confirmed**
+       * - `bool` in database
+       * - `NOT NULL`, default: `false`
+       */
+      confirmed?:
+        | boolean
+        | db.Parameter<boolean>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **data_upload.file_name**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      file_name?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **data_upload.owner_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      owner_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **data_upload.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, default: `now()`
+       */
+      created_at?:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampString | Date)
+            | db.Parameter<db.TimestampString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >;
+      /**
+       * **data_upload.size**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      size?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **data_upload.mime_type**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      mime_type?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+    }
+    export interface Insertable {
+      /**
+       * **data_upload.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+      /**
+       * **data_upload.confirmed**
+       * - `bool` in database
+       * - `NOT NULL`, default: `false`
+       */
+      confirmed?:
+        | boolean
+        | db.Parameter<boolean>
+        | db.DefaultType
+        | db.SQLFragment;
+      /**
+       * **data_upload.file_name**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      file_name: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **data_upload.owner_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      owner_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **data_upload.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, default: `now()`
+       */
+      created_at?:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.DefaultType
+        | db.SQLFragment;
+      /**
+       * **data_upload.size**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      size: number | db.Parameter<number> | db.SQLFragment;
+      /**
+       * **data_upload.mime_type**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      mime_type: string | db.Parameter<string> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+       * **data_upload.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
+          >;
+      /**
+       * **data_upload.confirmed**
+       * - `bool` in database
+       * - `NOT NULL`, default: `false`
+       */
+      confirmed?:
+        | boolean
+        | db.Parameter<boolean>
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment
+          >;
+      /**
+       * **data_upload.file_name**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      file_name?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **data_upload.owner_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      owner_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **data_upload.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, default: `now()`
+       */
+      created_at?:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampString | Date)
+            | db.Parameter<db.TimestampString | Date>
+            | db.DefaultType
+            | db.SQLFragment
+          >;
+      /**
+       * **data_upload.size**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      size?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+       * **data_upload.mime_type**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      mime_type?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+    }
+    export type UniqueIndex = "data_upload_pkey";
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >;
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | (keyof Updatable)[]>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
    * **document**
    * - Table in database
    */
@@ -1641,6 +1993,7 @@ declare module "zapatos/schema" {
   /* === cross-table types === */
 
   export type Table =
+    | data_upload.Table
     | document.Table
     | document_history.Table
     | document_updates_queue.Table
@@ -1649,6 +2002,7 @@ declare module "zapatos/schema" {
     | user_document.Table
     | users.Table;
   export type Selectable =
+    | data_upload.Selectable
     | document.Selectable
     | document_history.Selectable
     | document_updates_queue.Selectable
@@ -1657,6 +2011,7 @@ declare module "zapatos/schema" {
     | user_document.Selectable
     | users.Selectable;
   export type JSONSelectable =
+    | data_upload.JSONSelectable
     | document.JSONSelectable
     | document_history.JSONSelectable
     | document_updates_queue.JSONSelectable
@@ -1665,6 +2020,7 @@ declare module "zapatos/schema" {
     | user_document.JSONSelectable
     | users.JSONSelectable;
   export type Whereable =
+    | data_upload.Whereable
     | document.Whereable
     | document_history.Whereable
     | document_updates_queue.Whereable
@@ -1673,6 +2029,7 @@ declare module "zapatos/schema" {
     | user_document.Whereable
     | users.Whereable;
   export type Insertable =
+    | data_upload.Insertable
     | document.Insertable
     | document_history.Insertable
     | document_updates_queue.Insertable
@@ -1681,6 +2038,7 @@ declare module "zapatos/schema" {
     | user_document.Insertable
     | users.Insertable;
   export type Updatable =
+    | data_upload.Updatable
     | document.Updatable
     | document_history.Updatable
     | document_updates_queue.Updatable
@@ -1689,6 +2047,7 @@ declare module "zapatos/schema" {
     | user_document.Updatable
     | users.Updatable;
   export type UniqueIndex =
+    | data_upload.UniqueIndex
     | document.UniqueIndex
     | document_history.UniqueIndex
     | document_updates_queue.UniqueIndex
@@ -1697,6 +2056,7 @@ declare module "zapatos/schema" {
     | user_document.UniqueIndex
     | users.UniqueIndex;
   export type Column =
+    | data_upload.Column
     | document.Column
     | document_history.Column
     | document_updates_queue.Column
@@ -1705,6 +2065,7 @@ declare module "zapatos/schema" {
     | user_document.Column
     | users.Column;
   export type AllBaseTables = [
+    data_upload.Table,
     document.Table,
     document_history.Table,
     document_updates_queue.Table,
@@ -1717,6 +2078,7 @@ declare module "zapatos/schema" {
   export type AllViews = [];
   export type AllMaterializedViews = [];
   export type AllTablesAndViews = [
+    data_upload.Table,
     document.Table,
     document_history.Table,
     document_updates_queue.Table,
@@ -1727,6 +2089,7 @@ declare module "zapatos/schema" {
   ];
 
   export type SelectableForTable<T extends Table> = {
+    data_upload: data_upload.Selectable;
     document: document.Selectable;
     document_history: document_history.Selectable;
     document_updates_queue: document_updates_queue.Selectable;
@@ -1737,6 +2100,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type JSONSelectableForTable<T extends Table> = {
+    data_upload: data_upload.JSONSelectable;
     document: document.JSONSelectable;
     document_history: document_history.JSONSelectable;
     document_updates_queue: document_updates_queue.JSONSelectable;
@@ -1747,6 +2111,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type WhereableForTable<T extends Table> = {
+    data_upload: data_upload.Whereable;
     document: document.Whereable;
     document_history: document_history.Whereable;
     document_updates_queue: document_updates_queue.Whereable;
@@ -1757,6 +2122,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type InsertableForTable<T extends Table> = {
+    data_upload: data_upload.Insertable;
     document: document.Insertable;
     document_history: document_history.Insertable;
     document_updates_queue: document_updates_queue.Insertable;
@@ -1767,6 +2133,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type UpdatableForTable<T extends Table> = {
+    data_upload: data_upload.Updatable;
     document: document.Updatable;
     document_history: document_history.Updatable;
     document_updates_queue: document_updates_queue.Updatable;
@@ -1777,6 +2144,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type UniqueIndexForTable<T extends Table> = {
+    data_upload: data_upload.UniqueIndex;
     document: document.UniqueIndex;
     document_history: document_history.UniqueIndex;
     document_updates_queue: document_updates_queue.UniqueIndex;
@@ -1787,6 +2155,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type ColumnForTable<T extends Table> = {
+    data_upload: data_upload.Column;
     document: document.Column;
     document_history: document_history.Column;
     document_updates_queue: document_updates_queue.Column;
@@ -1797,6 +2166,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type SQLForTable<T extends Table> = {
+    data_upload: data_upload.SQL;
     document: document.SQL;
     document_history: document_history.SQL;
     document_updates_queue: document_updates_queue.SQL;

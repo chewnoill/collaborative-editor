@@ -141,6 +141,30 @@ $$;
 
 
 --
+-- Name: data_upload; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.data_upload (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    confirmed boolean DEFAULT false NOT NULL,
+    file_name text NOT NULL,
+    owner_id uuid NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    size integer NOT NULL,
+    mime_type text NOT NULL
+);
+
+
+--
+-- Name: TABLE data_upload; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.data_upload IS '
+@name data_upload
+@omit create,update,delete';
+
+
+--
 -- Name: document; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -275,6 +299,14 @@ ALTER TABLE ONLY public.document_history ALTER COLUMN sequence SET DEFAULT nextv
 
 
 --
+-- Name: data_upload data_upload_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.data_upload
+    ADD CONSTRAINT data_upload_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: document_history document_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -351,6 +383,14 @@ ALTER TABLE ONLY public.users
 --
 
 CREATE INDEX "IDX_session_expire" ON public.session USING btree (expire);
+
+
+--
+-- Name: data_upload data_upload_owner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.data_upload
+    ADD CONSTRAINT data_upload_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
@@ -496,6 +536,7 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220405024517'),
     ('20220429204045'),
     ('20220518124101'),
+    ('20220629005921'),
     ('20220701142108'),
     ('20220712185036'),
     ('20220714214707'),
