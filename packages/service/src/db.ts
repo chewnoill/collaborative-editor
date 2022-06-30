@@ -32,7 +32,7 @@ const postgraphile_options: any = {
       "app.user_id": req.user?.id,
     };
   },
-  watchPg: IS_PROD ? false : true,
+  watchPg: false,
   graphiql: true,
   enhanceGraphiql: true,
   subscriptions: true,
