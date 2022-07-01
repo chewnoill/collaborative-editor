@@ -2,7 +2,7 @@
 title: Multi Media Documents
 ---
 
-# Document Upload
+# Media Upload
 
 
 ```mermaid

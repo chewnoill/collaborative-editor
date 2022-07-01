@@ -19,7 +19,7 @@ a document split out one symbol at a time will be useful.
 
 Grouping changes by author and time slice, for example, could be useful:
 
-```pg
+```sql
 select
     to_timestamp(
       extract('epoch' from created_at)::int / 60 * 60
@@ -40,7 +40,7 @@ import DocumentMenuWithHistory from './document-menu-w-history.png';
 <img src={DocumentMenuWithHistory}/>
 
 
-# What does document histroy look like?
+# What does document history look like?
 
 
 
