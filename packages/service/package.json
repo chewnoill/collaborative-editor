@@ -20,6 +20,7 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
+    "@google-cloud/storage": "^6.2.2",
     "@mapbox/rehype-prism": "^0.8.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
