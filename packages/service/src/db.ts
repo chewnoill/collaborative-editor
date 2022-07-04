@@ -10,6 +10,7 @@ import DocumentMutations from "./resolvers/documents";
 import RandomQueries from "./resolvers/random-names";
 import MdxQueries from "./resolvers/render-mdx";
 import { DATABASE_URL } from "./env";
+import DataUpload from "./resolvers/data-uploads";
 export { schema };
 
 const params = url.parseURL(DATABASE_URL);
@@ -45,7 +46,7 @@ const postgraphile_options: any = {
   legacyRelations: "omit",
   sortExport: true,
   disableQueryLog: true,
-  appendPlugins: [DocumentMutations, RandomQueries, MdxQueries],
+  appendPlugins: [DocumentMutations, RandomQueries, MdxQueries, DataUpload],
 };
 
 export function gqlMiddleware() {
