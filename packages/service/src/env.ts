@@ -4,6 +4,9 @@ export const NODE_ENV = process.env.NODE_ENV || "production";
 export const HOST = process.env.HOST || "0.0.0.0";
 export const PORT = process.env.PORT ? parseInt(process.env.PORT) : 6001;
 
+export const GCS_BUCKET_NAME = process.env.GCS_BUCKET_NAME;
+export const GCS_CREDS_FILE = process.env.GCS_CREDS_FILE;
+
 export const DATABASE_URL = process.env.DATABASE_URL;
 
 try {
