@@ -27,6 +27,9 @@ resource "google_compute_instance" "app" {
     apt-get install -y nodejs postgresql
     tar xvf download/service.tgz
     export DATABASE_URL=$(gcloud secrets versions access latest --secret="database-url")
+    gcloud secrets versions access latest --secret="user-content-upload-service-credentials" | base64 -d > gcs_user_content.json
+    export GCS_BUCKET_NAME=${google_storage_bucket.user_content.name}
+    export GCS_CREDS_FILE=$(pwd)/gcs_user_content.json
     export PORT=80
     export REDIS_URL=${var.redis_url}
 
