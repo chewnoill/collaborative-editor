@@ -5,6 +5,7 @@ import { gqlMiddleware } from "./db";
 import Session from "./session";
 import path from "path";
 import { loggerMiddleware } from "./logger";
+import { redirectForDownload } from "./resolvers/data-uploads";
 
 const app = express();
 
@@ -42,6 +43,8 @@ app.use(gqlMiddleware());
 app.get("/health-check", (_, resp) => {
   resp.send("OK");
 });
+
+app.get("/img/:id", (req, resp) => redirectForDownload(req.params.id, resp));
 
 app.post(
   "/api/login",
