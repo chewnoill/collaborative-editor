@@ -1,13 +1,35 @@
 import { makeExtendSchemaPlugin, gql } from "graphile-utils";
 import { Storage } from "@google-cloud/storage";
 import { GCS_BUCKET_NAME, GCS_CREDS_FILE } from "../env";
-import { db } from "../db";
+import { db, pool } from "../db";
 
 const storage = new Storage({
   keyFilename: GCS_CREDS_FILE,
 });
 
 const SIZE_LIMIT = 10000000; // 10mb
+
+export async function redirectForDownload(id: string, resp) {
+  const data = await db
+    .select("data_upload", {
+      id,
+    })
+    .run(pool);
+  if (!data) {
+    resp.send(404);
+    return;
+  }
+  const [url] = await storage
+    .bucket(GCS_BUCKET_NAME)
+    .file(id)
+    .getSignedUrl({
+      version: "v4" as const,
+      action: "read" as const,
+      expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+    });
+  resp.redirect(url);
+  return;
+}
 
 const DataUpload = makeExtendSchemaPlugin((build) => {
   return {
