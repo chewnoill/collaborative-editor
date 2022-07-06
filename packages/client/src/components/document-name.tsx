@@ -9,8 +9,13 @@ const Form = styled.form`
   flex-direction: column;
 `;
 
-export function DocumentName({ document_id }) {
-  const document = useDocument(document_id);
+function DocumentNameEditor({ document_id, name: defaultName }) {
+  const [name, setName] = React.useState(defaultName);
+
+  React.useEffect(() => {
+    mutation({ variables: { id: document_id, name } });
+  }, [name]);
+
   const [mutation] = useMutation(gql`
     mutation updateDocumentName($id: UUID!, $name: String!) {
       updateDocument(id: $id, update: { name: $name }) {
@@ -29,9 +34,16 @@ export function DocumentName({ document_id }) {
       variant="outlined"
       name="name"
       onChange={(evt) => {
-        mutation({ variables: { id: document_id, name: evt.target.value } });
+        setName(evt.target.value);
       }}
-      value={document.name}
+      value={name}
     />
   );
+}
+
+export function DocumentName({ document_id }) {
+  const document = useDocument(document_id);
+
+  if (!document) return null;
+  return <DocumentNameEditor name={document.name} document_id={document_id} />;
 }
