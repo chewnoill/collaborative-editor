@@ -1,6 +1,10 @@
 import { gql, useMutation } from "@apollo/client";
 import styled from "@emotion/styled";
-import { DOCUMENT_FRAGMENT, useDocument } from "apollo/selectors";
+import {
+  DOCUMENT_FRAGMENT,
+  useCurrentUser,
+  useDocument,
+} from "apollo/selectors";
 import React from "react";
 import TextField from "@mui/material/TextField";
 
@@ -9,7 +13,7 @@ const Form = styled.form`
   flex-direction: column;
 `;
 
-function DocumentNameEditor({ document_id, name: defaultName }) {
+function DocumentNameEditor({ document_id, name: defaultName, disabled }) {
   const [name, setName] = React.useState(defaultName);
 
   React.useEffect(() => {
@@ -37,13 +41,21 @@ function DocumentNameEditor({ document_id, name: defaultName }) {
         setName(evt.target.value);
       }}
       value={name}
+      disabled={disabled}
     />
   );
 }
 
 export function DocumentName({ document_id }) {
   const document = useDocument(document_id);
+  const user = useCurrentUser();
 
   if (!document) return null;
-  return <DocumentNameEditor name={document.name} document_id={document_id} />;
+  return (
+    <DocumentNameEditor
+      name={document.name}
+      document_id={document_id}
+      disabled={user?.id !== document?.creatorId}
+    />
+  );
 }
