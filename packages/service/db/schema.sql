@@ -175,6 +175,18 @@ COMMENT ON COLUMN public.document.latest_update_time IS '
 
 
 --
+-- Name: document_history; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.document_history (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    document_id uuid NOT NULL,
+    user_id uuid,
+    diff text NOT NULL
+);
+
+
+--
 -- Name: document_updates_queue; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -182,7 +194,8 @@ CREATE TABLE public.document_updates_queue (
     id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     document_id uuid NOT NULL,
     document_update bytea NOT NULL,
-    created_at timestamp without time zone DEFAULT now() NOT NULL
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    user_id uuid
 );
 
 
@@ -222,6 +235,16 @@ CREATE TABLE public.session (
     sess json NOT NULL,
     expire timestamp(6) without time zone NOT NULL
 );
+
+
+--
+-- Name: document_history document_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_history
+    ADD CONSTRAINT document_history_pkey PRIMARY KEY (id);
+
+
 --
 -- Name: document document_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
@@ -302,11 +325,35 @@ ALTER TABLE ONLY public.document
 
 
 --
+-- Name: document_history document_history_document_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_history
+    ADD CONSTRAINT document_history_document_id_fkey FOREIGN KEY (document_id) REFERENCES public.document(id) ON DELETE CASCADE;
+
+
+--
+-- Name: document_history document_history_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_history
+    ADD CONSTRAINT document_history_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: document_updates_queue document_updates_queue_document_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.document_updates_queue
     ADD CONSTRAINT document_updates_queue_document_id_fkey FOREIGN KEY (document_id) REFERENCES public.document(id) ON DELETE CASCADE;
+
+
+--
+-- Name: document_updates_queue document_updates_queue_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_updates_queue
+    ADD CONSTRAINT document_updates_queue_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -395,4 +442,6 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20210830223744'),
     ('20211001124627'),
     ('20220405024517'),
-    ('20220429204045');
+    ('20220429204045'),
+    ('20220518124101'),
+    ('20220701142108');
