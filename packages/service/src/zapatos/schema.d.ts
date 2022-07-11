@@ -448,6 +448,224 @@ declare module "zapatos/schema" {
   }
 
   /**
+   * **document_history**
+   * - Table in database
+   */
+  export namespace document_history {
+    export type Table = "document_history";
+    export interface Selectable {
+      /**
+       * **document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id: string;
+      /**
+       * **document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id: string;
+      /**
+       * **document_history.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id: string | null;
+      /**
+       * **document_history.diff**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      diff: string;
+    }
+    export interface JSONSelectable {
+      /**
+       * **document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id: string;
+      /**
+       * **document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id: string;
+      /**
+       * **document_history.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id: string | null;
+      /**
+       * **document_history.diff**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      diff: string;
+    }
+    export interface Whereable {
+      /**
+       * **document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **document_history.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **document_history.diff**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      diff?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+    }
+    export interface Insertable {
+      /**
+       * **document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+      /**
+       * **document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **document_history.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id?:
+        | string
+        | db.Parameter<string>
+        | null
+        | db.DefaultType
+        | db.SQLFragment;
+      /**
+       * **document_history.diff**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      diff: string | db.Parameter<string> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+       * **document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
+          >;
+      /**
+       * **document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **document_history.user_id**
+       * - `uuid` in database
+       * - Nullable, no default
+       */
+      user_id?:
+        | string
+        | db.Parameter<string>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | string
+            | db.Parameter<string>
+            | null
+            | db.DefaultType
+            | db.SQLFragment
+          >;
+      /**
+       * **document_history.diff**
+       * - `text` in database
+       * - `NOT NULL`, no default
+       */
+      diff?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+    }
+    export type UniqueIndex = "document_history_pkey";
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >;
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | (keyof Updatable)[]>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
    * **document_updates_queue**
    * - Table in database
    */
@@ -1367,6 +1585,7 @@ declare module "zapatos/schema" {
 
   export type Table =
     | document.Table
+    | document_history.Table
     | document_updates_queue.Table
     | schema_migrations.Table
     | session.Table
@@ -1374,6 +1593,7 @@ declare module "zapatos/schema" {
     | users.Table;
   export type Selectable =
     | document.Selectable
+    | document_history.Selectable
     | document_updates_queue.Selectable
     | schema_migrations.Selectable
     | session.Selectable
@@ -1381,6 +1601,7 @@ declare module "zapatos/schema" {
     | users.Selectable;
   export type JSONSelectable =
     | document.JSONSelectable
+    | document_history.JSONSelectable
     | document_updates_queue.JSONSelectable
     | schema_migrations.JSONSelectable
     | session.JSONSelectable
@@ -1388,6 +1609,7 @@ declare module "zapatos/schema" {
     | users.JSONSelectable;
   export type Whereable =
     | document.Whereable
+    | document_history.Whereable
     | document_updates_queue.Whereable
     | schema_migrations.Whereable
     | session.Whereable
@@ -1395,6 +1617,7 @@ declare module "zapatos/schema" {
     | users.Whereable;
   export type Insertable =
     | document.Insertable
+    | document_history.Insertable
     | document_updates_queue.Insertable
     | schema_migrations.Insertable
     | session.Insertable
@@ -1402,6 +1625,7 @@ declare module "zapatos/schema" {
     | users.Insertable;
   export type Updatable =
     | document.Updatable
+    | document_history.Updatable
     | document_updates_queue.Updatable
     | schema_migrations.Updatable
     | session.Updatable
@@ -1409,6 +1633,7 @@ declare module "zapatos/schema" {
     | users.Updatable;
   export type UniqueIndex =
     | document.UniqueIndex
+    | document_history.UniqueIndex
     | document_updates_queue.UniqueIndex
     | schema_migrations.UniqueIndex
     | session.UniqueIndex
@@ -1416,6 +1641,7 @@ declare module "zapatos/schema" {
     | users.UniqueIndex;
   export type Column =
     | document.Column
+    | document_history.Column
     | document_updates_queue.Column
     | schema_migrations.Column
     | session.Column
@@ -1423,6 +1649,7 @@ declare module "zapatos/schema" {
     | users.Column;
   export type AllBaseTables = [
     document.Table,
+    document_history.Table,
     document_updates_queue.Table,
     schema_migrations.Table,
     session.Table,
@@ -1434,6 +1661,7 @@ declare module "zapatos/schema" {
   export type AllMaterializedViews = [];
   export type AllTablesAndViews = [
     document.Table,
+    document_history.Table,
     document_updates_queue.Table,
     schema_migrations.Table,
     session.Table,
@@ -1443,6 +1671,7 @@ declare module "zapatos/schema" {
 
   export type SelectableForTable<T extends Table> = {
     document: document.Selectable;
+    document_history: document_history.Selectable;
     document_updates_queue: document_updates_queue.Selectable;
     schema_migrations: schema_migrations.Selectable;
     session: session.Selectable;
@@ -1452,6 +1681,7 @@ declare module "zapatos/schema" {
 
   export type JSONSelectableForTable<T extends Table> = {
     document: document.JSONSelectable;
+    document_history: document_history.JSONSelectable;
     document_updates_queue: document_updates_queue.JSONSelectable;
     schema_migrations: schema_migrations.JSONSelectable;
     session: session.JSONSelectable;
@@ -1461,6 +1691,7 @@ declare module "zapatos/schema" {
 
   export type WhereableForTable<T extends Table> = {
     document: document.Whereable;
+    document_history: document_history.Whereable;
     document_updates_queue: document_updates_queue.Whereable;
     schema_migrations: schema_migrations.Whereable;
     session: session.Whereable;
@@ -1470,6 +1701,7 @@ declare module "zapatos/schema" {
 
   export type InsertableForTable<T extends Table> = {
     document: document.Insertable;
+    document_history: document_history.Insertable;
     document_updates_queue: document_updates_queue.Insertable;
     schema_migrations: schema_migrations.Insertable;
     session: session.Insertable;
@@ -1479,6 +1711,7 @@ declare module "zapatos/schema" {
 
   export type UpdatableForTable<T extends Table> = {
     document: document.Updatable;
+    document_history: document_history.Updatable;
     document_updates_queue: document_updates_queue.Updatable;
     schema_migrations: schema_migrations.Updatable;
     session: session.Updatable;
@@ -1488,6 +1721,7 @@ declare module "zapatos/schema" {
 
   export type UniqueIndexForTable<T extends Table> = {
     document: document.UniqueIndex;
+    document_history: document_history.UniqueIndex;
     document_updates_queue: document_updates_queue.UniqueIndex;
     schema_migrations: schema_migrations.UniqueIndex;
     session: session.UniqueIndex;
@@ -1497,6 +1731,7 @@ declare module "zapatos/schema" {
 
   export type ColumnForTable<T extends Table> = {
     document: document.Column;
+    document_history: document_history.Column;
     document_updates_queue: document_updates_queue.Column;
     schema_migrations: schema_migrations.Column;
     session: session.Column;
@@ -1506,6 +1741,7 @@ declare module "zapatos/schema" {
 
   export type SQLForTable<T extends Table> = {
     document: document.SQL;
+    document_history: document_history.SQL;
     document_updates_queue: document_updates_queue.SQL;
     schema_migrations: schema_migrations.SQL;
     session: session.SQL;
