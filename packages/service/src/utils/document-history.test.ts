@@ -1,7 +1,12 @@
 import * as Y from "yjs";
 import { pool, db } from "../db";
 import { createDocument, insertUpdate } from "./documents";
-import { buildDocumentHistory } from "./document-history";
+import {
+  buildDocumentHistoryBuckets,
+  fetchDocumentHistoryBuckets,
+  getDocumentHistoryFromTable,
+  replaceDocumentHistory,
+} from "./document-history";
 
 afterAll(() => {
   return pool.end();
@@ -25,7 +30,20 @@ async function testFixtures() {
     user_id: user_b.id,
   });
   origin = Y.encodeStateVector(ydoc);
+  ytext.insert(100, "user b here to write");
+  await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
+    user_id: user_b.id,
+  });
+  origin = Y.encodeStateVector(ydoc);
   ytext.insert(10, "Second Update");
+  await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
+    user_id: user_a.id,
+  });
+  ytext.insert(40, "user a second Update");
+  await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
+    user_id: user_a.id,
+  });
+  ytext.insert(60, "aowejfoaiewjf");
   await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
     user_id: user_a.id,
   });
@@ -37,15 +55,33 @@ async function testFixtures() {
 test("document history can be generated", async () => {
   // create a yjs document A
   const { id } = await testFixtures();
-  const history = await buildDocumentHistory(id);
+  const id_obj = { id: id };
+  const history = await buildDocumentHistoryBuckets(id_obj);
+
   history.forEach((value, i) =>
     expect({
       ...value,
-      user: value.user || { id: "" },
+      user_id: value.user_id || "",
     }).toMatchSnapshot({
-      user: {
-        id: expect.any(String),
-      },
+      user_id: expect.any(String),
+      document_id: expect.any(String),
+    })
+  );
+});
+
+test("document history replaced in table", async () => {
+  const { id } = await testFixtures();
+  const id_obj = { id: id };
+  await replaceDocumentHistory(id_obj);
+  const tableHistory = await getDocumentHistoryFromTable(id_obj.id);
+  tableHistory.forEach((value, i) =>
+    expect({
+      ...value,
+      user_id: value.user_id || "",
+    }).toMatchSnapshot({
+      user_id: expect.any(String),
+      document_id: expect.any(String),
+      id: expect.any(String),
     })
   );
 });

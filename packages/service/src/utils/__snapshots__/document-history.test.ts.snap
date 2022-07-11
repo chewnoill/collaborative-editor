@@ -2,45 +2,79 @@
 
 exports[`document history can be generated 1`] = `
 Object {
-  "content": "hello world",
+  "content": "hello worlduser b here to write",
   "diff": "@@ -0,0 +1 @@
-+hello world
++hello worlduser b here to write
 \\\\ No newline at end of file
 ",
-  "user": Object {
-    "id": Any<String>,
-    "name": "User B",
-  },
+  "document_id": Any<String>,
+  "user_id": Any<String>,
 }
 `;
 
 exports[`document history can be generated 2`] = `
 Object {
-  "content": "hello worlSecond Updated",
+  "content": "hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite",
   "diff": "@@ -1 +1 @@
--hello world
+-hello worlduser b here to write
 \\\\ No newline at end of file
-+hello worlSecond Updated
++hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite
 \\\\ No newline at end of file
 ",
-  "user": Object {
-    "id": Any<String>,
-    "name": "User A",
-  },
+  "document_id": Any<String>,
+  "user_id": Any<String>,
 }
 `;
 
 exports[`document history can be generated 3`] = `
 Object {
   "content": "#YOOOOO
-hello worlSecond Updated",
+hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite",
   "diff": "@@ -1 +1,2 @@
 +#YOOOOO
- hello worlSecond Updated
+ hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite
 \\\\ No newline at end of file
 ",
-  "user": Object {
-    "id": Any<String>,
-  },
+  "document_id": Any<String>,
+  "user_id": Any<String>,
+}
+`;
+
+exports[`document history replaced in table 1`] = `
+Object {
+  "diff": "@@ -0,0 +1 @@
++hello worlduser b here to write
+\\\\ No newline at end of file
+",
+  "document_id": Any<String>,
+  "id": Any<String>,
+  "user_id": Any<String>,
+}
+`;
+
+exports[`document history replaced in table 2`] = `
+Object {
+  "diff": "@@ -1 +1 @@
+-hello worlduser b here to write
+\\\\ No newline at end of file
++hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite
+\\\\ No newline at end of file
+",
+  "document_id": Any<String>,
+  "id": Any<String>,
+  "user_id": Any<String>,
+}
+`;
+
+exports[`document history replaced in table 3`] = `
+Object {
+  "diff": "@@ -1 +1,2 @@
++#YOOOOO
+ hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite
+\\\\ No newline at end of file
+",
+  "document_id": Any<String>,
+  "id": Any<String>,
+  "user_id": Any<String>,
 }
 `;
