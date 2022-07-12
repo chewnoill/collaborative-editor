@@ -62,6 +62,29 @@ export function useDocumentQuery(id: string) {
   );
 }
 
+export function useDocumentHistory(id: string) {
+  return useQuery(
+    gql`
+      query DocumentHistory($id: UUID!) {
+        documentById(id: $id) {
+          documentHistoriesByDocumentId {
+            edges {
+              node {
+                diff
+                userByUserId {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    { variables: { id } }
+  );
+}
+
 export const useDocument = (id: string) =>
   useDocumentQuery(id).data?.documentById;
 
