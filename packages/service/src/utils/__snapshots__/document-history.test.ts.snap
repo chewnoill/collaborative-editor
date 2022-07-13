@@ -2,9 +2,9 @@
 
 exports[`document history can be generated 1`] = `
 Object {
-  "content": "hello worlduser b here to write",
+  "content": "hello world",
   "diff": "@@ -0,0 +1 @@
-+hello worlduser b here to write
++hello world
 \\\\ No newline at end of file
 ",
   "document_id": Any<String>,
@@ -14,9 +14,51 @@ Object {
 
 exports[`document history can be generated 2`] = `
 Object {
-  "content": "hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite",
+  "content": "hello worlduser b here to write",
+  "diff": "@@ -1 +1 @@
+-hello world
+\\\\ No newline at end of file
++hello worlduser b here to write
+\\\\ No newline at end of file
+",
+  "document_id": Any<String>,
+  "user_id": Any<String>,
+}
+`;
+
+exports[`document history can be generated 3`] = `
+Object {
+  "content": "hello worlSecond Updateduser b here to write",
   "diff": "@@ -1 +1 @@
 -hello worlduser b here to write
+\\\\ No newline at end of file
++hello worlSecond Updateduser b here to write
+\\\\ No newline at end of file
+",
+  "document_id": Any<String>,
+  "user_id": Any<String>,
+}
+`;
+
+exports[`document history can be generated 4`] = `
+Object {
+  "content": "hello worlSecond Updateduser b here to wuser a second Updaterite",
+  "diff": "@@ -1 +1 @@
+-hello worlSecond Updateduser b here to write
+\\\\ No newline at end of file
++hello worlSecond Updateduser b here to wuser a second Updaterite
+\\\\ No newline at end of file
+",
+  "document_id": Any<String>,
+  "user_id": Any<String>,
+}
+`;
+
+exports[`document history can be generated 5`] = `
+Object {
+  "content": "hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite",
+  "diff": "@@ -1 +1 @@
+-hello worlSecond Updateduser b here to wuser a second Updaterite
 \\\\ No newline at end of file
 +hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite
 \\\\ No newline at end of file
@@ -26,7 +68,7 @@ Object {
 }
 `;
 
-exports[`document history can be generated 3`] = `
+exports[`document history can be generated 6`] = `
 Object {
   "content": "#YOOOOO
 hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite",
@@ -43,7 +85,7 @@ hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite",
 exports[`document history replaced in table 1`] = `
 Object {
   "diff": "@@ -0,0 +1 @@
-+hello worlduser b here to write
++hello world
 \\\\ No newline at end of file
 ",
   "document_id": Any<String>,
@@ -55,7 +97,49 @@ Object {
 exports[`document history replaced in table 2`] = `
 Object {
   "diff": "@@ -1 +1 @@
+-hello world
+\\\\ No newline at end of file
++hello worlduser b here to write
+\\\\ No newline at end of file
+",
+  "document_id": Any<String>,
+  "id": Any<String>,
+  "user_id": Any<String>,
+}
+`;
+
+exports[`document history replaced in table 3`] = `
+Object {
+  "diff": "@@ -1 +1 @@
 -hello worlduser b here to write
+\\\\ No newline at end of file
++hello worlSecond Updateduser b here to write
+\\\\ No newline at end of file
+",
+  "document_id": Any<String>,
+  "id": Any<String>,
+  "user_id": Any<String>,
+}
+`;
+
+exports[`document history replaced in table 4`] = `
+Object {
+  "diff": "@@ -1 +1 @@
+-hello worlSecond Updateduser b here to write
+\\\\ No newline at end of file
++hello worlSecond Updateduser b here to wuser a second Updaterite
+\\\\ No newline at end of file
+",
+  "document_id": Any<String>,
+  "id": Any<String>,
+  "user_id": Any<String>,
+}
+`;
+
+exports[`document history replaced in table 5`] = `
+Object {
+  "diff": "@@ -1 +1 @@
+-hello worlSecond Updateduser b here to wuser a second Updaterite
 \\\\ No newline at end of file
 +hello worlSecond Updateduser b here to wuser a second Updateaowejfoaiewjfrite
 \\\\ No newline at end of file
@@ -66,7 +150,7 @@ Object {
 }
 `;
 
-exports[`document history replaced in table 3`] = `
+exports[`document history replaced in table 6`] = `
 Object {
   "diff": "@@ -1 +1,2 @@
 +#YOOOOO
