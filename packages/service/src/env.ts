@@ -33,3 +33,5 @@ function redisConfig(urlString: string) {
 }
 
 export const REDIS_CONFIG = redisConfig(REDIS_URL);
+
+if (NODE_ENV === "production") require("newrelic");

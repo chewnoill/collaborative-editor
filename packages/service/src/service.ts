@@ -1,9 +1,8 @@
-import "newrelic";
+import { HOST, PORT } from "./env";
 import http from "http";
 import app from "./app";
 import setupSignalingConnection from "./utils/signaling-connection";
 import setupProviderConnection from "./utils/provider-connection";
-import { HOST, PORT } from "./env";
 import ws from "ws";
 import Session from "./session";
 import passport from "./utils/passport";
