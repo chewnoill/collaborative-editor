@@ -43,8 +43,12 @@ async function testFixtures() {
     doc: ydoc,
   });
 
+  function getValue(ydoc: Y.Doc) {
+    return ydoc.getText("codemirror").toJSON();
+  }
+
   let origin = Y.encodeStateVector(ydoc);
-  ytext.insert(0, "hello world");
+  ytext.insert(0, "hello world\n");
   const start_date = new Date();
 
   await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
@@ -52,28 +56,28 @@ async function testFixtures() {
     created_at: start_date,
   });
   origin = Y.encodeStateVector(ydoc);
-  ytext.insert(100, "user b here to write");
+  ytext.insert(getValue(ydoc).length, "user b here to write\n");
   await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
     user_id: user_b.id,
     created_at: new Date(start_date.getTime() + INTERVAL),
   });
   origin = Y.encodeStateVector(ydoc);
-  ytext.insert(10, "Second Update");
+  ytext.insert(getValue(ydoc).length, "Second Update\n");
   await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
     user_id: user_a.id,
     created_at: new Date(start_date.getTime() + INTERVAL * 2),
   });
-  ytext.insert(40, "user a second Update");
+  ytext.insert(getValue(ydoc).length, "user a second Update\n");
   await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
     user_id: user_a.id,
     created_at: new Date(start_date.getTime() + INTERVAL * 3),
   });
-  ytext.insert(60, "aowejfoaiewjf");
+  ytext.insert(getValue(ydoc).length, "\n\naowejfoaiewjf\n");
   await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
     user_id: user_a.id,
     created_at: new Date(start_date.getTime() + INTERVAL * 4),
   });
-  ytext.insert(0, "#YOOOOO\n");
+  ytext.insert(0, "# YOOOOO\n\n");
   await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
     created_at: new Date(start_date.getTime() + INTERVAL * 5),
   });
