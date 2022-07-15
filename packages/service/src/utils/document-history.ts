@@ -17,35 +17,19 @@ export async function fetchDocumentHistoryBuckets(document_id: string) {
 
   return buckets;
 }
-
-//drop histories with document id
-export async function removeFromDocumentHistory(document) {
-  await db.sql`
-    DELETE FROM document_history
-    where document_history.document_id = ${db.param(document.document_id)}
-  `.run(pool);
-}
-
-const dropAndAdd = (document, arr) =>
-  db.serializable(pool, (txnClient) =>
+export async function replaceDocumentHistory(document) {
+  const documentHistory = await buildDocumentHistoryBuckets(document);
+  await db.serializable(pool, (txnClient) =>
     Promise.all([
       db
         .deletes("document_history", {
-          document_id: document.id,
-        })
-        .run(txnClient),
-      db.insert("document_history", arr).run(txnClient),
-    ])
-  );
 
-export async function replaceDocumentHistory(document) {
-  let arr = await buildDocumentHistoryBuckets(document);
-  let insertArr = arr.map(({ document_id, user_id, diff }) => ({
-    document_id,
-    user_id,
-    diff,
-  }));
-  await dropAndAdd(document, insertArr);
+
+        document_id: document.id,
+      })
+      .run(txnClient),
+    db.insert("document_history", documentHistory).run(txnClient),
+  ]));
 }
 
 export async function buildDocumentHistoryBuckets({
@@ -55,24 +39,23 @@ export async function buildDocumentHistoryBuckets({
 }) {
   const bucket_history = await fetchDocumentHistoryBuckets(document_id);
   const ydoc = new Y.Doc();
-  return bucket_history.reduce((acc, update) => {
-    update.array_agg.forEach((element) => {
-      Y.applyUpdate(ydoc, element);
-    });
+  return bucket_history
+    .reduce((acc, { array_agg, ...update }) => {
+      array_agg.forEach((element) => {
+        Y.applyUpdate(ydoc, element);
+      });
 
-    const content = ydoc.getText("codemirror").toJSON();
+      const content = ydoc.getText("codemirror").toJSON();
 
-    acc.push({
-      document_id: document_id,
-      user_id: update.user_id,
-      content: content,
-      diff: gitDiff(acc.length ? acc[acc.length - 1].content : "", content),
-    });
+      acc.push({
+        ...update,
+        sequence: acc.length + 1,
+        diff: gitDiff(acc.length ? acc[acc.length - 1].content : "", content),
+      });
 
-    return acc;
-  }, []);
-
-  return;
+      return acc;
+    }, [])
+    .map(({ content: _content, ...history }) => history);
 }
 
 export async function getDocumentHistoryFromTable(document_id: string) {
