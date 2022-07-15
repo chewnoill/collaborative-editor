@@ -455,12 +455,6 @@ declare module "zapatos/schema" {
     export type Table = "document_history";
     export interface Selectable {
       /**
-       * **document_history.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id: string;
-      /**
        * **document_history.document_id**
        * - `uuid` in database
        * - `NOT NULL`, no default
@@ -478,15 +472,21 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       diff: string;
+      /**
+       * **document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, default: `nextval('document_history_sequence_seq'::regclass)`
+       */
+      sequence: number;
+      /**
+       * **document_history.timeslice**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      timeslice: Date;
     }
     export interface JSONSelectable {
       /**
-       * **document_history.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id: string;
-      /**
        * **document_history.document_id**
        * - `uuid` in database
        * - `NOT NULL`, no default
@@ -504,22 +504,20 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       diff: string;
+      /**
+       * **document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, default: `nextval('document_history_sequence_seq'::regclass)`
+       */
+      sequence: number;
+      /**
+       * **document_history.timeslice**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      timeslice: db.TimestampString;
     }
     export interface Whereable {
-      /**
-       * **document_history.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
       /**
        * **document_history.document_id**
        * - `uuid` in database
@@ -562,14 +560,39 @@ declare module "zapatos/schema" {
             any,
             string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
           >;
+      /**
+       * **document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, default: `nextval('document_history_sequence_seq'::regclass)`
+       */
+      sequence?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **document_history.timeslice**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      timeslice?:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampString | Date)
+            | db.Parameter<db.TimestampString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >;
     }
     export interface Insertable {
-      /**
-       * **document_history.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
       /**
        * **document_history.document_id**
        * - `uuid` in database
@@ -593,22 +616,27 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       diff: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, default: `nextval('document_history_sequence_seq'::regclass)`
+       */
+      sequence?:
+        | number
+        | db.Parameter<number>
+        | db.DefaultType
+        | db.SQLFragment;
+      /**
+       * **document_history.timeslice**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      timeslice:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment;
     }
     export interface Updatable {
-      /**
-       * **document_history.id**
-       * - `uuid` in database
-       * - `NOT NULL`, default: `uuid_generate_v4()`
-       */
-      id?:
-        | string
-        | db.Parameter<string>
-        | db.DefaultType
-        | db.SQLFragment
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
-          >;
       /**
        * **document_history.document_id**
        * - `uuid` in database
@@ -648,6 +676,35 @@ declare module "zapatos/schema" {
         | db.Parameter<string>
         | db.SQLFragment
         | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, default: `nextval('document_history_sequence_seq'::regclass)`
+       */
+      sequence?:
+        | number
+        | db.Parameter<number>
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.DefaultType | db.SQLFragment
+          >;
+      /**
+       * **document_history.timeslice**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      timeslice?:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampString | Date)
+            | db.Parameter<db.TimestampString | Date>
+            | db.SQLFragment
+          >;
     }
     export type UniqueIndex = "document_history_pkey";
     export type Column = keyof Selectable;

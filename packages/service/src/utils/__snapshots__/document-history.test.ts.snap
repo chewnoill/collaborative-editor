@@ -2,53 +2,45 @@
 
 exports[`document history can be generated 1`] = `
 Object {
-  "content": "hello world
-",
   "diff": "@@ -0,0 +1 @@
 +hello world
 ",
   "document_id": Any<String>,
+  "sequence": 1,
+  "timeslice": Any<Date>,
   "user_id": Any<String>,
 }
 `;
 
 exports[`document history can be generated 2`] = `
 Object {
-  "content": "hello world
-user b here to write
-",
   "diff": "@@ -1 +1,2 @@
  hello world
 +user b here to write
 ",
   "document_id": Any<String>,
+  "sequence": 2,
+  "timeslice": Any<Date>,
   "user_id": Any<String>,
 }
 `;
 
 exports[`document history can be generated 3`] = `
 Object {
-  "content": "hello world
-user b here to write
-Second Update
-",
   "diff": "@@ -1,2 +1,3 @@
  hello world
  user b here to write
 +Second Update
 ",
   "document_id": Any<String>,
+  "sequence": 3,
+  "timeslice": Any<Date>,
   "user_id": Any<String>,
 }
 `;
 
 exports[`document history can be generated 4`] = `
 Object {
-  "content": "hello world
-user b here to write
-Second Update
-user a second Update
-",
   "diff": "@@ -1,3 +1,4 @@
  hello world
  user b here to write
@@ -56,20 +48,14 @@ user a second Update
 +user a second Update
 ",
   "document_id": Any<String>,
+  "sequence": 4,
+  "timeslice": Any<Date>,
   "user_id": Any<String>,
 }
 `;
 
 exports[`document history can be generated 5`] = `
 Object {
-  "content": "hello world
-user b here to write
-Second Update
-user a second Update
-
-
-aowejfoaiewjf
-",
   "diff": "@@ -2,3 +2,6 @@ hello world
  user b here to write
  Second Update
@@ -79,22 +65,14 @@ aowejfoaiewjf
 +aowejfoaiewjf
 ",
   "document_id": Any<String>,
+  "sequence": 5,
+  "timeslice": Any<Date>,
   "user_id": Any<String>,
 }
 `;
 
 exports[`document history can be generated 6`] = `
 Object {
-  "content": "# YOOOOO
-
-hello world
-user b here to write
-Second Update
-user a second Update
-
-
-aowejfoaiewjf
-",
   "diff": "@@ -1,3 +1,5 @@
 +# YOOOOO
 +
@@ -103,6 +81,8 @@ aowejfoaiewjf
  Second Update
 ",
   "document_id": Any<String>,
+  "sequence": 6,
+  "timeslice": Any<Date>,
   "user_id": Any<String>,
 }
 `;
@@ -113,7 +93,8 @@ Object {
 +hello world
 ",
   "document_id": Any<String>,
-  "id": Any<String>,
+  "sequence": 1,
+  "timeslice": Any<String>,
   "user_id": Any<String>,
 }
 `;
@@ -125,7 +106,8 @@ Object {
 +user b here to write
 ",
   "document_id": Any<String>,
-  "id": Any<String>,
+  "sequence": 2,
+  "timeslice": Any<String>,
   "user_id": Any<String>,
 }
 `;
@@ -138,7 +120,8 @@ Object {
 +Second Update
 ",
   "document_id": Any<String>,
-  "id": Any<String>,
+  "sequence": 3,
+  "timeslice": Any<String>,
   "user_id": Any<String>,
 }
 `;
@@ -152,7 +135,8 @@ Object {
 +user a second Update
 ",
   "document_id": Any<String>,
-  "id": Any<String>,
+  "sequence": 4,
+  "timeslice": Any<String>,
   "user_id": Any<String>,
 }
 `;
@@ -168,7 +152,8 @@ Object {
 +aowejfoaiewjf
 ",
   "document_id": Any<String>,
-  "id": Any<String>,
+  "sequence": 5,
+  "timeslice": Any<String>,
   "user_id": Any<String>,
 }
 `;
@@ -183,7 +168,8 @@ Object {
  Second Update
 ",
   "document_id": Any<String>,
-  "id": Any<String>,
+  "sequence": 6,
+  "timeslice": Any<String>,
   "user_id": Any<String>,
 }
 `;

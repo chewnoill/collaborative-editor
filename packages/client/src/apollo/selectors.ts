@@ -71,6 +71,7 @@ export function useDocumentHistory(id: string) {
             edges {
               node {
                 diff
+                timeslice
                 userByUserId {
                   id
                   name
