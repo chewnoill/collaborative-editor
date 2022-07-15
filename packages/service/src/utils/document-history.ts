@@ -5,11 +5,11 @@ import gitDiff from "git-diff";
 //select changes in document_updates_queue
 export async function fetchDocumentHistoryBuckets(document_id: string) {
   const buckets = await db.sql`
-  SELECT 
-        to_timestamp (extract ('epoch' from created_at)::int/60*60) as timeslice, 
-        user_id, document_id, users.name as username, array_agg(document_update)
-       
-        from document_updates_queue 
+  SELECT
+        to_timestamp (extract ('epoch' from created_at)::int/60*60) as timeslice,
+        user_id, document_id, array_agg(document_update)
+
+        from document_updates_queue
         left join users on document_updates_queue.user_id = users.id
         Where document_id = ${db.param(document_id)}
         group by document_id, timeslice, user_id, users.name
@@ -19,17 +19,15 @@ export async function fetchDocumentHistoryBuckets(document_id: string) {
 }
 export async function replaceDocumentHistory(document) {
   const documentHistory = await buildDocumentHistoryBuckets(document);
-  await db.serializable(pool, (txnClient) =>
-    Promise.all([
-      db
-        .deletes("document_history", {
-
-
+  await db.serializable(pool, async (txnClient) => {
+    await db
+      .deletes("document_history", {
         document_id: document.id,
       })
-      .run(txnClient),
-    db.insert("document_history", documentHistory).run(txnClient),
-  ]));
+      .run(txnClient);
+
+    return db.insert("document_history", documentHistory).run(txnClient);
+  });
 }
 
 export async function buildDocumentHistoryBuckets({
@@ -46,11 +44,13 @@ export async function buildDocumentHistoryBuckets({
       });
 
       const content = ydoc.getText("codemirror").toJSON();
+      const prevContent = acc.length ? acc[acc.length - 1].content : "";
 
       acc.push({
         ...update,
         sequence: acc.length + 1,
-        diff: gitDiff(acc.length ? acc[acc.length - 1].content : "", content),
+        content,
+        diff: gitDiff(prevContent, content),
       });
 
       return acc;

@@ -179,11 +179,32 @@ COMMENT ON COLUMN public.document.latest_update_time IS '
 --
 
 CREATE TABLE public.document_history (
-    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     document_id uuid NOT NULL,
     user_id uuid,
-    diff text NOT NULL
+    diff text NOT NULL,
+    sequence integer NOT NULL,
+    timeslice timestamp without time zone NOT NULL
 );
+
+
+--
+-- Name: document_history_sequence_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.document_history_sequence_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: document_history_sequence_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.document_history_sequence_seq OWNED BY public.document_history.sequence;
 
 
 --
@@ -238,11 +259,18 @@ CREATE TABLE public.session (
 
 
 --
+-- Name: document_history sequence; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_history ALTER COLUMN sequence SET DEFAULT nextval('public.document_history_sequence_seq'::regclass);
+
+
+--
 -- Name: document_history document_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.document_history
-    ADD CONSTRAINT document_history_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT document_history_pkey PRIMARY KEY (document_id, sequence);
 
 
 --
@@ -445,4 +473,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220429204045'),
     ('20220518124101'),
     ('20220701142108'),
-    ('20220712185036');
+    ('20220712185036'),
+    ('20220714214707');

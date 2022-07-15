@@ -97,6 +97,7 @@ test("document history can be generated", async () => {
     }).toMatchSnapshot({
       user_id: expect.any(String),
       document_id: expect.any(String),
+      timeslice: expect.any(Date),
     })
   );
 });
@@ -113,7 +114,7 @@ test("document history replaced in table", async () => {
     }).toMatchSnapshot({
       user_id: expect.any(String),
       document_id: expect.any(String),
-      id: expect.any(String),
+      timeslice: expect.any(String),
     })
   );
 });
