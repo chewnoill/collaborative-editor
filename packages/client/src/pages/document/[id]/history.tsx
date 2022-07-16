@@ -1,4 +1,5 @@
 import { useDocumentHistory } from "apollo/selectors";
+import HighlightHistory from "components/highlight-history";
 import AppLayout from "layout/app";
 import { useRouter } from "next/router";
 import React from "react";
@@ -11,7 +12,15 @@ export default function Document() {
   if (!id) return null;
   return (
     <AppLayout>
-      <pre>{JSON.stringify({ id, error, loading, data }, null, 2)}</pre>
+      {data?.documentById.documentHistoriesByDocumentId.edges.map(
+        ({ node }) => (
+          <HighlightHistory
+            code={node.diff}
+            username={node.userByUserId?.name}
+            timeslice={node.timeslice}
+          />
+        )
+      )}
     </AppLayout>
   );
 }
