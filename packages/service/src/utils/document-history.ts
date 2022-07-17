@@ -45,12 +45,15 @@ export async function buildDocumentHistoryBuckets({
 
       const content = ydoc.getText("codemirror").toJSON();
       const prevContent = acc.length ? acc[acc.length - 1].content : "";
+      const diff = gitDiff(prevContent, content);
+
+      if (!diff) return acc;
 
       acc.push({
         ...update,
         sequence: acc.length + 1,
         content,
-        diff: gitDiff(prevContent, content),
+        diff,
       });
 
       return acc;
