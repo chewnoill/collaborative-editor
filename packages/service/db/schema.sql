@@ -188,6 +188,15 @@ CREATE TABLE public.document_history (
 
 
 --
+-- Name: TABLE document_history; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.document_history IS '
+@name document history
+@omit create,update,delete';
+
+
+--
 -- Name: document_history_sequence_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -421,12 +430,27 @@ CREATE POLICY create_document_for_current_user ON public.document FOR INSERT TO 
 ALTER TABLE public.document ENABLE ROW LEVEL SECURITY;
 
 --
+-- Name: document_history; Type: ROW SECURITY; Schema: public; Owner: -
+--
+
+ALTER TABLE public.document_history ENABLE ROW LEVEL SECURITY;
+
+--
 -- Name: user_document invite_to_document_if_allowed; Type: POLICY; Schema: public; Owner: -
 --
 
 CREATE POLICY invite_to_document_if_allowed ON public.user_document FOR INSERT TO postgraphile_user WITH CHECK ((document_id IN ( SELECT document.id
    FROM public.document
   WHERE (document.creator_id = public.current_user_id()))));
+
+
+--
+-- Name: document_history select_document_history_if_allowed; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY select_document_history_if_allowed ON public.document_history FOR SELECT TO postgraphile_user USING ((document_id IN ( SELECT document.id
+   FROM public.document
+  WHERE (document.id = document_history.document_id))));
 
 
 --
@@ -474,4 +498,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220518124101'),
     ('20220701142108'),
     ('20220712185036'),
-    ('20220714214707');
+    ('20220714214707'),
+    ('20220717162732');
