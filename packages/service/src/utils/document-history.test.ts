@@ -37,10 +37,14 @@ async function testFixtures() {
 
   const ydoc = new Y.Doc();
   const ytext = ydoc.getText("codemirror");
+
+  const start_date = new Date();
+
   const { id } = await createDocument(pool, {
     creator_id: user_a.id,
     name: "test document",
     doc: ydoc,
+    latest_update_time: new Date(start_date.getTime() - 2 * INTERVAL),
   });
 
   function getValue(ydoc: Y.Doc) {
@@ -49,7 +53,6 @@ async function testFixtures() {
 
   let origin = Y.encodeStateVector(ydoc);
   ytext.insert(0, "hello world\n");
-  const start_date = new Date();
 
   await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, origin), {
     user_id: user_b.id,
