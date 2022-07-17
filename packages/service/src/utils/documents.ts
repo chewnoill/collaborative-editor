@@ -62,11 +62,13 @@ export const createDocument = (
     doc = new Y.Doc(),
     is_public = true,
     name,
+    latest_update_time = db.sql`now()`,
   }: {
     creator_id?: any;
     doc?: Y.Doc;
     is_public?: boolean;
     name: string;
+    latest_update_time?: Date | db.SQLFragment;
   }
 ) =>
   db
@@ -76,7 +78,7 @@ export const createDocument = (
       origin: Buffer.from(Y.encodeStateAsUpdate(doc)),
       web_rtc_key: "web_rtc_key",
       creator_id,
-      latest_update_time: db.sql`now()`,
+      latest_update_time,
       is_public,
     })
     .run(pool);
