@@ -450,6 +450,13 @@ ALTER TABLE ONLY public.user_document
 
 
 --
+-- Name: data_upload access_data_uploads; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY access_data_uploads ON public.data_upload TO postgraphile_user USING ((owner_id = public.current_user_id())) WITH CHECK ((owner_id = public.current_user_id()));
+
+
+--
 -- Name: document all_for_owner; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -462,6 +469,12 @@ CREATE POLICY all_for_owner ON public.document TO postgraphile_user USING ((crea
 
 CREATE POLICY create_document_for_current_user ON public.document FOR INSERT TO postgraphile_user WITH CHECK ((creator_id = public.current_user_id()));
 
+
+--
+-- Name: data_upload; Type: ROW SECURITY; Schema: public; Owner: -
+--
+
+ALTER TABLE public.data_upload ENABLE ROW LEVEL SECURITY;
 
 --
 -- Name: document; Type: ROW SECURITY; Schema: public; Owner: -
@@ -540,4 +553,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220701142108'),
     ('20220712185036'),
     ('20220714214707'),
-    ('20220717162732');
+    ('20220717162732'),
+    ('20220717194812');
