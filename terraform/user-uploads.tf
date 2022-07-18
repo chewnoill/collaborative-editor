@@ -4,6 +4,13 @@ resource "google_storage_bucket" "user_content" {
   name = "user-content-${random_uuid.user_content.id}"
   force_destroy = true
   uniform_bucket_level_access = true
+
+  cors {
+    origin          = ["*"]
+    method          = ["GET", "PUT"]
+    response_header = ["*"]
+    max_age_seconds = 3600
+  }
 }
 
 output "user-content-bucket" {
@@ -32,6 +39,7 @@ output "user_content_upload_service_credentials" {
   description = "Service account credentials for accessing user-content GCS bucket"
   sensitive   = true
 }
+
 
 resource "google_secret_manager_secret" "user_content_upload_service_credentials" {
   secret_id = "user-content-upload-service-credentials"
