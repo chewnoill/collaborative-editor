@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.1",
+    "@codemirror/lang-markdown": "^6.0.0",
+    "@codemirror/state": "^6.1.0",
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
@@ -20,7 +22,7 @@
     "@types/d3": "^3.5.34",
     "@types/ws": "^7.4.5",
     "body-parser": "^1.19.0",
-    "codemirror": "^5.61.1",
+    "codemirror": "^6.0.1",
     "d3": "3.5.17",
     "graphql": "^15.5.1",
     "mdx-hydra": "^0.0.11",
@@ -31,10 +33,11 @@
     "storybook": "^6.2.9",
     "stylis": "4.0.4",
     "y-codemirror": "^2.1.1",
+    "y-codemirror.next": "^0.3.0",
     "y-protocols": "^1.0.5",
     "y-webrtc": "^10.2.0",
     "y-websocket": "^1.3.15",
-    "yjs": "^13.5.10"
+    "yjs": "^13.5.39"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006 -s ./public",
