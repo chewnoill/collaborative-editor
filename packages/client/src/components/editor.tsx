@@ -19,7 +19,7 @@ export default function Editor({ document_id }: { document_id: string }) {
 
 const TextBox = styled.div`
   height: 100%;
-  width: 100%;
+  width: calc(100% - 90px);
   .remote-caret {
     position: absolute;
     border-left: black;
