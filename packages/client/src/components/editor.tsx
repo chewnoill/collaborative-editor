@@ -45,6 +45,9 @@ const TextBox = styled.div`
   .CodeMirror {
     height: 100%;
   }
+  .cm-editor.cm-focused {
+    outline: none;
+  }
 `;
 
 const usercolors = [
