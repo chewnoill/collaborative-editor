@@ -104,7 +104,7 @@ const setupProviderConnection = async (
     // send sync step 1
     const encoder = encoding.createEncoder();
     encoding.writeVarUint(encoder, messageSync);
-    syncProtocol.writeSyncStep1(encoder, doc);
+    syncProtocol.writeSyncStep1(encoder, doc as any);
     doc.send(conn, encoding.toUint8Array(encoder));
     const awarenessStates = doc.awareness.getStates();
     if (awarenessStates.size > 0) {
