@@ -10,7 +10,7 @@ import Head from "next/head";
 
 const AppLayout = styled.div`
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: center;
 `;
