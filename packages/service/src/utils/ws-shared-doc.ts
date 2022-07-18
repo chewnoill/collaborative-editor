@@ -70,7 +70,7 @@ export class WSSharedDoc extends Y.Doc {
     /**
      * @type {awarenessProtocol.Awareness}
      */
-    this.awareness = new awarenessProtocol.Awareness(this);
+    this.awareness = new awarenessProtocol.Awareness(this as any);
     this.awareness.setLocalState(null);
 
     /**
