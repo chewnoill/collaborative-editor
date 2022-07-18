@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import * as Y from "yjs";
-import { CodemirrorBinding } from "y-codemirror";
-import CodeMirror from "codemirror";
-import "codemirror/mode/markdown/markdown.js";
-import "codemirror/lib/codemirror.css";
+import { EditorView, basicSetup } from "codemirror";
+import { EditorState } from "@codemirror/state";
+import { markdown } from "@codemirror/lang-markdown";
+import { yCollab } from "y-codemirror.next";
+
 import styled from "@emotion/styled";
 import useYDoc from "hooks/use-y-doc";
 import { useCurrentUserQuery } from "apollo/selectors";
@@ -79,15 +80,24 @@ function TextCanvas({ document_id, name }) {
     const yText = data.ydoc.getText("codemirror");
     const yUndoManager = new Y.UndoManager(yText);
 
-    const editor = CodeMirror(ref.current, {
-      mode: "markdown",
-      lineNumbers: true,
-      height: "100%",
-      width: "100%",
+    const state = EditorState.create({
+      doc: yText.toString(),
+      extensions: [
+        basicSetup,
+        markdown(),
+        yCollab(yText, data.rtcProvider.awareness, {
+          undoManager: yUndoManager,
+        }),
+        EditorView.domEventHandlers({
+          drop(event, view) {
+            console.log("dropped", event, view);
+          },
+        }),
+      ],
     });
-
-    new CodemirrorBinding(yText, editor, data.rtcProvider.awareness, {
-      yUndoManager,
+    const editor = new EditorView({
+      state,
+      parent: ref.current,
     });
   }, [ref, data]);
 
