@@ -12,6 +12,7 @@
   "dependencies": {
     "@apollo/client": "^3.4.1",
     "@codemirror/lang-markdown": "^6.0.0",
+    "@codemirror/language-data": "^6.1.0",
     "@codemirror/state": "^6.1.0",
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.4.0",
