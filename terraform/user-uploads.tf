@@ -61,3 +61,9 @@ resource "google_secret_manager_secret_version" "user_content_upload_service_cre
   secret = google_secret_manager_secret.user_content_upload_service_credentials.id
   secret_data = google_service_account_key.service_key.private_key
 }
+
+resource "google_secret_manager_secret_iam_member" "app-member-upload-creds" {
+  secret_id = google_secret_manager_secret.user_content_upload_service_credentials.secret_id
+  role = "roles/secretmanager.secretAccessor"
+  member = "serviceAccount:${google_service_account.app-user.email}"
+}
