@@ -3,6 +3,7 @@ import * as Y from "yjs";
 import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
+import { languages } from "@codemirror/language-data";
 import { yCollab } from "y-codemirror.next";
 
 import styled from "@emotion/styled";
@@ -87,7 +88,7 @@ function TextCanvas({ document_id, name }) {
       doc: yText.toString(),
       extensions: [
         basicSetup,
-        markdown(),
+        markdown({ codeLanguages: languages }),
         yCollab(yText, data.rtcProvider.awareness, {
           undoManager: yUndoManager,
         }),
