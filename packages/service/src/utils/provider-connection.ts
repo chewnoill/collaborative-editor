@@ -22,7 +22,6 @@ const providerMessageResolver = (conn, message, doc) => {
         doc.send(conn, encoding.toUint8Array(encoder));
       } else {
         syncProtocol.writeSyncStep2(encoder, doc);
-        doc.send(conn, encoding.toUint8Array(encoder));
       }
       break;
     case messageAwareness: {
