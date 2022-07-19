@@ -3,6 +3,7 @@ import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import { WebrtcProvider } from "y-webrtc";
 import { CENTRAL_AUTHORITY, SIGNALING_SERVICE } from "env";
+import { useDocument } from "apollo/selectors";
 
 const cleanupProvider = (provider) => {
   if (!!provider) {
@@ -44,6 +45,14 @@ export function useYDocValue(id) {
 
 export default function useYDoc(id) {
   const state = useRef(memoizeYDoc(id)).current;
+  const doc = useDocument(id);
+
+  useEffect(() => {
+    if (!doc?.origin || !state.ydoc) return;
+    const buf = Buffer.from(doc?.origin.slice(2), "hex");
+
+    Y.applyUpdate(state.ydoc, buf);
+  }, [doc?.origin, state.yDoc]);
 
   useEffect(() => {
     const { ydoc, rtcProvider, wsProvider } = state;
