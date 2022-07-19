@@ -24,6 +24,10 @@ function usePrevious(value) {
   return ref.current;
 }
 
+function Img({ id, name, mime_type }) {
+  return <img style={{ width: "100%" }} src={`/img/${id}`} alt={name} />;
+}
+
 export default function PreviewMdx({ id }: any) {
   const value = useYDocValue(id);
   const { data } = usePreviewMdx(id, value);
@@ -37,7 +41,9 @@ export default function PreviewMdx({ id }: any) {
       <Hydrate
         {...{
           ...currentMdx,
-          components: {},
+          components: {
+            Img,
+          },
           Wrapper: ({ children }) => children,
         }}
       />
