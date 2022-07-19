@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Y from "yjs";
 import { EditorView, basicSetup } from "codemirror";
-import { EditorState } from "@codemirror/state";
+import { EditorSelection, EditorState } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 import { yCollab } from "y-codemirror.next";
@@ -9,6 +9,7 @@ import { yCollab } from "y-codemirror.next";
 import styled from "@emotion/styled";
 import useYDoc from "hooks/use-y-doc";
 import { useCurrentUserQuery } from "apollo/selectors";
+import { useFileUpload } from "hooks/use-file-upload";
 
 export default function Editor({ document_id }: { document_id: string }) {
   const { data } = useCurrentUserQuery();
@@ -67,6 +68,7 @@ function pickAColor() {
 }
 
 function TextCanvas({ document_id, name }) {
+  const uploadFile = useFileUpload();
   const ref = React.useRef();
   const data = useYDoc(document_id);
 
@@ -94,7 +96,23 @@ function TextCanvas({ document_id, name }) {
         }),
         EditorView.domEventHandlers({
           drop(event, view) {
-            console.log("dropped", event, view);
+            const pos = view.posAtCoords({ x: event.pageX, y: event.pageY });
+
+            const files = event.dataTransfer.files;
+            if (files.length === 0) return false;
+            (async () => {
+              const uploads = await Promise.all(
+                Array.from(files).map(uploadFile)
+              );
+
+              uploads.forEach(({ id, name, mime_type }) =>
+                yText.insert(
+                  pos,
+                  `<Img id="${id}"\n     mime_type="${mime_type}"\n     name="${name}"/>\n`
+                )
+              );
+            })();
+            return true;
           },
         }),
       ],
@@ -106,4 +124,5 @@ function TextCanvas({ document_id, name }) {
   }, [ref, data]);
 
   return <TextBox ref={ref} />;
+  return <TextBox ref={ref} onDrop={(e) => {}} />;
 }
