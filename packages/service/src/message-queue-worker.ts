@@ -10,7 +10,11 @@ async function main() {
       if (workers[job.name]) {
         workers[job.name].run(job);
       } else {
-        console.log(`unknown jobtype: ${job.name}`);
+        logger({
+          level: "warn",
+          service: "update-document-history",
+          message: `unknown jobtype: ${job.name}`,
+        });
       }
     },
     REDIS_CONFIG
@@ -21,6 +25,7 @@ async function main() {
       level: "info",
       service: "update-document-history",
       message: `${job.name} completed`,
+      body: job.data,
     });
   });
   worker.on("failed", ({ id, name, failedReason }) => {
