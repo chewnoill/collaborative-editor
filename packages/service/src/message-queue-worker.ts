@@ -1,6 +1,7 @@
 import { Worker, QueueScheduler } from "bullmq";
 import workers from "./worker";
 import { REDIS_CONFIG } from "./env";
+import logger from "./logger";
 
 async function main() {
   const worker = new Worker(
@@ -14,6 +15,31 @@ async function main() {
     },
     REDIS_CONFIG
   );
+
+  worker.on("completed", (job) => {
+    logger({
+      level: "info",
+      service: "update-document-history",
+      message: `${job.name} completed`,
+    });
+  });
+  worker.on("failed", ({ id, name, failedReason }) => {
+    logger({
+      level: "error",
+      service: "update-document-history",
+      message: `${name} failed, ${id}`,
+      failedReason,
+    });
+  });
+
+  worker.on("progress", ({ id, name, data }) => {
+    logger({
+      level: "info",
+      service: "update-document-history",
+      message: `${name} progress, ${id}`,
+      data,
+    });
+  });
 
   // start a schedular, which enabled retrys and repeatable jobs
   new QueueScheduler("q", REDIS_CONFIG);
