@@ -1,40 +1,27 @@
 import * as Y from "yjs";
 import { db } from "../db";
-import { queue } from "../mq";
-import {
-  fetchDocument,
-  selectAllUpdatedDocuments,
-  updateDocumentContent,
-} from "../utils/documents";
+import logger from "../logger";
+import { fetchDocument, updateDocumentContent } from "../utils/documents";
 
 const config = {
   key: "update-document",
-  run: async function updateDocument(job) {
-    const updatableDocuments = await selectAllUpdatedDocuments();
-    if (updatableDocuments.length === 0) {
-      console.log("nothing to update");
+  run: async function updateDocument(params: { data: { document_id } }) {
+    if (!params?.data?.document_id) {
+      logger({
+        level: "warn",
+        service: "update-document",
+        message: "invalid params",
+        body: params,
+      });
       return;
     }
-    await Promise.all(updatableDocuments.map(updateSingleDocument));
+    await updateSingleDocument(params.data.document_id);
   },
 };
 
 export default config;
 
-async function setupRepeatableJobs() {
-  await queue.add(
-    config.key,
-    {},
-    {
-      repeat: {
-        cron: "*/1 * * * *",
-      },
-    }
-  );
-}
-setupRepeatableJobs();
-
-async function updateSingleDocument({ id: document_id }: { id: string }) {
+async function updateSingleDocument(document_id: string) {
   const yDoc = new Y.Doc();
   const dbDoc = await fetchDocument(document_id);
   Y.applyUpdate(
@@ -47,8 +34,12 @@ async function updateSingleDocument({ id: document_id }: { id: string }) {
 
   if (dbDoc.document_updates.length === 0) {
     // nothing to do?
-    console.log("why am I here?");
-    return yDoc;
+    logger({
+      level: "warn",
+      service: "update-document",
+      message: "nothing to update",
+    });
+    return;
   }
 
   const latest_update =
@@ -62,6 +53,4 @@ async function updateSingleDocument({ id: document_id }: { id: string }) {
       latest_update.id
     )})`
   );
-
-  return yDoc;
 }

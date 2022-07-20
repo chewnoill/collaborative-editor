@@ -2,6 +2,7 @@ import { decoding, encoding } from "lib0";
 import * as awarenessProtocol from "y-protocols/awareness";
 import * as syncProtocol from "y-protocols/sync";
 import logger from "../logger";
+import { queue } from "../mq";
 import { insertUpdate } from "./documents";
 import { getYDoc } from "./ws-shared-doc";
 
@@ -52,6 +53,9 @@ const setupProviderConnection = async (
   doc.on("update", (update) => {
     insertUpdate(docName, update, {
       user_id: req.user?.id,
+    }).then(() => {
+      queue.add("update-document", { document_id: docName });
+      queue.add("update-document-history", { document_id: docName });
     });
   });
   doc.conns.set(conn, new Set());
