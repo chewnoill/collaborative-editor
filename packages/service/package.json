@@ -66,6 +66,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "nodemon -e ts -w src -x yarn start",
+    "dev-mq": "nodemon -e ts -w src -x yarn mq-worker",
     "mq-worker": "NODE_ENV=dev TS_NODE_FILES=true ts-node src/message-queue-worker.ts",
     "start": "NODE_ENV=dev TS_NODE_FILES=true ts-node src/service.ts",
     "start:prod": "node dist/bundle.js",
