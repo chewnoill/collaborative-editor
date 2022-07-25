@@ -124,5 +124,4 @@ function TextCanvas({ document_id, name }) {
   }, [ref, data]);
 
   return <TextBox ref={ref} />;
-  return <TextBox ref={ref} onDrop={(e) => {}} />;
 }
