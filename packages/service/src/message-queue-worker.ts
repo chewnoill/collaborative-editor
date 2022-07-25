@@ -23,15 +23,14 @@ async function main() {
   worker.on("completed", (job) => {
     logger({
       level: "info",
-      service: "update-document-history",
+      service: "worker",
       message: `${job.name} completed`,
-      body: job.data,
     });
   });
   worker.on("failed", ({ id, name, failedReason }) => {
     logger({
       level: "error",
-      service: "update-document-history",
+      service: "worker",
       message: `${name} failed, ${id}`,
       failedReason,
     });
@@ -40,7 +39,7 @@ async function main() {
   worker.on("progress", ({ id, name, data }) => {
     logger({
       level: "info",
-      service: "update-document-history",
+      service: "worker",
       message: `${name} progress, ${id}`,
       data,
     });
