@@ -489,6 +489,17 @@ ALTER TABLE public.document ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.document_history ENABLE ROW LEVEL SECURITY;
 
 --
+-- Name: document_updates_queue document_updates_queue_if_allowed; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY document_updates_queue_if_allowed ON public.document_updates_queue TO postgraphile_user USING ((document_id IN ( SELECT document.id
+   FROM public.document
+  WHERE (document.id = document_updates_queue.document_id)))) WITH CHECK ((document_id IN ( SELECT document.id
+   FROM public.document
+  WHERE (document.id = document_updates_queue.document_id))));
+
+
+--
 -- Name: user_document invite_to_document_if_allowed; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -554,4 +565,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220712185036'),
     ('20220714214707'),
     ('20220717162732'),
-    ('20220717194812');
+    ('20220717194812'),
+    ('20220725215639');

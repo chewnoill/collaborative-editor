@@ -1,5 +1,12 @@
 import { makeExtendSchemaPlugin, gql } from "graphile-utils";
-import { createDocument, updateDocumentMeta } from "../utils/documents";
+import { toBuffer } from "zapatos/db";
+import { db } from "../db";
+import { queue } from "../mq";
+import {
+  createDocument,
+  insertUpdate,
+  updateDocumentMeta,
+} from "../utils/documents";
 
 const DocumentMutations = makeExtendSchemaPlugin((build) => {
   return {
@@ -8,6 +15,7 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
         # Individual record
         createDoc(name: String!): Document
         updateDocument(id: UUID!, update: DocumentUpdateInput!): Document
+        editDocument(id: UUID!, update: String!): Boolean
       }
       input DocumentUpdateInput {
         isPublic: Boolean
@@ -18,6 +26,13 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
       Mutation: {
         createDoc(_, { name }, { pgClient }) {
           return createDocument(pgClient, { name });
+        },
+        async editDocument(_, { id, update }, { pgClient }) {
+          await insertUpdate(id, toBuffer(update), {
+            user_id: db.sql`current_user_id()`,
+          }).run(pgClient);
+          await queue.add("update-document", { document_id: id, update });
+          return true;
         },
         async updateDocument(_, { id, update }, { pgClient }) {
           const meta = await updateDocumentMeta(id, {

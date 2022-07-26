@@ -1,21 +1,20 @@
 import { Pool } from "pg";
 import * as Y from "yjs";
+import { toBuffer } from "zapatos/db";
 import { db, pool, schema } from "../db";
 
 const TEXT_NAME = "codemirror";
 
 export function insertUpdate(
   document_id: string,
-  document_update: Uint8Array,
-  { user_id }: { user_id?: string } = {}
+  document_update: Buffer,
+  { user_id=db.sql`current_user_id()` }: { user_id?: db.SQLFragment | string } = {}
 ) {
-  return db
-    .insert("document_updates_queue", {
-      user_id,
-      document_id,
-      document_update: Buffer.from(document_update),
-    })
-    .run(pool);
+  return db.insert("document_updates_queue", {
+    user_id,
+    document_id,
+    document_update,
+  });
 }
 
 export function updateDocumentMeta(

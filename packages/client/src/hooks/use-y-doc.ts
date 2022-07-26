@@ -4,6 +4,7 @@ import { WebsocketProvider } from "y-websocket";
 import { WebrtcProvider } from "y-webrtc";
 import { CENTRAL_AUTHORITY, SIGNALING_SERVICE } from "env";
 import { useDocument } from "apollo/selectors";
+import { gql, useMutation } from "@apollo/client";
 
 const cleanupProvider = (provider) => {
   if (!!provider) {
@@ -11,6 +12,14 @@ const cleanupProvider = (provider) => {
   }
 };
 
+export function useEditDocument() {
+  const [mutate] = useMutation(gql`
+    mutation editDocument($id: UUID!, $update: String!) {
+      editDocument(id: $id, update: $update)
+    }
+  `);
+  return mutate;
+}
 const yDocMap = {};
 
 export function memoizeYDoc(id: string) {
@@ -45,13 +54,25 @@ export function useYDocValue(id) {
 export default function useYDoc(id) {
   const state = useRef(memoizeYDoc(id)).current;
   const doc = useDocument(id);
+  const updateDoc = useEditDocument();
 
   useEffect(() => {
     if (!doc?.origin || !state.ydoc) return;
     const buf = Buffer.from(doc?.origin.slice(2), "hex");
+    Y.applyUpdate(state.ydoc, buf, "init");
 
-    Y.applyUpdate(state.ydoc, buf);
-  }, [doc?.origin, state.yDoc]);
+    state.ydoc.on("update", (update, origin) => {
+      console.log(`updating!! ${JSON.stringify(origin, null, 2)}`);
+      if (origin === "init") return;
+      updateDoc({
+        variables: {
+          id,
+          update: `\\x${Buffer.from(update).toString("hex")}`,
+        },
+      });
+      Y.logUpdate(update);
+    });
+  }, [doc?.origin, state.ydoc]);
 
   useEffect(() => {
     const { ydoc, rtcProvider, wsProvider } = state;
