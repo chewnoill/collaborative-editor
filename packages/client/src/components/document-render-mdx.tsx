@@ -1,15 +1,12 @@
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
 import { usePreviewMdx } from "apollo/selectors";
 import { useYDocValue } from "hooks/use-y-doc";
 import { hydrate } from "mdx-hydra/build/hydrate";
 import React, { useEffect, useRef } from "react";
+import PreviewWrapper from "./preview-wrapper";
 
 function Hydrate(props: any) {
   return hydrate(props);
 }
-
-const PreviewWrapper = styled(Box)({});
 
 // Hook
 function usePrevious(value) {
@@ -37,7 +34,7 @@ export default function PreviewMdx({ id }: any) {
   const currentMdx = mdx || prevMdx;
   if (!currentMdx) return <div>loading...</div>;
   return (
-    <PreviewWrapper sx={{}}>
+    <PreviewWrapper>
       <Hydrate
         {...{
           ...currentMdx,

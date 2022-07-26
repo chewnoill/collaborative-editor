@@ -2,15 +2,16 @@ import React, { useRef } from "react";
 import styled from "@emotion/styled";
 import { useAllDocumentsQuery } from "apollo/selectors";
 import { hydrate } from "mdx-hydra/build/hydrate";
-import { Box, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import DocumentMenu from "./document-menu";
+import PreviewWrapper from "./preview-wrapper";
 
 export function DocumentView({ id, mdx }: any) {
   const ref = useRef();
   const router = useRouter();
   return (
-    <Box
+    <PreviewWrapper
       ref={ref}
       sx={{ position: "relative", width: "100%", minHeight: "60px" }}
     >
@@ -29,7 +30,7 @@ export function DocumentView({ id, mdx }: any) {
           textAlign: "inherit",
           textTransform: "none",
           minHeight: "60px",
-          maxHeight: "200px",
+          maxHeight: "800px",
           overflow: "hidden",
           alignItems: "normal",
           justifyContent: "left",
@@ -42,7 +43,7 @@ export function DocumentView({ id, mdx }: any) {
         })}
       </Button>
       <DocumentMenu document_id={id} />
-    </Box>
+    </PreviewWrapper>
   );
 }
 
