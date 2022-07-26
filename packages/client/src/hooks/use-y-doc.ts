@@ -20,9 +20,8 @@ export function memoizeYDoc(id: string) {
   const rtcProvider = new WebrtcProvider(id, ydoc, {
     signaling: [SIGNALING_SERVICE],
   } as any);
-  const wsProvider = new WebsocketProvider(CENTRAL_AUTHORITY, id, ydoc);
 
-  yDocMap[id] = { ydoc, rtcProvider, wsProvider };
+  yDocMap[id] = { ydoc, rtcProvider };
   return yDocMap[id];
 }
 

@@ -76,9 +76,6 @@ function TextCanvas({ document_id, name }) {
     if (!data.ydoc) {
       return;
     }
-    data.wsProvider.on("status", (event) => {
-      console.log(event.status); // logs "connected" or "disconnected"
-    });
     data.rtcProvider.awareness.setLocalStateField("user", {
       color: pickAColor(),
       name,
