@@ -8,7 +8,9 @@ const TEXT_NAME = "codemirror";
 export function insertUpdate(
   document_id: string,
   document_update: Buffer,
-  { user_id=db.sql`current_user_id()` }: { user_id?: db.SQLFragment | string } = {}
+  {
+    user_id = db.sql`current_user_id()`,
+  }: { user_id?: db.SQLFragment | string } = {}
 ) {
   return db.insert("document_updates_queue", {
     user_id,
@@ -144,7 +146,7 @@ export function fetchDocument(id: string): Promise<DocumentWithUpdates> {
     }));
 }
 
-export function buildYDoc(dbDoc: DocumentWithUpdates){
+export function buildYDoc(dbDoc: DocumentWithUpdates) {
   const yDoc = new Y.Doc();
 
   Y.applyUpdate(
