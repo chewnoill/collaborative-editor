@@ -3,11 +3,13 @@ import api from "./api";
 import { Provider } from "react-redux";
 import user from "./appState/user";
 import document from "./appState/document";
+import ydocs from "./appState/y-doc";
 
 export const store = configureStore({
   reducer: {
     user,
     document,
+    ["y-doc"]: ydocs,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

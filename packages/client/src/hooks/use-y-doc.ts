@@ -1,16 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import * as Y from "yjs";
-import { WebsocketProvider } from "y-websocket";
-import { WebrtcProvider } from "y-webrtc";
-import { CENTRAL_AUTHORITY, SIGNALING_SERVICE } from "env";
 import { useDocument } from "apollo/selectors";
 import { gql, useMutation } from "@apollo/client";
-
-const cleanupProvider = (provider) => {
-  if (!!provider) {
-    provider.destroy();
-  }
-};
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createDocument,
+  selectYDocument,
+  selectYDocumentAwareness,
+} from "ducks/appState/y-doc";
 
 export function useEditDocument() {
   const [mutate] = useMutation(gql`
@@ -20,23 +17,10 @@ export function useEditDocument() {
   `);
   return mutate;
 }
-const yDocMap = {};
-
-export function memoizeYDoc(id: string) {
-  if (yDocMap[id]) return yDocMap[id];
-
-  const ydoc = new Y.Doc();
-  const rtcProvider = new WebrtcProvider(id, ydoc, {
-    signaling: [SIGNALING_SERVICE],
-  } as any);
-
-  yDocMap[id] = { ydoc, rtcProvider };
-  return yDocMap[id];
-}
 
 export function useYDocValue(id) {
+  const ydoc = useSelector((store) => selectYDocument(store, { id }));
   const [val, setVal] = useState("");
-  const { ydoc } = useYDoc(id);
   useEffect(() => {
     function eventHandler(_, __, doc) {
       setVal(doc.getText("codemirror").toJSON());
@@ -51,18 +35,26 @@ export function useYDocValue(id) {
   return val;
 }
 
-export default function useYDoc(id) {
-  const state = useRef(memoizeYDoc(id)).current;
+export default function useYDoc(id, username) {
+  const dispatch = useDispatch();
+  const ydoc = useSelector((store) => selectYDocument(store, { id }));
+  const awareness = useSelector((store) =>
+    selectYDocumentAwareness(store, { id })
+  );
   const doc = useDocument(id);
   const updateDoc = useEditDocument();
 
   useEffect(() => {
-    if (!doc?.origin || !state.ydoc) return;
-    const buf = Buffer.from(doc?.origin.slice(2), "hex");
-    Y.applyUpdate(state.ydoc, buf, "init");
+    dispatch(createDocument({ id, username }));
+  }, [id, username]);
 
-    state.ydoc.on("update", (update, origin) => {
-      console.log(`updating!! ${JSON.stringify(origin, null, 2)}`);
+  useEffect(() => {
+    if (!ydoc || !doc?.origin) return;
+
+    const update = Buffer.from(doc?.origin.slice(2), "hex");
+    Y.applyUpdate(ydoc, update, "init");
+
+    ydoc.on("update", (update, origin) => {
       if (origin === "init") return;
       updateDoc({
         variables: {
@@ -70,18 +62,8 @@ export default function useYDoc(id) {
           update: `\\x${Buffer.from(update).toString("hex")}`,
         },
       });
-      Y.logUpdate(update);
     });
-  }, [doc?.origin, state.ydoc]);
+  }, [ydoc, doc?.origin]);
 
-  useEffect(() => {
-    const { ydoc, rtcProvider, wsProvider } = state;
-
-    return () => {
-      cleanupProvider(rtcProvider);
-      cleanupProvider(wsProvider);
-    };
-  }, []);
-
-  return state;
+  return { ydoc, awareness };
 }

@@ -42,7 +42,7 @@ const lines = new Map();
 let svg;
 
 function DrawingCanvas({ document_id, name }) {
-  const { ydoc } = useYDoc(document_id);
+  const { ydoc } = useYDoc(document_id, name);
 
   const renderPath = d3.svg
     .line()

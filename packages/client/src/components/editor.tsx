@@ -70,16 +70,11 @@ function pickAColor() {
 function TextCanvas({ document_id, name }) {
   const uploadFile = useFileUpload();
   const ref = React.useRef();
-  const data = useYDoc(document_id);
+  const data = useYDoc(document_id, name);
 
   React.useEffect(() => {
-    if (!data.ydoc) {
-      return;
-    }
-    data.rtcProvider.awareness.setLocalStateField("user", {
-      color: pickAColor(),
-      name,
-    });
+    if (!data.ydoc || !data.awareness) return;
+
     const yText = data.ydoc.getText("codemirror");
     const yUndoManager = new Y.UndoManager(yText);
 
@@ -88,7 +83,7 @@ function TextCanvas({ document_id, name }) {
       extensions: [
         basicSetup,
         markdown({ codeLanguages: languages }),
-        yCollab(yText, data.rtcProvider.awareness, {
+        yCollab(yText, data.awareness, {
           undoManager: yUndoManager,
         }),
         EditorView.domEventHandlers({
@@ -118,7 +113,10 @@ function TextCanvas({ document_id, name }) {
       state,
       parent: ref.current,
     });
-  }, [ref, data]);
+    return () => {
+      editor.destroy();
+    };
+  }, [ref, data.awareness]);
 
   return <TextBox ref={ref} />;
 }
