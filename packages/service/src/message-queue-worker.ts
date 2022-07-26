@@ -12,7 +12,7 @@ async function main() {
       } else {
         logger({
           level: "warn",
-          service: "update-document-history",
+          service: "worker",
           message: `unknown jobtype: ${job.name}`,
         });
       }
