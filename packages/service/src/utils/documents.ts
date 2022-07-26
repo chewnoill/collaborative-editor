@@ -109,7 +109,7 @@ export const inviteUser = (
     })
     .run(pool);
 
-type DocumentWithUpdates = schema.document.Selectable & {
+export type DocumentWithUpdates = schema.document.Selectable & {
   document_updates?: schema.document_updates_queue.Selectable[];
 };
 
@@ -142,6 +142,20 @@ export function fetchDocument(id: string): Promise<DocumentWithUpdates> {
         document_update: db.toBuffer(update.document_update),
       })),
     }));
+}
+
+export function buildYDoc(dbDoc: DocumentWithUpdates){
+  const yDoc = new Y.Doc();
+
+  Y.applyUpdate(
+    yDoc,
+    Y.mergeUpdates([
+      dbDoc.origin,
+      ...dbDoc.document_updates.map((update) => update.document_update),
+    ])
+  );
+
+  return yDoc;
 }
 
 export const selectUserDocuments = (user: { id: string }) =>

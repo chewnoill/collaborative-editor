@@ -1,11 +1,12 @@
 import * as Y from "yjs";
 import { pool, db } from "./db";
 import {
+  buildYDoc,
   createDocument,
+  fetchDocument,
   insertUpdate,
   selectUserDocuments,
 } from "./utils/documents";
-import { getYDoc } from "./utils/ws-shared-doc";
 
 afterAll(() => {
   return pool.end();
@@ -30,13 +31,17 @@ test("crdts can be persisted", async () => {
   const { id, origin } = await createDocument(pool, {
     creator_id: user.id,
     name: "",
+    doc: ydoc,
   });
   // make a change to the document
   ytext.insert(0, "some new text");
   // persist this change to the database
-  await insertUpdate(id, Y.encodeStateAsUpdate(ydoc, db.toBuffer(origin)));
+  await insertUpdate(
+    id,
+    Buffer.from(Y.encodeStateAsUpdate(ydoc, db.toBuffer(origin)))
+  ).run(pool);
   // get the change back from the database
-  const ydocUpdate = await getYDoc(id);
+  const ydocUpdate = await fetchDocument(id).then(buildYDoc);
 
   // expect that the contents of document A matches document B
   expect(ytext.toJSON()).toMatch(ydocUpdate.getText("codemirror").toJSON());
