@@ -54,11 +54,17 @@ export function updateDocumentContent(
     .run(pool);
 }
 
+function CreateEmptyDoc() {
+  const ydoc = new Y.Doc();
+  ydoc.getText(TEXT_NAME).insert(0, "\n");
+  return ydoc;
+}
+
 export const createDocument = (
   pool: Pool,
   {
     creator_id = db.sql`current_user_id()`,
-    doc = new Y.Doc(),
+    doc = CreateEmptyDoc(),
     is_public = true,
     name,
     latest_update_time = db.sql`now()`,
