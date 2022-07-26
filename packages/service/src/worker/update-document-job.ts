@@ -1,6 +1,7 @@
 import * as Y from "yjs";
 import { db } from "../db";
 import logger from "../logger";
+import { queue } from "../mq";
 import { fetchDocument, updateDocumentContent } from "../utils/documents";
 
 const config = {
@@ -15,7 +16,11 @@ const config = {
       });
       return;
     }
-    await updateSingleDocument(params.data.document_id);
+    try {
+      await updateSingleDocument(params.data.document_id);
+    } catch (error) {
+      logger({ level: "error", service: "update-document", error });
+    }
   },
 };
 
@@ -24,6 +29,7 @@ export default config;
 async function updateSingleDocument(document_id: string) {
   const yDoc = new Y.Doc();
   const dbDoc = await fetchDocument(document_id);
+
   Y.applyUpdate(
     yDoc,
     Y.mergeUpdates([
@@ -59,7 +65,7 @@ async function updateSingleDocument(document_id: string) {
     },
   });
 
-  const updatedDoc = await updateDocumentContent(
+  await updateDocumentContent(
     document_id,
     content,
     Buffer.from(Y.encodeStateAsUpdate(yDoc)),
@@ -67,4 +73,5 @@ async function updateSingleDocument(document_id: string) {
       latest_update.id
     )})`
   );
+  await queue.add("update-document-history", { document_id: document_id });
 }
