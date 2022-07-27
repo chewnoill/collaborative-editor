@@ -73,5 +73,15 @@ async function updateSingleDocument(document_id: string) {
       latest_update.id
     )})`
   );
+  const jobs = await queue.getJobs(['waiting','active']);
+  if (
+    jobs.find(
+      (job) =>
+        job.name === "update-document-history" &&
+        job.data.document_id === document_id
+    )
+  )
+    return;
+
   await queue.add("update-document-history", { document_id: document_id });
 }
