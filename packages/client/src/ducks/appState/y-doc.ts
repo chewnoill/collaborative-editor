@@ -44,6 +44,7 @@ export const yDocSlice = createSlice({
         payload: { id, username },
       }: { payload: { id: string; username: string } }
     ) => {
+      if(!id) return;
       if (state.docMap[id]) return;
       const doc = new Doc();
       const webrtcProvider = new WebrtcProvider(id, doc, {
