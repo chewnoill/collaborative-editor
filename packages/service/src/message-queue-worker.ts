@@ -27,6 +27,7 @@ async function main() {
       message: `${job.name} completed`,
     });
   });
+
   worker.on("failed", ({ id, name, failedReason }) => {
     logger({
       level: "error",

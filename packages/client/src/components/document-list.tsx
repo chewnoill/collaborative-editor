@@ -35,7 +35,6 @@ export function DocumentView({ id, mdx }: any) {
           overflow: "hidden",
           alignItems: "normal",
           justifyContent: "left",
-
         }}
       >
         {hydrate({

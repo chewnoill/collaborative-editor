@@ -28,8 +28,8 @@ function Img({ id, name, mime_type }) {
 
 export const MdxComponents = {
   Img,
-  code: CodeBlock
-}
+  code: CodeBlock,
+};
 
 export default function PreviewMdx({ id }: any) {
   const value = useYDocValue(id);

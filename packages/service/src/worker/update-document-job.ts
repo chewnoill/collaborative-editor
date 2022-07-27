@@ -73,7 +73,7 @@ async function updateSingleDocument(document_id: string) {
       latest_update.id
     )})`
   );
-  const jobs = await queue.getJobs(['waiting','active']);
+  const jobs = await queue.getJobs(["waiting", "active"]);
   if (
     jobs.find(
       (job) =>

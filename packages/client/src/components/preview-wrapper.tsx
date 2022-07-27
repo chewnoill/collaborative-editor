@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 
-
 export const PreviewWrapper = styled(Box)`
 background-color: tomato;
 margin: 0 auto;
