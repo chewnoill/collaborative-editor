@@ -2,6 +2,7 @@ import { usePreviewMdx } from "apollo/selectors";
 import { useYDocValue } from "hooks/use-y-doc";
 import { hydrate } from "mdx-hydra/build/hydrate";
 import React, { useEffect, useRef } from "react";
+import CodeBlock from "./code-block";
 import PreviewWrapper from "./preview-wrapper";
 
 function Hydrate(props: any) {
@@ -25,6 +26,11 @@ function Img({ id, name, mime_type }) {
   return <img style={{ width: "100%" }} src={`/img/${id}`} alt={name} />;
 }
 
+export const MdxComponents = {
+  Img,
+  code: CodeBlock
+}
+
 export default function PreviewMdx({ id }: any) {
   const value = useYDocValue(id);
   const { data } = usePreviewMdx(id, value);
@@ -38,9 +44,7 @@ export default function PreviewMdx({ id }: any) {
       <Hydrate
         {...{
           ...currentMdx,
-          components: {
-            Img,
-          },
+          components: MdxComponents,
           Wrapper: ({ children }) => children,
         }}
       />

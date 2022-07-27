@@ -2,7 +2,6 @@ import { renderToString } from "mdx-hydra/build/render-to-string";
 import fm from "front-matter";
 import emoji from "remark-emoji";
 import logger from "../logger";
-const rehypePrism = require("@mapbox/rehype-prism");
 
 function scopedMessage(txt: string, extraScope: object = {}) {
   try {
@@ -34,7 +33,6 @@ export function safeRenderString(txt: string, extraScope: object) {
       ...mdxContext,
       Wrapper: ({ children }) => children,
       remarkPlugins: [emoji],
-      rehypePlugins: [[rehypePrism, { ignoreMissing: true }]],
     });
   } catch (e) {
     logger({
