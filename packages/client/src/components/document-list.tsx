@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import DocumentMenu from "./document-menu";
 import PreviewWrapper from "./preview-wrapper";
+import { MdxComponents } from "./document-render-mdx";
 
 export function DocumentView({ id, mdx }: any) {
   const ref = useRef();
@@ -34,11 +35,12 @@ export function DocumentView({ id, mdx }: any) {
           overflow: "hidden",
           alignItems: "normal",
           justifyContent: "left",
+
         }}
       >
         {hydrate({
           ...mdx,
-          components: {},
+          components: MdxComponents,
           Wrapper: ({ children }) => children,
         })}
       </Button>
