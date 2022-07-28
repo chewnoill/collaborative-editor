@@ -21,7 +21,7 @@ export default function Editor({ document_id }: { document_id: string }) {
 
 const TextBox = styled.div`
   height: 100%;
-  width: calc(100% - 90px);
+  width: 100%;
   .remote-caret {
     position: absolute;
     border-left: black;
@@ -45,6 +45,9 @@ const TextBox = styled.div`
     z-index: 3;
   }
   .CodeMirror {
+    height: 100%;
+  }
+  .cm-editor {
     height: 100%;
   }
   .cm-editor.cm-focused {
