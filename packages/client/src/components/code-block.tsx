@@ -2,7 +2,13 @@ import React from "react";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import theme from "prism-react-renderer/themes/nightOwlLight";
 
-const CodeBlock = ({ children, className: lang="" }: { className; children }) => (
+const CodeBlock = ({
+  children,
+  className: lang = "",
+}: {
+  className;
+  children;
+}) => (
   <Highlight
     {...defaultProps}
     theme={theme}
