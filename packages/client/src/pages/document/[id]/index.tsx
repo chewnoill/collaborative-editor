@@ -3,9 +3,8 @@ import { Box } from "@mui/material";
 import DocumentMenu from "components/document-menu";
 import { DocumentName } from "components/document-name";
 import WhosHere from "components/whos-here";
-import AppLayout from "layout/app";
-import EditorLayout from "layout/editor-layout";
 import { BreakPoints } from "layout/break-points";
+import FullWidth from "layout/full-width";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
@@ -20,6 +19,7 @@ const PreviewDoc = dynamic<any>(
     ssr: false,
   }
 );
+
 
 const DynamicLayout = styled(Box)`
 margin-top: 64px;
@@ -74,15 +74,14 @@ export default function Document() {
 
   if (!id) return null;
   return (
-    <EditorLayout
-      fab={<DocumentMenu document_id={id.toString()} position="fixed" />}
-    >
+    <FullWidth>
       <DynamicLayout>
         <GridWrapper gridArea="name">
           <DocumentName document_id={id.toString()} />
         </GridWrapper>
         <GridWrapper gridArea="edit">
           <EditorComponent document_id={id.toString()} />
+        <DocumentMenu document_id={id.toString()} position="fixed" />
         </GridWrapper>
         <GridWrapper gridArea="whos">
           <WhosHere document_id={id.toString()} />
@@ -91,6 +90,6 @@ export default function Document() {
           <PreviewDoc id={id} />
         </GridWrapper>
       </DynamicLayout>
-    </EditorLayout>
+    </FullWidth>
   );
 }

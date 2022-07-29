@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import React from "react";
 import AppBar from "@mui/material/AppBar";
 import AppToolBar from "components/tool-bar";
-import Box from "@mui/material/Box";
 
 const PageLayout = styled.div`
   display: flex;
@@ -11,9 +10,8 @@ const PageLayout = styled.div`
   width: 100%;
 `;
 
-export default function EditorLayout({
+export default function FullWidth({
   children,
-  fab,
 }: {
   children: any;
   fab?: any;
@@ -23,7 +21,7 @@ export default function EditorLayout({
         <AppBar>
           <AppToolBar />
         </AppBar>
-          {children}
+        {children}
       </PageLayout>
   );
 }
