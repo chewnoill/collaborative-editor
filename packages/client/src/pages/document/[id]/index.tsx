@@ -20,49 +20,48 @@ const PreviewDoc = dynamic<any>(
   }
 );
 
-
 const DynamicLayout = styled(Box)`
-margin-top: 64px;
-display: grid;
-height: calc(100% - 64px);
-grid-template-areas:
-  'name name name'
-  'edit edit edit'
-  'edit edit edit'
-  'edit edit edit'
-  'whos whos whos';
-grid-template-rows: 64px 1fr 1fr 1fr 1fr;
-grid-template-columns: 1fr 1fr 1fr;
-
-.preview {
-  display: none;
-  grid-area: prev
-}
-
-@media only screen and (${BreakPoints[0]}) {
+  margin-top: 64px;
+  display: grid;
+  height: calc(100% - 64px);
   grid-template-areas:
-    'padl name name name name padr'
-    'padl edit edit edit whos padr'
-    'padl edit edit edit whos padr'
-    'padl edit edit edit whos padr';
-  grid-template-rows: 64px 1fr 1fr 1fr;
-  grid-template-columns: 10px 1fr 1fr 1fr 1fr 10px;
-}
+    "name name name"
+    "edit edit edit"
+    "edit edit edit"
+    "edit edit edit"
+    "whos whos whos";
+  grid-template-rows: 64px 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 
-@media only screen and (${BreakPoints[1]}) {
-  grid-template-areas:
-    'padl name name name name prev prev prev padr'
-    'padl edit edit edit whos prev prev prev padr'
-    'padl edit edit edit whos prev prev prev padr'
-    'padl edit edit edit whos prev prev prev padr';
-  grid-template-rows: 64px 1fr 1fr 1fr;
-  grid-template-columns: 10px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 10px;
   .preview {
-    display: block;
-    height: 100%;
-    overflow: scroll;
+    display: none;
+    grid-area: prev;
   }
-}
+
+  @media only screen and (${BreakPoints[0]}) {
+    grid-template-areas:
+      "padl name name name name padr"
+      "padl edit edit edit whos padr"
+      "padl edit edit edit whos padr"
+      "padl edit edit edit whos padr";
+    grid-template-rows: 64px 1fr 1fr 1fr;
+    grid-template-columns: 10px 1fr 1fr 1fr 1fr 10px;
+  }
+
+  @media only screen and (${BreakPoints[1]}) {
+    grid-template-areas:
+      "padl name name name name prev prev prev padr"
+      "padl edit edit edit whos prev prev prev padr"
+      "padl edit edit edit whos prev prev prev padr"
+      "padl edit edit edit whos prev prev prev padr";
+    grid-template-rows: 64px 1fr 1fr 1fr;
+    grid-template-columns: 10px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 10px;
+    .preview {
+      display: block;
+      height: 100%;
+      overflow: scroll;
+    }
+  }
 `;
 
 const GridWrapper = styled(Box)``;
@@ -81,7 +80,7 @@ export default function Document() {
         </GridWrapper>
         <GridWrapper gridArea="edit">
           <EditorComponent document_id={id.toString()} />
-        <DocumentMenu document_id={id.toString()} position="fixed" />
+          <DocumentMenu document_id={id.toString()} position="fixed" />
         </GridWrapper>
         <GridWrapper gridArea="whos">
           <WhosHere document_id={id.toString()} />

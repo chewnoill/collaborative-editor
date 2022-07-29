@@ -10,18 +10,13 @@ const PageLayout = styled.div`
   width: 100%;
 `;
 
-export default function FullWidth({
-  children,
-}: {
-  children: any;
-  fab?: any;
-}) {
+export default function FullWidth({ children }: { children: any; fab?: any }) {
   return (
-      <PageLayout>
-        <AppBar>
-          <AppToolBar />
-        </AppBar>
-        {children}
-      </PageLayout>
+    <PageLayout>
+      <AppBar>
+        <AppToolBar />
+      </AppBar>
+      {children}
+    </PageLayout>
   );
 }
