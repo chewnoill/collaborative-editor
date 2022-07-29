@@ -204,10 +204,8 @@ COMMENT ON COLUMN public.document.latest_update_time IS '
 
 CREATE TABLE public.document_history (
     document_id uuid NOT NULL,
-    user_id uuid,
     diff text NOT NULL,
-    sequence integer NOT NULL,
-    timeslice timestamp without time zone NOT NULL
+    sequence integer NOT NULL
 );
 
 
@@ -238,6 +236,18 @@ CREATE SEQUENCE public.document_history_sequence_seq
 --
 
 ALTER SEQUENCE public.document_history_sequence_seq OWNED BY public.document_history.sequence;
+
+
+--
+-- Name: document_update_document_history; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.document_update_document_history (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    document_update_id uuid NOT NULL,
+    document_id uuid NOT NULL,
+    sequence integer NOT NULL
+);
 
 
 --
@@ -320,6 +330,14 @@ ALTER TABLE ONLY public.document_history
 
 ALTER TABLE ONLY public.document
     ADD CONSTRAINT document_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: document_update_document_history document_update_document_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_update_document_history
+    ADD CONSTRAINT document_update_document_history_pkey PRIMARY KEY (id);
 
 
 --
@@ -410,11 +428,27 @@ ALTER TABLE ONLY public.document_history
 
 
 --
--- Name: document_history document_history_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: document_update_document_history document_update_document_history_document_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.document_history
-    ADD CONSTRAINT document_history_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+ALTER TABLE ONLY public.document_update_document_history
+    ADD CONSTRAINT document_update_document_history_document_id_fkey FOREIGN KEY (document_id) REFERENCES public.document(id) ON DELETE CASCADE;
+
+
+--
+-- Name: document_update_document_history document_update_document_history_document_id_sequence_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_update_document_history
+    ADD CONSTRAINT document_update_document_history_document_id_sequence_fkey FOREIGN KEY (document_id, sequence) REFERENCES public.document_history(document_id, sequence) ON DELETE CASCADE;
+
+
+--
+-- Name: document_update_document_history document_update_document_history_document_update_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.document_update_document_history
+    ADD CONSTRAINT document_update_document_history_document_update_id_fkey FOREIGN KEY (document_update_id) REFERENCES public.document_updates_queue(id) ON DELETE CASCADE;
 
 
 --
@@ -566,4 +600,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220714214707'),
     ('20220717162732'),
     ('20220717194812'),
-    ('20220725215639');
+    ('20220725215639'),
+    ('20220728132102');
