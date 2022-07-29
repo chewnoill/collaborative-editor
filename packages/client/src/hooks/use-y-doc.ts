@@ -20,7 +20,7 @@ export function useEditDocument() {
 
 export function useYDocValue(id) {
   const ydoc = useSelector((store) => selectYDocument(store, { id }));
-  const [val, setVal] = useState(ydoc.getText("codemirror").toJSON());
+  const [val, setVal] = useState(ydoc && ydoc.getText("codemirror").toJSON());
   useEffect(() => {
     function eventHandler(_, __, doc) {
       setVal(doc.getText("codemirror").toJSON());
