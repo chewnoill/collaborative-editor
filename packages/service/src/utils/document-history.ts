@@ -5,20 +5,29 @@ import gitDiff from "git-diff";
 //select changes in document_updates_queue
 export async function fetchDocumentHistoryBuckets(document_id: string) {
   const buckets = await db.sql`
-  SELECT
-        to_timestamp (extract ('epoch' from created_at)::int/60*60) as timeslice,
-        user_id, document_id, array_agg(document_update)
-
-        from document_updates_queue
-        left join users on document_updates_queue.user_id = users.id
-        Where document_id = ${db.param(document_id)}
-        group by document_id, timeslice, user_id, users.name
-        order by timeslice ASC`.run(pool);
+SELECT
+  to_timestamp (extract ('epoch' from created_at)::int/60*60) as timeslice,
+  user_id,
+  array_agg(
+    jsonb_build_object(
+        'id',document_updates_queue.id,
+        'update', document_update
+  )) AS bucket
+from document_updates_queue
+left join users on document_updates_queue.user_id = users.id
+where document_id = ${db.param(document_id)}
+group by timeslice, user_id
+order by timeslice ASC
+`.run(pool);
 
   return buckets;
 }
+
 export async function replaceDocumentHistory(document) {
-  const documentHistory = await buildDocumentHistoryBuckets(document);
+  const {
+    documentHistory,
+    documentUpdateDocumentHistory,
+  } = await buildDocumentHistoryBuckets(document);
   await db.serializable(pool, async (txnClient) => {
     await db
       .deletes("document_history", {
@@ -26,7 +35,10 @@ export async function replaceDocumentHistory(document) {
       })
       .run(txnClient);
 
-    return db.insert("document_history", documentHistory).run(txnClient);
+    await db.insert("document_history", documentHistory).run(txnClient);
+    await db
+      .insert("document_update_document_history", documentUpdateDocumentHistory)
+      .run(txnClient);
   });
 }
 
@@ -35,30 +47,53 @@ export async function buildDocumentHistoryBuckets({
 }: {
   id: string;
 }) {
-  const bucket_history = await fetchDocumentHistoryBuckets(document_id);
   const ydoc = new Y.Doc();
-  return bucket_history
-    .reduce((acc, { array_agg, ...update }) => {
-      array_agg.forEach((element) => {
-        Y.applyUpdate(ydoc, element);
+  const bucket_history = (
+    await fetchDocumentHistoryBuckets(document_id)
+  ).reduce(
+    (
+      { documentHistory, documentUpdateDocumentHistory, content },
+      { bucket }
+    ) => {
+      bucket.forEach((update) => {
+        Y.applyUpdate(ydoc, db.toBuffer(update.update));
       });
 
-      const content = ydoc.getText("codemirror").toJSON();
-      const prevContent = acc.length ? acc[acc.length - 1].content : "";
-      const diff = gitDiff(prevContent, content);
+      const newContent = ydoc.getText("codemirror").toJSON();
+      const diff = gitDiff(content, newContent);
 
-      if (!diff) return acc;
+      if (!diff)
+        return {
+          documentHistory,
+          documentUpdateDocumentHistory,
+          content: newContent,
+        };
 
-      acc.push({
-        ...update,
-        sequence: acc.length + 1,
-        content,
+      const sequence = documentHistory.length + 1;
+      bucket.forEach((update) => {
+        documentUpdateDocumentHistory.push({
+          document_update_id: update.id,
+          document_id,
+          sequence,
+        });
+      });
+
+      documentHistory.push({
+        document_id,
+        sequence,
         diff,
       });
 
-      return acc;
-    }, [])
-    .map(({ content: _content, ...history }) => history);
+      return {
+        documentHistory,
+        documentUpdateDocumentHistory,
+        content: newContent,
+      };
+    },
+    { documentHistory: [], documentUpdateDocumentHistory: [], content: "" }
+  );
+
+  return bucket_history;
 }
 
 export async function getDocumentHistoryFromTable(document_id: string) {
