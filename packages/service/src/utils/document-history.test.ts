@@ -93,14 +93,13 @@ test("document history can be generated", async () => {
   const id_obj = { id: id };
   const history = await buildDocumentHistoryBuckets(id_obj);
 
-  history.forEach((value, i) =>
+  history.documentHistory.forEach((value, i) =>
     expect({
       ...value,
       user_id: value.user_id || "",
     }).toMatchSnapshot({
       user_id: expect.any(String),
       document_id: expect.any(String),
-      timeslice: expect.any(Date),
     })
   );
 });
@@ -113,11 +112,8 @@ test("document history replaced in table", async () => {
   tableHistory.forEach((value, i) =>
     expect({
       ...value,
-      user_id: value.user_id || "",
     }).toMatchSnapshot({
-      user_id: expect.any(String),
       document_id: expect.any(String),
-      timeslice: expect.any(String),
     })
   );
 });
