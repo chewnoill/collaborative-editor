@@ -116,8 +116,7 @@ li ul, li ul {
 
 pre {
     padding: 0px 24px;
-    max-width: 800px;
-    white-space: pre-wrap;
+    white-space: pre;
 }
 code {
     font-family: Consolas, Monaco, Andale Mono, monospace;
