@@ -813,12 +813,6 @@ declare module "zapatos/schema" {
        */
       document_id: string;
       /**
-       * **document_history.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      user_id: string | null;
-      /**
        * **document_history.diff**
        * - `text` in database
        * - `NOT NULL`, no default
@@ -830,12 +824,6 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, default: `nextval('document_history_sequence_seq'::regclass)`
        */
       sequence: number;
-      /**
-       * **document_history.timeslice**
-       * - `timestamp` in database
-       * - `NOT NULL`, no default
-       */
-      timeslice: Date;
     }
     export interface JSONSelectable {
       /**
@@ -845,12 +833,6 @@ declare module "zapatos/schema" {
        */
       document_id: string;
       /**
-       * **document_history.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      user_id: string | null;
-      /**
        * **document_history.diff**
        * - `text` in database
        * - `NOT NULL`, no default
@@ -862,12 +844,6 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, default: `nextval('document_history_sequence_seq'::regclass)`
        */
       sequence: number;
-      /**
-       * **document_history.timeslice**
-       * - `timestamp` in database
-       * - `NOT NULL`, no default
-       */
-      timeslice: db.TimestampString;
     }
     export interface Whereable {
       /**
@@ -876,20 +852,6 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       document_id?:
-        | string
-        | db.Parameter<string>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
-          >;
-      /**
-       * **document_history.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      user_id?:
         | string
         | db.Parameter<string>
         | db.SQLFragment
@@ -926,23 +888,6 @@ declare module "zapatos/schema" {
             any,
             number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
           >;
-      /**
-       * **document_history.timeslice**
-       * - `timestamp` in database
-       * - `NOT NULL`, no default
-       */
-      timeslice?:
-        | (db.TimestampString | Date)
-        | db.Parameter<db.TimestampString | Date>
-        | db.SQLFragment
-        | db.ParentColumn
-        | db.SQLFragment<
-            any,
-            | (db.TimestampString | Date)
-            | db.Parameter<db.TimestampString | Date>
-            | db.SQLFragment
-            | db.ParentColumn
-          >;
     }
     export interface Insertable {
       /**
@@ -951,17 +896,6 @@ declare module "zapatos/schema" {
        * - `NOT NULL`, no default
        */
       document_id: string | db.Parameter<string> | db.SQLFragment;
-      /**
-       * **document_history.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      user_id?:
-        | string
-        | db.Parameter<string>
-        | null
-        | db.DefaultType
-        | db.SQLFragment;
       /**
        * **document_history.diff**
        * - `text` in database
@@ -978,15 +912,6 @@ declare module "zapatos/schema" {
         | db.Parameter<number>
         | db.DefaultType
         | db.SQLFragment;
-      /**
-       * **document_history.timeslice**
-       * - `timestamp` in database
-       * - `NOT NULL`, no default
-       */
-      timeslice:
-        | (db.TimestampString | Date)
-        | db.Parameter<db.TimestampString | Date>
-        | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -999,25 +924,6 @@ declare module "zapatos/schema" {
         | db.Parameter<string>
         | db.SQLFragment
         | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
-      /**
-       * **document_history.user_id**
-       * - `uuid` in database
-       * - Nullable, no default
-       */
-      user_id?:
-        | string
-        | db.Parameter<string>
-        | null
-        | db.DefaultType
-        | db.SQLFragment
-        | db.SQLFragment<
-            any,
-            | string
-            | db.Parameter<string>
-            | null
-            | db.DefaultType
-            | db.SQLFragment
-          >;
       /**
        * **document_history.diff**
        * - `text` in database
@@ -1042,23 +948,212 @@ declare module "zapatos/schema" {
             any,
             number | db.Parameter<number> | db.DefaultType | db.SQLFragment
           >;
+    }
+    export type UniqueIndex = "document_history_pkey";
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >;
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | (keyof Updatable)[]>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **document_update_document_history**
+   * - Table in database
+   */
+  export namespace document_update_document_history {
+    export type Table = "document_update_document_history";
+    export interface Selectable {
       /**
-       * **document_history.timeslice**
-       * - `timestamp` in database
+       * **document_update_document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id: string;
+      /**
+       * **document_update_document_history.document_update_id**
+       * - `uuid` in database
        * - `NOT NULL`, no default
        */
-      timeslice?:
-        | (db.TimestampString | Date)
-        | db.Parameter<db.TimestampString | Date>
+      document_update_id: string;
+      /**
+       * **document_update_document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id: string;
+      /**
+       * **document_update_document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      sequence: number;
+    }
+    export interface JSONSelectable {
+      /**
+       * **document_update_document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id: string;
+      /**
+       * **document_update_document_history.document_update_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_update_id: string;
+      /**
+       * **document_update_document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id: string;
+      /**
+       * **document_update_document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      sequence: number;
+    }
+    export interface Whereable {
+      /**
+       * **document_update_document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **document_update_document_history.document_update_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_update_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **document_update_document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **document_update_document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      sequence?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >;
+    }
+    export interface Insertable {
+      /**
+       * **document_update_document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+      /**
+       * **document_update_document_history.document_update_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_update_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **document_update_document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **document_update_document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      sequence: number | db.Parameter<number> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+       * **document_update_document_history.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.DefaultType
         | db.SQLFragment
         | db.SQLFragment<
             any,
-            | (db.TimestampString | Date)
-            | db.Parameter<db.TimestampString | Date>
-            | db.SQLFragment
+            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
           >;
+      /**
+       * **document_update_document_history.document_update_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_update_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **document_update_document_history.document_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      document_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **document_update_document_history.sequence**
+       * - `int4` in database
+       * - `NOT NULL`, no default
+       */
+      sequence?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
     }
-    export type UniqueIndex = "document_history_pkey";
+    export type UniqueIndex = "document_update_document_history_pkey";
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<
       Selectable,
@@ -1996,6 +2091,7 @@ declare module "zapatos/schema" {
     | data_upload.Table
     | document.Table
     | document_history.Table
+    | document_update_document_history.Table
     | document_updates_queue.Table
     | schema_migrations.Table
     | session.Table
@@ -2005,6 +2101,7 @@ declare module "zapatos/schema" {
     | data_upload.Selectable
     | document.Selectable
     | document_history.Selectable
+    | document_update_document_history.Selectable
     | document_updates_queue.Selectable
     | schema_migrations.Selectable
     | session.Selectable
@@ -2014,6 +2111,7 @@ declare module "zapatos/schema" {
     | data_upload.JSONSelectable
     | document.JSONSelectable
     | document_history.JSONSelectable
+    | document_update_document_history.JSONSelectable
     | document_updates_queue.JSONSelectable
     | schema_migrations.JSONSelectable
     | session.JSONSelectable
@@ -2023,6 +2121,7 @@ declare module "zapatos/schema" {
     | data_upload.Whereable
     | document.Whereable
     | document_history.Whereable
+    | document_update_document_history.Whereable
     | document_updates_queue.Whereable
     | schema_migrations.Whereable
     | session.Whereable
@@ -2032,6 +2131,7 @@ declare module "zapatos/schema" {
     | data_upload.Insertable
     | document.Insertable
     | document_history.Insertable
+    | document_update_document_history.Insertable
     | document_updates_queue.Insertable
     | schema_migrations.Insertable
     | session.Insertable
@@ -2041,6 +2141,7 @@ declare module "zapatos/schema" {
     | data_upload.Updatable
     | document.Updatable
     | document_history.Updatable
+    | document_update_document_history.Updatable
     | document_updates_queue.Updatable
     | schema_migrations.Updatable
     | session.Updatable
@@ -2050,6 +2151,7 @@ declare module "zapatos/schema" {
     | data_upload.UniqueIndex
     | document.UniqueIndex
     | document_history.UniqueIndex
+    | document_update_document_history.UniqueIndex
     | document_updates_queue.UniqueIndex
     | schema_migrations.UniqueIndex
     | session.UniqueIndex
@@ -2059,6 +2161,7 @@ declare module "zapatos/schema" {
     | data_upload.Column
     | document.Column
     | document_history.Column
+    | document_update_document_history.Column
     | document_updates_queue.Column
     | schema_migrations.Column
     | session.Column
@@ -2068,6 +2171,7 @@ declare module "zapatos/schema" {
     data_upload.Table,
     document.Table,
     document_history.Table,
+    document_update_document_history.Table,
     document_updates_queue.Table,
     schema_migrations.Table,
     session.Table,
@@ -2081,6 +2185,7 @@ declare module "zapatos/schema" {
     data_upload.Table,
     document.Table,
     document_history.Table,
+    document_update_document_history.Table,
     document_updates_queue.Table,
     schema_migrations.Table,
     session.Table,
@@ -2092,6 +2197,7 @@ declare module "zapatos/schema" {
     data_upload: data_upload.Selectable;
     document: document.Selectable;
     document_history: document_history.Selectable;
+    document_update_document_history: document_update_document_history.Selectable;
     document_updates_queue: document_updates_queue.Selectable;
     schema_migrations: schema_migrations.Selectable;
     session: session.Selectable;
@@ -2103,6 +2209,7 @@ declare module "zapatos/schema" {
     data_upload: data_upload.JSONSelectable;
     document: document.JSONSelectable;
     document_history: document_history.JSONSelectable;
+    document_update_document_history: document_update_document_history.JSONSelectable;
     document_updates_queue: document_updates_queue.JSONSelectable;
     schema_migrations: schema_migrations.JSONSelectable;
     session: session.JSONSelectable;
@@ -2114,6 +2221,7 @@ declare module "zapatos/schema" {
     data_upload: data_upload.Whereable;
     document: document.Whereable;
     document_history: document_history.Whereable;
+    document_update_document_history: document_update_document_history.Whereable;
     document_updates_queue: document_updates_queue.Whereable;
     schema_migrations: schema_migrations.Whereable;
     session: session.Whereable;
@@ -2125,6 +2233,7 @@ declare module "zapatos/schema" {
     data_upload: data_upload.Insertable;
     document: document.Insertable;
     document_history: document_history.Insertable;
+    document_update_document_history: document_update_document_history.Insertable;
     document_updates_queue: document_updates_queue.Insertable;
     schema_migrations: schema_migrations.Insertable;
     session: session.Insertable;
@@ -2136,6 +2245,7 @@ declare module "zapatos/schema" {
     data_upload: data_upload.Updatable;
     document: document.Updatable;
     document_history: document_history.Updatable;
+    document_update_document_history: document_update_document_history.Updatable;
     document_updates_queue: document_updates_queue.Updatable;
     schema_migrations: schema_migrations.Updatable;
     session: session.Updatable;
@@ -2147,6 +2257,7 @@ declare module "zapatos/schema" {
     data_upload: data_upload.UniqueIndex;
     document: document.UniqueIndex;
     document_history: document_history.UniqueIndex;
+    document_update_document_history: document_update_document_history.UniqueIndex;
     document_updates_queue: document_updates_queue.UniqueIndex;
     schema_migrations: schema_migrations.UniqueIndex;
     session: session.UniqueIndex;
@@ -2158,6 +2269,7 @@ declare module "zapatos/schema" {
     data_upload: data_upload.Column;
     document: document.Column;
     document_history: document_history.Column;
+    document_update_document_history: document_update_document_history.Column;
     document_updates_queue: document_updates_queue.Column;
     schema_migrations: schema_migrations.Column;
     session: session.Column;
@@ -2169,6 +2281,7 @@ declare module "zapatos/schema" {
     data_upload: data_upload.SQL;
     document: document.SQL;
     document_history: document_history.SQL;
+    document_update_document_history: document_update_document_history.SQL;
     document_updates_queue: document_updates_queue.SQL;
     schema_migrations: schema_migrations.SQL;
     session: session.SQL;
