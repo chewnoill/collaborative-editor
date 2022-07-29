@@ -5,6 +5,7 @@ import { DocumentName } from "components/document-name";
 import WhosHere from "components/whos-here";
 import AppLayout from "layout/app";
 import EditorLayout from "layout/editor-layout";
+import { BreakPoints } from "layout/break-points";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
@@ -37,7 +38,8 @@ grid-template-columns: 1fr 1fr 1fr;
   display: none;
   grid-area: prev
 }
-@media only screen and (min-width: 600px) {
+
+@media only screen and (${BreakPoints[0]}) {
   grid-template-areas:
     'padl name name name name padr'
     'padl edit edit edit whos padr'
@@ -46,7 +48,8 @@ grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 64px 1fr 1fr 1fr;
   grid-template-columns: 10px 1fr 1fr 1fr 1fr 10px;
 }
-@media only screen and (min-width: 1200px) {
+
+@media only screen and (${BreakPoints[1]}) {
   grid-template-areas:
     'padl name name name name prev prev prev padr'
     'padl edit edit edit whos prev prev prev padr'
