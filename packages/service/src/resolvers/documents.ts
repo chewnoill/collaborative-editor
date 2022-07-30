@@ -1,6 +1,8 @@
 import { makeExtendSchemaPlugin, gql } from "graphile-utils";
+import { decodeUpdate } from "yjs";
 import { toBuffer } from "zapatos/db";
 import { db } from "../db";
+import logger from "../logger";
 import { queue } from "../mq";
 import {
   createDocument,
@@ -28,6 +30,15 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
           return createDocument(pgClient, { name });
         },
         async editDocument(_, { id, update }, { pgClient }) {
+          const decodedUpdate = decodeUpdate(toBuffer(update));
+          logger({
+            level: "info",
+            service: "edit-document",
+            message: "update received",
+            body: {
+              decodedUpdate,
+            },
+          });
           await insertUpdate(id, toBuffer(update), {
             user_id: db.sql`current_user_id()`,
           }).run(pgClient);
