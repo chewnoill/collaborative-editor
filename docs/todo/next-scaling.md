@@ -2,12 +2,6 @@
 title: Scaling Infrastructure
 ---
 
-# Horizontal Scaling
-
-nodejs is single threaded, so squeezing in horizontal scaling takes some work.
-
-* [pm2](https://www.npmjs.com/package/pm2)
-
 # Vertical Scaling
 
 * load balancer - terraform proxy
