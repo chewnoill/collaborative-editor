@@ -4,16 +4,17 @@ import theme from "prism-react-renderer/themes/nightOwlLight";
 
 const HighlightHistory = ({
   code,
-  username,
+  users,
   timeslice,
 }: {
   code: string;
-  username;
+  users;
   timeslice;
 }) => (
   <div>
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <span>{username}</span> <span>{timeslice}</span>
+      <span>{users[0]?.name}</span>
+      <span>{timeslice && new Date(timeslice).toLocaleString()}</span>
     </div>
     <Highlight {...defaultProps} theme={theme} code={code} language="diff">
       {({ className, style, tokens, getLineProps, getTokenProps }) => (

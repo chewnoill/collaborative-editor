@@ -72,7 +72,7 @@ export function useDocumentHistory(id: string) {
               node {
                 diff
                 timeslice
-                userByUserId {
+                users {
                   id
                   name
                 }

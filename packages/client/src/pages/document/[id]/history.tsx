@@ -16,7 +16,7 @@ export default function Document() {
         ({ node }) => (
           <HighlightHistory
             code={node.diff}
-            username={node.userByUserId?.name}
+            users={node.users}
             timeslice={node.timeslice}
           />
         )
