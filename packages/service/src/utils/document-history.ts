@@ -24,10 +24,8 @@ order by timeslice ASC
 }
 
 export async function replaceDocumentHistory(document) {
-  const {
-    documentHistory,
-    documentUpdateDocumentHistory,
-  } = await buildDocumentHistoryBuckets(document);
+  const { documentHistory, documentUpdateDocumentHistory } =
+    await buildDocumentHistoryBuckets(document);
   await db.serializable(pool, async (txnClient) => {
     await db
       .deletes("document_history", {
