@@ -58,7 +58,6 @@ export function updateDocumentContent(
 
 function CreateEmptyDoc() {
   const ydoc = new Y.Doc();
-  ydoc.getText(TEXT_NAME).insert(0, "\n");
   return ydoc;
 }
 
