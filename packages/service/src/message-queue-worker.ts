@@ -8,7 +8,16 @@ async function main() {
     "q",
     async (job) => {
       if (workers[job.name]) {
-        workers[job.name].run(job);
+        try {
+          await workers[job.name].run(job);
+        } catch (e) {
+          logger({
+            level: "error",
+            service: "worker",
+            error: e,
+            message: `${job.name} crashed!`,
+          });
+        }
       } else {
         logger({
           level: "warn",
