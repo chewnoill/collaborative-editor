@@ -8,8 +8,8 @@ slug: market-research
 | Feature               | Google Docs | Confluence | WillDocs:tm: |
 | --------------------- | ----------- | ---------- | ------------ |
 | Collaborative Editing | ✅           | ✅          | ✅           |
-| Multi-media documents | ✅           | ✅          | ❌           |
-| Document History      | ✅           | ✅          | ❌           |
+| Multi-media documents | ✅           | ✅          | ✅           |
+| Document History      | ✅           | ✅          | ✅           |
 | Email Engagement      | ✅           | ✅          | ❌           |
 | Inline comments       | ✅           | ✅          | ❌           |
 | Templates             | ✅           | ✅          | ❌           |
