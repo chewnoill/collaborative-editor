@@ -41,8 +41,8 @@ jobs:
 
     - name: Init Terraform
       run: |
-        terraform -chdir=terraform init
-        terraform -chdir=terraform output
+        terraform -chdir=terraform/app init
+        terraform -chdir=terraform/app output
     - run: yarn
     - name: Build Client
       run: |
@@ -56,7 +56,7 @@ jobs:
       run: yarn service build
     - run: |
         # zip up service bundle
-        PRIVATE_BUCKET=$(terraform -chdir=terraform/ output -raw private-bucket)
+        PRIVATE_BUCKET=$(terraform -chdir=terraform/app output -raw private-bucket)
         echo "PRIVATE_BUCKET=$PRIVATE_BUCKET" >> $GITHUB_ENV
         tar cfz service.tgz \
           packages/client/out/* \
@@ -75,6 +75,6 @@ jobs:
         cli: gsutil
     - name: Terraform Deploy
       run: |
-        terraform -chdir=terraform taint google_compute_instance.app
-        terraform -chdir=terraform taint google_compute_instance.worker
-        terraform -chdir=terraform apply --auto-approve -var="redis_url=${REDIS_URL}" -var="NEW_RELIC_ACCOUNT_ID=${NEW_RELIC_ACCOUNT_ID}" -var="NEW_RELIC_API_KEY=${NEW_RELIC_API_KEY}"
+        terraform -chdir=terraform/app taint google_compute_instance.app
+        terraform -chdir=terraform/app taint google_compute_instance.worker
+        terraform -chdir=terraform/app apply --auto-approve -var="redis_url=${REDIS_URL}" -var="NEW_RELIC_ACCOUNT_ID=${NEW_RELIC_ACCOUNT_ID}" -var="NEW_RELIC_API_KEY=${NEW_RELIC_API_KEY}"
