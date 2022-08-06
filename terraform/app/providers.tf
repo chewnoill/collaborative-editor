@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/google"
       version = "3.81.0"
     }
+    acme = {
+      source  = "vancluever/acme"
+      version = "~> 2.0"
+    }
   }
   backend "gcs" {
     bucket  = "willdocs-1"
@@ -14,5 +18,9 @@ terraform {
 provider "google" {
   project = var.project_name
   zone = "us-east1-b"
+}
+
+provider "acme" {
+  server_url = "https://acme-staging-v02.api.letsencrypt.org/directory"
 }
 

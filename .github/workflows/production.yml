@@ -77,4 +77,8 @@ jobs:
       run: |
         terraform -chdir=terraform/app taint google_compute_instance.app
         terraform -chdir=terraform/app taint google_compute_instance.worker
-        terraform -chdir=terraform/app apply --auto-approve -var="redis_url=${REDIS_URL}" -var="NEW_RELIC_ACCOUNT_ID=${NEW_RELIC_ACCOUNT_ID}" -var="NEW_RELIC_API_KEY=${NEW_RELIC_API_KEY}"
+        terraform -chdir=terraform/app apply --auto-approve \
+          -var="dns_name=${BASE_DOMAIN}" \
+          -var="redis_url=${REDIS_URL}" \
+          -var="NEW_RELIC_ACCOUNT_ID=${NEW_RELIC_ACCOUNT_ID}" \
+          -var="NEW_RELIC_API_KEY=${NEW_RELIC_API_KEY}"
