@@ -48,10 +48,10 @@ resource "google_compute_instance" "app" {
       - name: service.log
         file: /workspace/packages/service/output.log' >> /etc/newrelic-infra/logging.d/logging.yml
 
-    echo $(gcloud secrets versions access latest --secret="ssl-pk") > server-key.pem
-    echo $(gcloud secrets versions access latest --secret="ssl-cert") > server-cert.pem
-    export SSL_SERVER_KEY=/workspace/server-key.pem
-    export SSL_SERVER_CERT=/workspace/server-cert.pem
+    gcloud secrets versions access latest --secret="ssl-pk" > server-key.pem
+    gcloud secrets versions access latest --secret="ssl-cert" > server-cert.pem
+    export SSL_SERVER_KEY=$(pwd)/server-key.pem
+    export SSL_SERVER_CERT=$(pwd)/server-cert.pem
 
     echo "starting application..."
     # TODO: remove this
