@@ -30,7 +30,7 @@ resource "google_compute_instance" "app" {
     gcloud secrets versions access latest --secret="user-content-upload-service-credentials" | base64 -d > gcs_user_content.json
     export GCS_BUCKET_NAME=${google_storage_bucket.user_content.name}
     export GCS_CREDS_FILE=$(pwd)/gcs_user_content.json
-    export PORT=80
+    export PORT=443
     export REDIS_URL=${var.redis_url}
 
     echo "running migrations..."
@@ -48,9 +48,14 @@ resource "google_compute_instance" "app" {
       - name: service.log
         file: /workspace/packages/service/output.log' >> /etc/newrelic-infra/logging.d/logging.yml
 
+    echo $(gcloud secrets versions access latest --secret="ssl-pk") > server-key.pem
+    echo $(gcloud secrets versions access latest --secret="ssl-cert") > server-cert.pem
+    export SSL_SERVER_KEY=/workspace/server-key.pem
+    export SSL_SERVER_CERT=/workspace/server-cert.pem
+
     echo "starting application..."
     # TODO: remove this
-    # run bundle as root so we can use port 80
+    # run bundle as root so we can use port 443
     sudo -E pm2 start dist/bundle.js --no-daemon -i max
   EOF
 

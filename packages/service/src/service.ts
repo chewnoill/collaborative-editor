@@ -1,5 +1,6 @@
-import { HOST, PORT } from "./env";
+import { HOST, PORT, SSL_OPTIONS } from "./env";
 import http from "http";
+import https from "https";
 import app from "./app";
 import setupSignalingConnection from "./utils/signaling-connection";
 import ws from "ws";
@@ -7,7 +8,11 @@ import Session from "./session";
 import passport from "./utils/passport";
 import { loggerMiddleware } from "./logger";
 
-http.createServer(app);
+if (SSL_OPTIONS) {
+  https.createServer(SSL_OPTIONS, app);
+} else {
+  http.createServer(app);
+}
 
 const server = app.listen({ host: HOST, port: PORT });
 

@@ -1,4 +1,5 @@
 import url from "whatwg-url";
+import fs from "fs";
 
 export const NODE_ENV = process.env.NODE_ENV || "production";
 export const HOST = process.env.HOST || "0.0.0.0";
@@ -38,3 +39,14 @@ function redisConfig(urlString: string) {
 export const REDIS_CONFIG = redisConfig(REDIS_URL);
 
 if (NODE_ENV === "production") require("newrelic");
+
+const SSL_SERVER_KEY = process.env.SSL_SERVER_KEY;
+const SSL_SERVER_CERT = process.env.SSL_SERVER_CERT;
+
+export const SSL_OPTIONS =
+  SSL_SERVER_CERT && SSL_SERVER_KEY
+    ? {
+        key: fs.readFileSync(SSL_SERVER_KEY),
+        cert: fs.readFileSync(SSL_SERVER_CERT),
+      }
+    : false;
