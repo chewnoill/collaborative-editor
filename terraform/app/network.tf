@@ -12,8 +12,8 @@ resource "google_compute_subnetwork" "default" {
 }
 
 resource "google_compute_firewall" "allow-ingress" {
-  name    = "allow-ingress"
-  network = google_compute_network.default.name
+  name      = "allow-ingress"
+  network   = google_compute_network.default.name
   direction = "INGRESS"
   allow {
     protocol = "all"
@@ -23,18 +23,18 @@ resource "google_compute_firewall" "allow-ingress" {
 }
 
 resource "google_compute_address" "app-address" {
-  project = var.project_name
+  project      = var.project_name
   subnetwork   = google_compute_subnetwork.default.id
   address_type = "INTERNAL"
-  address      = "10.0.0.42"
-  name = "app-address"
+  address      = "10.0.0.44"
+  name         = "app-instance-address"
 }
 
-resource "google_compute_address" "gateway-address" {
+resource "google_compute_global_address" "gateway-address" {
   project = var.project_name
-  name = "gateway-address"
+  name    = "gateway-address"
 }
 
 output "gateway-ip" {
-  value = google_compute_address.gateway-address.address
+  value = google_compute_global_address.gateway-address.address
 }

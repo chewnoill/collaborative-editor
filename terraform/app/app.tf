@@ -1,6 +1,6 @@
 resource "google_compute_instance" "app" {
   project = var.project_name
-  name         = "app"
+  name         = "app-instance"
   machine_type = "e2-micro"
   zone = "us-east1-b"
 
@@ -13,10 +13,8 @@ resource "google_compute_instance" "app" {
   network_interface {
     subnetwork = google_compute_subnetwork.default.name
     network_ip = google_compute_address.app-address.address
-    access_config {
-      nat_ip = google_compute_address.gateway-address.address
-      // Include this section to give the VM an external ip address
-    }
+
+    access_config {}
   }
 
   metadata_startup_script = <<-EOF
@@ -30,7 +28,7 @@ resource "google_compute_instance" "app" {
     gcloud secrets versions access latest --secret="user-content-upload-service-credentials" | base64 -d > gcs_user_content.json
     export GCS_BUCKET_NAME=${google_storage_bucket.user_content.name}
     export GCS_CREDS_FILE=$(pwd)/gcs_user_content.json
-    export PORT=443
+    export PORT=8080
     export REDIS_URL=${var.redis_url}
 
     echo "running migrations..."
@@ -48,15 +46,8 @@ resource "google_compute_instance" "app" {
       - name: service.log
         file: /workspace/packages/service/output.log' >> /etc/newrelic-infra/logging.d/logging.yml
 
-    gcloud secrets versions access latest --secret="ssl-pk" > server-key.pem
-    gcloud secrets versions access latest --secret="ssl-cert" > server-cert.pem
-    export SSL_SERVER_KEY=$(pwd)/server-key.pem
-    export SSL_SERVER_CERT=$(pwd)/server-cert.pem
-
     echo "starting application..."
-    # TODO: remove this
-    # run bundle as root so we can use port 443
-    sudo -E pm2 start dist/bundle.js --no-daemon -i max
+    pm2 start dist/bundle.js --no-daemon -i max
   EOF
 
   service_account {
@@ -88,4 +79,46 @@ resource "google_storage_bucket_iam_member" "member" {
   bucket = google_storage_bucket.private_bucket.name
   role = "roles/storage.objectViewer"
   member = "serviceAccount:${google_service_account.app-user.email}"
+}
+
+resource "google_compute_instance_group" "app_group" {
+  name      = "app-instance-group"
+  zone      = "us-east1-b"
+  instances = [google_compute_instance.app.id]
+  named_port {
+    name = "http"
+    port = "8080"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "google_compute_backend_service" "app_service" {
+  name      = "http-app-service"
+  port_name = "http"
+  protocol  = "HTTP"
+
+  backend {
+    group = google_compute_instance_group.app_group.id
+  }
+
+  health_checks = [
+    google_compute_health_check.http_app_health.id,
+  ]
+}
+
+resource "google_compute_health_check" "http_app_health" {
+  name         = "http-app-health-check"
+  http_health_check {
+    port = "8080"
+  }
+}
+
+resource "google_compute_url_map" "default" {
+  name        = "default-url-map"
+  description = "a description"
+
+  default_service = google_compute_backend_service.app_service.id
 }
