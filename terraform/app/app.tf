@@ -1,6 +1,6 @@
 resource "google_compute_instance" "app" {
   project = var.project_name
-  name         = "app-instance"
+  name         = "app"
   machine_type = "e2-micro"
   zone = "us-east1-b"
 
@@ -82,7 +82,7 @@ resource "google_storage_bucket_iam_member" "member" {
 }
 
 resource "google_compute_instance_group" "app_group" {
-  name      = "app-instance-group"
+  name      = "app-group"
   zone      = "us-east1-b"
   instances = [google_compute_instance.app.id]
   named_port {
