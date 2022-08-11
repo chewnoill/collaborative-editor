@@ -19,3 +19,11 @@ variable "NEW_RELIC_API_KEY" {
   description = "NR API key"
 }
 
+variable "build_number" {
+  type        = number
+  description = "build number"
+}
+
+output "build_number" {
+  value = var.build_number
+}

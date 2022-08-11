@@ -22,14 +22,6 @@ resource "google_compute_firewall" "allow-ingress" {
   source_ranges = ["0.0.0.0/0"]
 }
 
-resource "google_compute_address" "app-address" {
-  project      = var.project_name
-  subnetwork   = google_compute_subnetwork.default.id
-  address_type = "INTERNAL"
-  address      = "10.0.0.45"
-  name         = "app-address"
-}
-
 resource "google_compute_global_address" "gateway-address" {
   project = var.project_name
   name    = "gateway-address"

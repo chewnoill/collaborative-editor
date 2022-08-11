@@ -1,6 +1,6 @@
 resource "google_compute_instance" "app" {
   project = var.project_name
-  name         = "app"
+  name         = "app-${var.build_number}"
   machine_type = "e2-micro"
   zone = "us-east1-b"
 
@@ -63,6 +63,13 @@ resource "google_compute_instance" "app" {
   }
 }
 
+resource "google_compute_address" "app-address" {
+  project      = var.project_name
+  subnetwork   = google_compute_subnetwork.default.id
+  address_type = "INTERNAL"
+  name         = "app-instance-address-${var.build_number}"
+}
+
 resource "google_service_account" "app-user" {
   account_id   = "app-account"
   display_name = "App Account"
@@ -82,7 +89,7 @@ resource "google_storage_bucket_iam_member" "member" {
 }
 
 resource "google_compute_instance_group" "app_group" {
-  name      = "app-group"
+  name      = "app-group-${var.build_number}"
   zone      = "us-east1-b"
   instances = [google_compute_instance.app.id]
   named_port {
