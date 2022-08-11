@@ -75,7 +75,7 @@ jobs:
         cli: gsutil
     - name: Terraform Deploy
       run: |
-        NEXT_VERSION=expr $(terraform -chdir=terraform/app output build_number) + 1
+        NEXT_VERSION=$(expr $(terraform -chdir=terraform/app output build_number) + 1)
         terraform -chdir=terraform/app taint google_compute_instance.worker
         terraform -chdir=terraform/app apply --auto-approve \
           -var="build_number=${NEXT_VERSION}"
