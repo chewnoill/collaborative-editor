@@ -1,7 +1,7 @@
 
 # Collaborative Editor
 
-### [Getting Started](http://docs.williamcohen.com/website/docs/getting-started)
+### [Getting Started](https://docs.williamcohen.com/website/docs/getting-started)
 
 ### [github.com/chewnoill/collaborative-editor](https://github.com/chewnoill/collaborative-editor)
 

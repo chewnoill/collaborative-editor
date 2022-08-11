@@ -51,4 +51,4 @@ Conflict-free Replicated Data Types
 
 ## Demo
 
-### [docs.williamcohen.com](http://docs.williamcohen.com/document/03c6018a-fcb2-4ed6-866d-87f939ae6388/)
+### [docs.williamcohen.com](https://docs.williamcohen.com/document/03c6018a-fcb2-4ed6-866d-87f939ae6388/)
