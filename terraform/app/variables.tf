@@ -1,21 +1,21 @@
 variable "project_name" {
-  type = string
+  type        = string
   description = "Project name"
   default     = "willdocs-1"
 }
 
 variable "redis_url" {
-  type = string
+  type        = string
   description = "redis url"
 }
 
 variable "NEW_RELIC_ACCOUNT_ID" {
-  type = string
+  type        = string
   description = "NR Account ID"
 }
 
 variable "NEW_RELIC_API_KEY" {
-  type = string
+  type        = string
   description = "NR API key"
 }
 

@@ -1,8 +1,8 @@
-resource "random_uuid" "user_content" { }
+resource "random_uuid" "user_content" {}
 
 resource "google_storage_bucket" "user_content" {
-  name = "user-content-${random_uuid.user_content.id}"
-  force_destroy = true
+  name                        = "user-content-${random_uuid.user_content.id}"
+  force_destroy               = true
   uniform_bucket_level_access = true
 
   cors {
@@ -20,12 +20,12 @@ output "user-content-bucket" {
 resource "google_service_account" "user_content_storage" {
   account_id   = "user-content-account"
   display_name = "User Content Account"
-  project = var.project_name
+  project      = var.project_name
 }
 
 resource "google_storage_bucket_iam_member" "user_content_editor" {
   bucket = google_storage_bucket.user_content.name
-  role = "roles/storage.objectAdmin"
+  role   = "roles/storage.objectAdmin"
   member = "serviceAccount:${google_service_account.user_content_storage.email}"
 }
 
@@ -58,12 +58,12 @@ resource "google_secret_manager_secret" "user_content_upload_service_credentials
 }
 
 resource "google_secret_manager_secret_version" "user_content_upload_service_credentials" {
-  secret = google_secret_manager_secret.user_content_upload_service_credentials.id
+  secret      = google_secret_manager_secret.user_content_upload_service_credentials.id
   secret_data = google_service_account_key.service_key.private_key
 }
 
 resource "google_secret_manager_secret_iam_member" "app-member-upload-creds" {
   secret_id = google_secret_manager_secret.user_content_upload_service_credentials.secret_id
-  role = "roles/secretmanager.secretAccessor"
-  member = "serviceAccount:${google_service_account.app-user.email}"
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.app-user.email}"
 }

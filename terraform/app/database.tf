@@ -6,13 +6,13 @@ resource "google_sql_database_instance" "master" {
   settings {
     tier = "db-f1-micro"
     ip_configuration {
-      ipv4_enabled    = true
+      ipv4_enabled = true
       authorized_networks {
-        name = "app-connection"
+        name  = "app-connection"
         value = google_compute_instance.app.network_interface.0.access_config.0.nat_ip
       }
       authorized_networks {
-        name = "worker-connection"
+        name  = "worker-connection"
         value = google_compute_instance.worker.network_interface.0.access_config.0.nat_ip
       }
     }
@@ -48,6 +48,6 @@ resource "google_secret_manager_secret" "database-url" {
 }
 
 resource "google_secret_manager_secret_version" "database-url" {
-  secret = google_secret_manager_secret.database-url.id
+  secret      = google_secret_manager_secret.database-url.id
   secret_data = "postgres://${google_sql_user.database_user.name}:${random_password.db_password.result}@${google_sql_database_instance.master.ip_address.0.ip_address}/postgres"
 }

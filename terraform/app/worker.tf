@@ -1,8 +1,8 @@
 resource "google_compute_instance" "worker" {
-  project = var.project_name
+  project      = var.project_name
   name         = "worker"
   machine_type = "e2-micro"
-  zone = "us-east1-b"
+  zone         = "us-east1-b"
 
   boot_disk {
     initialize_params {
@@ -50,15 +50,15 @@ resource "google_compute_instance" "worker" {
 }
 
 resource "google_compute_address" "internal-worker-address" {
-  project = var.project_name
+  project      = var.project_name
   subnetwork   = google_compute_subnetwork.default.id
   address_type = "INTERNAL"
   address      = "10.0.0.43"
-  name = "internal-worker-address"
+  name         = "internal-worker-address"
 }
 
 resource "google_compute_address" "external-worker-address" {
-  project = var.project_name
+  project      = var.project_name
   address_type = "EXTERNAL"
-  name = "external-worker-address"
+  name         = "external-worker-address"
 }

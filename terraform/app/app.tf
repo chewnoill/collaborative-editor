@@ -1,8 +1,8 @@
 resource "google_compute_instance" "app" {
-  project = var.project_name
+  project      = var.project_name
   name         = "app-${var.build_number}"
   machine_type = "e2-micro"
-  zone = "us-east1-b"
+  zone         = "us-east1-b"
 
   boot_disk {
     initialize_params {
@@ -57,7 +57,7 @@ resource "google_compute_instance" "app" {
     # required roles:
     #   * storage object viewer
     #   * secret manager accessor
-    email  = google_service_account.app-user.email
+    email = google_service_account.app-user.email
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     scopes = ["cloud-platform"]
   }
@@ -73,18 +73,18 @@ resource "google_compute_address" "app-address" {
 resource "google_service_account" "app-user" {
   account_id   = "app-account"
   display_name = "App Account"
-  project = var.project_name
+  project      = var.project_name
 }
 
 resource "google_secret_manager_secret_iam_member" "app-member" {
   secret_id = google_secret_manager_secret.database-url.secret_id
-  role = "roles/secretmanager.secretAccessor"
-  member = "serviceAccount:${google_service_account.app-user.email}"
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.app-user.email}"
 }
 
 resource "google_storage_bucket_iam_member" "member" {
   bucket = google_storage_bucket.private_bucket.name
-  role = "roles/storage.objectViewer"
+  role   = "roles/storage.objectViewer"
   member = "serviceAccount:${google_service_account.app-user.email}"
 }
 
@@ -117,7 +117,7 @@ resource "google_compute_backend_service" "app_service" {
 }
 
 resource "google_compute_health_check" "http_app_health" {
-  name         = "http-app-health-check"
+  name = "http-app-health-check"
   http_health_check {
     port = "8080"
   }

@@ -10,14 +10,14 @@ terraform {
     }
   }
   backend "gcs" {
-    bucket  = "willdocs-1"
-    prefix  = "terraform/state"
+    bucket = "willdocs-1"
+    prefix = "terraform/state"
   }
 }
 
 provider "google" {
   project = var.project_name
-  zone = "us-east1-b"
+  zone    = "us-east1-b"
 }
 
 provider "acme" {

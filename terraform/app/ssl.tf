@@ -36,10 +36,10 @@ resource "acme_certificate" "certificate" {
   dns_challenge {
     provider = "netlify"
     config = {
-      NETLIFY_HTTP_TIMEOUT = 30
-      NETLIFY_POLLING_INTERVAL = 30
+      NETLIFY_HTTP_TIMEOUT        = 30
+      NETLIFY_POLLING_INTERVAL    = 30
       NETLIFY_PROPAGATION_TIMEOUT = 30
-      NETLIFY_TTL = 30
+      NETLIFY_TTL                 = 30
     }
   }
 }
@@ -71,9 +71,9 @@ resource "google_compute_url_map" "http-redirect" {
   name = "http-redirect"
 
   default_url_redirect {
-    redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"  // 301 redirect
+    redirect_response_code = "MOVED_PERMANENTLY_DEFAULT" // 301 redirect
     strip_query            = false
-    https_redirect         = true  // this is the magic
+    https_redirect         = true // this is the magic
   }
 }
 
@@ -85,6 +85,6 @@ resource "google_compute_target_http_proxy" "http-redirect" {
 resource "google_compute_global_forwarding_rule" "http-redirect" {
   name       = "http-redirect"
   target     = google_compute_target_http_proxy.http-redirect.self_link
-  ip_address            = google_compute_global_address.gateway-address.id
+  ip_address = google_compute_global_address.gateway-address.id
   port_range = "80"
 }
