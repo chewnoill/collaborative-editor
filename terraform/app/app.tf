@@ -43,8 +43,9 @@ resource "google_compute_instance" "app" {
     export NEW_RELIC_APP_NAME=app
     export NEW_RELIC_LICENSE_KEY=881ba2daa0a207ab2038f6b717f7233b6fb6NRAL
     echo '
+    logs:
       - name: service.log
-        file: /workspace/packages/service/output.log' >> /etc/newrelic-infra/logging.d/logging.yml
+        file: /workspace/packages/service/output.log' > /etc/newrelic-infra/logging.d/logging.yml
 
     echo "starting application..."
     pm2 start dist/bundle.js --no-daemon -i max
