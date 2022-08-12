@@ -48,7 +48,7 @@ resource "google_compute_instance" "app" {
         file: /workspace/packages/service/output.log' > /etc/newrelic-infra/logging.d/logging.yml
 
     echo "starting application..."
-    pm2 start dist/bundle.js --no-daemon -i max
+    pm2 start dist/bundle.js --no-daemon -i 1
   EOF
 
   service_account {
