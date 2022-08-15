@@ -90,7 +90,10 @@ export function requestLogger({ request, service, level, ...extra }) {
     cpu_id: CPU_ID,
     url: request.url,
     body: request.body,
-    user: request.user,
+    user: request.user && {
+      id: request.user.id,
+      name: request.user.name,
+    },
     method: request.method,
     sessionID: request.sessionID,
     ...extra,
