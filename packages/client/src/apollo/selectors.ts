@@ -111,7 +111,7 @@ export function useMyDocumentsQuery() {
     gql`
       query MyDocuments {
         me {
-          documentsByCreatorId(orderBy: LATEST_UPDATE_TIME_DESC) {
+          documentsByCreatorId(orderBy: LATEST_UPDATE_TIME_DESC, first: 10) {
             edges {
               node {
                 ...base_document
