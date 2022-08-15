@@ -22,6 +22,179 @@ declare module "zapatos/schema" {
   /* --- tables --- */
 
   /**
+   * **access_token**
+   * - Table in database
+   */
+  export namespace access_token {
+    export type Table = "access_token";
+    export interface Selectable {
+      /**
+       * **access_token.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id: string;
+      /**
+       * **access_token.user_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_id: string;
+      /**
+       * **access_token.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: Date;
+    }
+    export interface JSONSelectable {
+      /**
+       * **access_token.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id: string;
+      /**
+       * **access_token.user_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_id: string;
+      /**
+       * **access_token.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: db.TimestampString;
+    }
+    export interface Whereable {
+      /**
+       * **access_token.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **access_token.user_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >;
+      /**
+       * **access_token.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampString | Date)
+            | db.Parameter<db.TimestampString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >;
+    }
+    export interface Insertable {
+      /**
+       * **access_token.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+      /**
+       * **access_token.user_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+       * **access_token.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      created_at:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+       * **access_token.id**
+       * - `uuid` in database
+       * - `NOT NULL`, default: `uuid_generate_v4()`
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.DefaultType | db.SQLFragment
+          >;
+      /**
+       * **access_token.user_id**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+       * **access_token.created_at**
+       * - `timestamp` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampString | Date)
+        | db.Parameter<db.TimestampString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampString | Date)
+            | db.Parameter<db.TimestampString | Date>
+            | db.SQLFragment
+          >;
+    }
+    export type UniqueIndex = "access_token_pkey";
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >;
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | (keyof Updatable)[]>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
    * **data_upload**
    * - Table in database
    */
@@ -2088,6 +2261,7 @@ declare module "zapatos/schema" {
   /* === cross-table types === */
 
   export type Table =
+    | access_token.Table
     | data_upload.Table
     | document.Table
     | document_history.Table
@@ -2098,6 +2272,7 @@ declare module "zapatos/schema" {
     | user_document.Table
     | users.Table;
   export type Selectable =
+    | access_token.Selectable
     | data_upload.Selectable
     | document.Selectable
     | document_history.Selectable
@@ -2108,6 +2283,7 @@ declare module "zapatos/schema" {
     | user_document.Selectable
     | users.Selectable;
   export type JSONSelectable =
+    | access_token.JSONSelectable
     | data_upload.JSONSelectable
     | document.JSONSelectable
     | document_history.JSONSelectable
@@ -2118,6 +2294,7 @@ declare module "zapatos/schema" {
     | user_document.JSONSelectable
     | users.JSONSelectable;
   export type Whereable =
+    | access_token.Whereable
     | data_upload.Whereable
     | document.Whereable
     | document_history.Whereable
@@ -2128,6 +2305,7 @@ declare module "zapatos/schema" {
     | user_document.Whereable
     | users.Whereable;
   export type Insertable =
+    | access_token.Insertable
     | data_upload.Insertable
     | document.Insertable
     | document_history.Insertable
@@ -2138,6 +2316,7 @@ declare module "zapatos/schema" {
     | user_document.Insertable
     | users.Insertable;
   export type Updatable =
+    | access_token.Updatable
     | data_upload.Updatable
     | document.Updatable
     | document_history.Updatable
@@ -2148,6 +2327,7 @@ declare module "zapatos/schema" {
     | user_document.Updatable
     | users.Updatable;
   export type UniqueIndex =
+    | access_token.UniqueIndex
     | data_upload.UniqueIndex
     | document.UniqueIndex
     | document_history.UniqueIndex
@@ -2158,6 +2338,7 @@ declare module "zapatos/schema" {
     | user_document.UniqueIndex
     | users.UniqueIndex;
   export type Column =
+    | access_token.Column
     | data_upload.Column
     | document.Column
     | document_history.Column
@@ -2168,6 +2349,7 @@ declare module "zapatos/schema" {
     | user_document.Column
     | users.Column;
   export type AllBaseTables = [
+    access_token.Table,
     data_upload.Table,
     document.Table,
     document_history.Table,
@@ -2182,6 +2364,7 @@ declare module "zapatos/schema" {
   export type AllViews = [];
   export type AllMaterializedViews = [];
   export type AllTablesAndViews = [
+    access_token.Table,
     data_upload.Table,
     document.Table,
     document_history.Table,
@@ -2194,6 +2377,7 @@ declare module "zapatos/schema" {
   ];
 
   export type SelectableForTable<T extends Table> = {
+    access_token: access_token.Selectable;
     data_upload: data_upload.Selectable;
     document: document.Selectable;
     document_history: document_history.Selectable;
@@ -2206,6 +2390,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type JSONSelectableForTable<T extends Table> = {
+    access_token: access_token.JSONSelectable;
     data_upload: data_upload.JSONSelectable;
     document: document.JSONSelectable;
     document_history: document_history.JSONSelectable;
@@ -2218,6 +2403,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type WhereableForTable<T extends Table> = {
+    access_token: access_token.Whereable;
     data_upload: data_upload.Whereable;
     document: document.Whereable;
     document_history: document_history.Whereable;
@@ -2230,6 +2416,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type InsertableForTable<T extends Table> = {
+    access_token: access_token.Insertable;
     data_upload: data_upload.Insertable;
     document: document.Insertable;
     document_history: document_history.Insertable;
@@ -2242,6 +2429,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type UpdatableForTable<T extends Table> = {
+    access_token: access_token.Updatable;
     data_upload: data_upload.Updatable;
     document: document.Updatable;
     document_history: document_history.Updatable;
@@ -2254,6 +2442,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type UniqueIndexForTable<T extends Table> = {
+    access_token: access_token.UniqueIndex;
     data_upload: data_upload.UniqueIndex;
     document: document.UniqueIndex;
     document_history: document_history.UniqueIndex;
@@ -2266,6 +2455,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type ColumnForTable<T extends Table> = {
+    access_token: access_token.Column;
     data_upload: data_upload.Column;
     document: document.Column;
     document_history: document_history.Column;
@@ -2278,6 +2468,7 @@ declare module "zapatos/schema" {
   }[T];
 
   export type SQLForTable<T extends Table> = {
+    access_token: access_token.SQL;
     data_upload: data_upload.SQL;
     document: document.SQL;
     document_history: document_history.SQL;

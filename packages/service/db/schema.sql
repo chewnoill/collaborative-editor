@@ -141,6 +141,24 @@ $$;
 
 
 --
+-- Name: access_token; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.access_token (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    user_id uuid NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: TABLE access_token; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.access_token IS ' ';
+
+
+--
 -- Name: data_upload; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -309,6 +327,14 @@ ALTER TABLE ONLY public.document_history ALTER COLUMN sequence SET DEFAULT nextv
 
 
 --
+-- Name: access_token access_token_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.access_token
+    ADD CONSTRAINT access_token_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: data_upload data_upload_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -404,6 +430,14 @@ CREATE INDEX "IDX_session_expire" ON public.session USING btree (expire);
 
 
 --
+-- Name: access_token access_token_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.access_token
+    ADD CONSTRAINT access_token_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: data_upload data_upload_owner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -488,6 +522,19 @@ ALTER TABLE ONLY public.user_document
 --
 
 CREATE POLICY access_data_uploads ON public.data_upload TO postgraphile_user USING ((owner_id = public.current_user_id())) WITH CHECK ((owner_id = public.current_user_id()));
+
+
+--
+-- Name: access_token; Type: ROW SECURITY; Schema: public; Owner: -
+--
+
+ALTER TABLE public.access_token ENABLE ROW LEVEL SECURITY;
+
+--
+-- Name: access_token access_token_if_allowed; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY access_token_if_allowed ON public.access_token TO postgraphile_user USING ((user_id = public.current_user_id())) WITH CHECK ((user_id = public.current_user_id()));
 
 
 --
@@ -601,4 +648,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220717162732'),
     ('20220717194812'),
     ('20220725215639'),
-    ('20220728132102');
+    ('20220728132102'),
+    ('20220813173507');

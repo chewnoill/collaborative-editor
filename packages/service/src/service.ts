@@ -5,7 +5,7 @@ import app from "./app";
 import setupSignalingConnection from "./utils/signaling-connection";
 import ws from "ws";
 import Session from "./session";
-import passport from "./utils/passport";
+import passport from "./passport";
 import { loggerMiddleware } from "./logger";
 
 if (SSL_OPTIONS) {

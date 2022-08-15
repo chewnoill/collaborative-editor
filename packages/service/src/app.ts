@@ -1,10 +1,10 @@
 import express from "express";
-import passport from "./utils/passport";
+import passport from "./passport";
 import bodyParser from "body-parser";
 import { gqlMiddleware } from "./db";
 import Session from "./session";
 import path from "path";
-import { loggerMiddleware } from "./logger";
+import logger, { loggerMiddleware } from "./logger";
 import { redirectForDownload } from "./resolvers/data-uploads";
 
 const app = express();
@@ -24,19 +24,11 @@ app.use("/", express.static(STATIC_PATH));
 
 app.use(Session);
 
-const auth = (req, resp, next) => {
-  if (!req.user) {
-    resp.status(401);
-    next(new Error("need to login"));
-  } else {
-    next();
-  }
-};
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.authenticate(["token", "anonymous"]));
 
 app.use(gqlMiddleware());
 
