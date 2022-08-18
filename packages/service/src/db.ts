@@ -57,5 +57,5 @@ const postgraphile_options: any = {
 };
 
 export function gqlMiddleware() {
-  return postgraphile(DATABASE_URL, ["public"], postgraphile_options);
+  return postgraphile(DATABASE_URL, ["app"], postgraphile_options);
 }
