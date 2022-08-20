@@ -63,6 +63,7 @@ jobs:
           packages/service/dist/* \
           packages/service/db/migrations \
           node_modules/pkginfo \
+          node_modules/passport-accesstoken \
           node_modules/moniker/dict/* \
           node_modules/bullmq/dist/esm/commands/*
 
