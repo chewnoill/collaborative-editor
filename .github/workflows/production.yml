@@ -62,7 +62,7 @@ jobs:
           packages/client/out/* \
           packages/service/dist/* \
           packages/service/db/migrations \
-          node_modules/pkginfo/lib/* \
+          node_modules/pkginfo \
           node_modules/moniker/dict/* \
           node_modules/bullmq/dist/esm/commands/*
 
