@@ -66,7 +66,7 @@ export const createDocument = (
   {
     creator_id = db.sql`current_user_id()`,
     doc = CreateEmptyDoc(),
-    is_public = true,
+    is_public,
     name,
     latest_update_time = db.sql`now()`,
   }: {
