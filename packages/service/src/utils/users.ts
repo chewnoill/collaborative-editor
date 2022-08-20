@@ -2,7 +2,7 @@ import { db, pool, schema } from "../db";
 
 export function createUser(props: { username: string; password: string }) {
   return db
-    .insert("users", {
+    .insert("app.user", {
       name: props.username,
       password: db.sql`crypt(${db.param(props.password)}, gen_salt('md5'))`,
     })
@@ -11,9 +11,9 @@ export function createUser(props: { username: string; password: string }) {
 
 export async function validateUser(props: { name: string; password: string }) {
   const user = db.sql<
-    schema.users.SQL,
-    schema.users.Selectable
-  >`SELECT ${"password"}, ${"id"}, ${"name"} FROM ${"users"} WHERE ${{
+    schema.app.user.SQL,
+    schema.app.user.Selectable
+  >`SELECT ${"password"}, ${"id"}, ${"name"} FROM ${"app.user"} WHERE ${{
     name: props.name,
     password: db.sql`${"password"} = crypt(${db.param(
       props.password
@@ -24,9 +24,9 @@ export async function validateUser(props: { name: string; password: string }) {
 
 export const selectUsers = () => {
   const users = db.sql<
-    schema.users.SQL,
-    schema.users.Selectable[]
-  >`SELECT * FROM ${"users"}`.run(pool);
+    schema.app.user.SQL,
+    schema.app.user.Selectable[]
+  >`SELECT * FROM ${"app.user"}`.run(pool);
   return users;
 };
 
@@ -35,7 +35,7 @@ export const updatePassword = (props: {
   new_password: string;
   username: string;
 }) => {
-  return db.sql`UPDATE ${"users"} SET ${"password"} = crypt(${db.param(
+  return db.sql`UPDATE ${"app.user"} SET ${"password"} = crypt(${db.param(
     props.new_password
   )}, gen_salt('md5')) WHERE ${{
     name: props.username,

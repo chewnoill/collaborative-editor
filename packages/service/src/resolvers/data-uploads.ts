@@ -11,7 +11,7 @@ const SIZE_LIMIT = 10000000; // 10mb
 
 export async function redirectForDownload(id: string, resp) {
   const data = await db
-    .select("data_upload", {
+    .select("app.data_upload", {
       id,
     })
     .run(pool);
@@ -67,7 +67,7 @@ const DataUpload = makeExtendSchemaPlugin((build) => {
           }
 
           const data = await db
-            .insert("data_upload", {
+            .insert("app.data_upload", {
               file_name: args.file_name,
               mime_type: args.mime_type,
               size: args.size,

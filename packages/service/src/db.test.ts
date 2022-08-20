@@ -14,7 +14,7 @@ afterAll(() => {
 
 async function testFixtures() {
   const user = await db
-    .upsert("users", { name: "test user" }, "name")
+    .upsert("app.user", { name: "test user" }, "name")
     .run(pool);
 
   return {
@@ -49,10 +49,10 @@ test("crdts can be persisted", async () => {
 
 test("users cannot see each other's documents", async () => {
   const user_a = await db
-    .upsert("users", { name: "test user a" }, "name")
+    .upsert("app.user", { name: "test user a" }, "name")
     .run(pool);
   const user_b = await db
-    .upsert("users", { name: "test user b" }, "name")
+    .upsert("app.user", { name: "test user b" }, "name")
     .run(pool);
   // create a yjs document A
   const ydoc = new Y.Doc();
@@ -69,10 +69,10 @@ test("users cannot see each other's documents", async () => {
 
 test("users can see documents that have been shared with them", async () => {
   const user_a = await db
-    .upsert("users", { name: "test user a" }, "name")
+    .upsert("app.user", { name: "test user a" }, "name")
     .run(pool);
   const user_b = await db
-    .upsert("users", { name: "test user b" }, "name")
+    .upsert("app.user", { name: "test user b" }, "name")
     .run(pool);
   // create a yjs document A
   const ydoc = new Y.Doc();

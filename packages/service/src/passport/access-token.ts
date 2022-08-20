@@ -17,13 +17,13 @@ export default new TokenStrategy(strategyOptions, async function (token, done) {
   try {
     const accessToken = await db
       .selectOne(
-        "access_token",
+        "app.access_token",
         {
           id: token,
         },
         {
           lateral: {
-            user: db.selectExactlyOne("users", {
+            user: db.selectExactlyOne("app.user", {
               id: db.parent("user_id"),
             }),
           },
@@ -31,7 +31,7 @@ export default new TokenStrategy(strategyOptions, async function (token, done) {
       )
       .run(pool);
     if ("user" in accessToken) {
-      const user: schema.users.Selectable = (accessToken as any).user;
+      const user: schema.app.user.Selectable = (accessToken as any).user;
       log({
         level: "info",
         message: `user logged in ${user.name}`,

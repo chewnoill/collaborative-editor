@@ -13,8 +13,8 @@ SELECT
         'id',document_updates_queue.id,
         'update', document_update
   )) AS bucket
-from document_updates_queue
-left join users on document_updates_queue.user_id = users.id
+from ${"app.document_updates_queue"}
+left join ${"app.user"} on ${"app.document_updates_queue"}.user_id = ${"app.user"}.id
 where document_id = ${db.param(document_id)}
 group by timeslice, user_id
 order by timeslice ASC
@@ -28,14 +28,17 @@ export async function replaceDocumentHistory(document) {
     await buildDocumentHistoryBuckets(document);
   await db.serializable(pool, async (txnClient) => {
     await db
-      .deletes("document_history", {
+      .deletes("app.document_history", {
         document_id: document.id,
       })
       .run(txnClient);
 
-    await db.insert("document_history", documentHistory).run(txnClient);
+    await db.insert("app.document_history", documentHistory).run(txnClient);
     await db
-      .insert("document_update_document_history", documentUpdateDocumentHistory)
+      .insert(
+        "app.document_update_document_history",
+        documentUpdateDocumentHistory
+      )
       .run(txnClient);
   });
 }
@@ -96,7 +99,7 @@ export async function buildDocumentHistoryBuckets({
 
 export async function getDocumentHistoryFromTable(document_id: string) {
   return db
-    .select("document_history", {
+    .select("app.document_history", {
       document_id: document_id,
     })
     .run(pool);

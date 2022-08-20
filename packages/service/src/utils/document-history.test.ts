@@ -20,7 +20,7 @@ function insertUpdate(
   }: { user_id?: string; created_at?: Date } = {}
 ) {
   return db
-    .insert("document_updates_queue", {
+    .insert("app.document_updates_queue", {
       user_id,
       document_id,
       document_update: Buffer.from(document_update),

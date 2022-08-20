@@ -69,7 +69,7 @@ async function updateSingleDocument(document_id: string) {
     document_id,
     content,
     Buffer.from(Y.encodeStateAsUpdate(yDoc)),
-    db.sql`(select ${"created_at"} from ${"document_updates_queue"} where ${"document_updates_queue"}.${"id"} = ${db.param(
+    db.sql`(select ${"created_at"} from ${"app.document_updates_queue"} where ${"app.document_updates_queue"}.${"id"} = ${db.param(
       latest_update.id
     )})`
   );

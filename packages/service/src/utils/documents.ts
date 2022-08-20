@@ -12,7 +12,7 @@ export function insertUpdate(
     user_id = db.sql`current_user_id()`,
   }: { user_id?: db.SQLFragment | string } = {}
 ) {
-  return db.insert("document_updates_queue", {
+  return db.insert("app.document_updates_queue", {
     user_id,
     document_id,
     document_update,
@@ -30,7 +30,7 @@ export function updateDocumentMeta(
   Object.keys(meta).forEach(
     (key) => meta[key] === undefined && delete meta[key]
   );
-  return db.update("document", meta, {
+  return db.update("app.document", meta, {
     id: document_id,
   });
 }
@@ -43,7 +43,7 @@ export function updateDocumentContent(
 ) {
   return db
     .update(
-      "document",
+      "app.document",
       {
         value,
         origin,
@@ -78,7 +78,7 @@ export const createDocument = (
   }
 ) =>
   db
-    .insert("document", {
+    .insert("app.document", {
       name,
       value: doc.getText(TEXT_NAME).toJSON(),
       origin: Buffer.from(Y.encodeStateAsUpdate(doc)),
@@ -100,7 +100,7 @@ export const inviteUser = (
   user_to_invite: string
 ) =>
   db
-    .insert("user_document", {
+    .insert("app.user_document", {
       document_id: db.sql`SELECT document.id FROM document WHERE document.creator_id = ${db.param(
         current_user.id
       )} and document.id = ${db.param(doc.id)}`,
@@ -110,19 +110,19 @@ export const inviteUser = (
     })
     .run(pool);
 
-export type DocumentWithUpdates = schema.document.Selectable & {
-  document_updates?: schema.document_updates_queue.Selectable[];
+export type DocumentWithUpdates = schema.app.document.Selectable & {
+  document_updates?: schema.app.document_updates_queue.Selectable[];
 };
 
 export function fetchDocument(id: string): Promise<DocumentWithUpdates> {
   return db
     .selectExactlyOne(
-      "document",
+      "app.document",
       { id },
       {
         lateral: {
           document_updates: db.select(
-            "document_updates_queue",
+            "app.document_updates_queue",
             {
               document_id: db.parent("id"),
               created_at: db.conditions.gt(db.parent("latest_update_time")),
@@ -161,16 +161,16 @@ export function buildYDoc(dbDoc: DocumentWithUpdates) {
 
 export const selectUserDocuments = (user: { id: string }) =>
   db.sql`
-SELECT ${"document"}.* FROM document
-  LEFT JOIN ${"user_document"}
-  ON ${"user_document"}.${"document_id"} = ${"document"}.${"id"}
+  SELECT ${"app.document"}.* FROM ${"app.document"}
+  LEFT JOIN ${"app.user_document"}
+  ON ${"app.user_document"}.${"document_id"} = ${"app.document"}.${"id"}
   WHERE ${{ user_id: user.id }}
   OR ${{ creator_id: user.id }}`.run(pool);
 
 export const selectAllUpdatedDocuments = () =>
   db.sql`
-SELECT DISTINCT ${"document"}.${"id"}, ${"document"}.${"latest_update_time"} FROM ${"document_updates_queue"}
-  JOIN ${"document"} ON ${"document"}.${"id"} = ${"document_updates_queue"}.${"document_id"}
-  WHERE ${"document_updates_queue"}.${"created_at"} > ${"document"}.${"latest_update_time"}
-  ORDER BY ${"document"}.${"latest_update_time"} ASC
+SELECT DISTINCT ${"app.document"}.${"id"}, ${"app.document"}.${"latest_update_time"} FROM ${"app.document_updates_queue"}
+  JOIN ${"app.document"} ON ${"app.document"}.${"id"} = ${"app.document_updates_queue"}.${"document_id"}
+  WHERE ${"app.document_updates_queue"}.${"created_at"} > ${"app.document"}.${"latest_update_time"}
+  ORDER BY ${"app.document"}.${"latest_update_time"} ASC
 `.run(pool);
