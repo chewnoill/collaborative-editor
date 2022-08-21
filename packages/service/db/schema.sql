@@ -1031,6 +1031,13 @@ CREATE POLICY access_token_if_allowed ON app.access_token TO postgraphile_user U
 
 
 --
+-- Name: document all_for_owner; Type: POLICY; Schema: app; Owner: -
+--
+
+CREATE POLICY all_for_owner ON app.document TO postgraphile_user USING ((creator_id = public.current_user_id())) WITH CHECK ((creator_id = public.current_user_id()));
+
+
+--
 -- Name: document create_document_for_current_user; Type: POLICY; Schema: app; Owner: -
 --
 
@@ -1233,4 +1240,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220728132102'),
     ('20220813173507'),
     ('20220817220159'),
-    ('20220820213316');
+    ('20220820213316'),
+    ('20220821170138');
