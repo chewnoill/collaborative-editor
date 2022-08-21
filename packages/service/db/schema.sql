@@ -839,7 +839,7 @@ CREATE INDEX "IDX_session_expire" ON public.session USING btree (expire);
 --
 
 ALTER TABLE ONLY app.access_token
-    ADD CONSTRAINT access_token_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+    ADD CONSTRAINT access_token_user_id_fkey FOREIGN KEY (user_id) REFERENCES app."user"(id) ON DELETE CASCADE;
 
 
 --
@@ -1232,4 +1232,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220725215639'),
     ('20220728132102'),
     ('20220813173507'),
-    ('20220817220159');
+    ('20220817220159'),
+    ('20220820213316');
