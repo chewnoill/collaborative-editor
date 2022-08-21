@@ -1,11 +1,6 @@
 import { db, pool, schema } from "../db";
-import { Strategy as TokenStrategy } from "passport-accesstoken";
 import logger from "../logger";
-
-const strategyOptions = {
-  tokenHeader: "auth-token",
-  tokenField: "auth-token",
-};
+import { Strategy as TokenStrategy } from "passport-http-bearer";
 
 const log = (props: { level; message; body }) =>
   logger({
@@ -13,7 +8,7 @@ const log = (props: { level; message; body }) =>
     ...props,
   });
 
-export default new TokenStrategy(strategyOptions, async function (token, done) {
+export default new TokenStrategy(async function (token, done) {
   try {
     const accessToken = await db
       .selectOne(

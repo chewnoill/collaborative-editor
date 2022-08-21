@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(passport.authenticate(["token", "anonymous"]));
+app.use(passport.authenticate(["bearer", "anonymous"]));
 
 app.use(gqlMiddleware());
 
