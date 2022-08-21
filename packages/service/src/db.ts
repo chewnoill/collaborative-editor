@@ -12,6 +12,7 @@ import MdxQueries from "./resolvers/render-mdx";
 import { DATABASE_URL } from "./env";
 import DataUpload from "./resolvers/data-uploads";
 import DocumentHistory from "./resolvers/document-history";
+import logger from "./logger";
 export { schema };
 
 const params = url.parseURL(DATABASE_URL);
@@ -41,12 +42,19 @@ const postgraphile_options: any = {
   dynamicJson: true,
   setofFunctionsContainNulls: false,
   ignoreRBAC: false,
-  showErrorStack: "json",
-  extendedErrors: ["hint", "detail", "errcode"],
   allowExplain: true,
   legacyRelations: "omit",
   sortExport: true,
   disableQueryLog: true,
+  handleErrors: (errors, req, res) => {
+    logger({
+      level: "error",
+      service: "postgraphile",
+      message: "handleErrors",
+      body: errors
+    })
+    return "errors reported";
+  },
   appendPlugins: [
     DocumentMutations,
     DocumentHistory,
