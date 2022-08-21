@@ -12979,6 +12979,20 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
+passport-anonymous@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/passport-anonymous/-/passport-anonymous-1.0.1.tgz#241e37274ec44dfb7f6cad234b41c438386bc117"
+  integrity sha512-Mk2dls97nLTzHpsWCYQ54IVGucWaiWSHHr3+IhWYAebg4dRgRQIfyoeYrixoxB2z2z4+EM7p9yjC+a3yMB5z5A==
+  dependencies:
+    passport-strategy "1.x.x"
+
+passport-http-bearer@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/passport-http-bearer/-/passport-http-bearer-1.0.1.tgz#147469ea3669e2a84c6167ef99dbb77e1f0098a8"
+  integrity sha512-SELQM+dOTuMigr9yu8Wo4Fm3ciFfkMq5h/ZQ8ffi4ELgZrX1xh9PlglqZdcUZ1upzJD/whVyt+YWF62s3U6Ipw==
+  dependencies:
+    passport-strategy "1.x.x"
+
 passport-local@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/passport-local/-/passport-local-1.0.0.tgz#1fe63268c92e75606626437e3b906662c15ba6ee"
@@ -17701,10 +17715,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zapatos@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/zapatos/-/zapatos-5.0.0.tgz#d6a2bbed86349c17b3e6b524163acd184dcbf7d5"
-  integrity sha512-N/u/HQNcNLjL09DcV27V16iDIBs+cR9UfOkeWKK67kII8mbpSHHg0hZrmMymdYnwy9ioJ4Pdm5QhpNNF0/AZBA==
+zapatos@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/zapatos/-/zapatos-6.0.1.tgz#52ceb388e070dc5f6001005a0be68be0c68d8126"
+  integrity sha512-5modT0QpeV6PBYobeXiSfEhstrFhupHhPfZaIBeSFka5TWDHSDnkdBWOVMt4wJnVUHM6urz3AG14NP7HL95iMg==
 
 zen-observable-ts@^1.1.0:
   version "1.1.0"
