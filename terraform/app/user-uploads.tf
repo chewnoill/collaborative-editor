@@ -2,6 +2,7 @@ resource "random_uuid" "user_content" {}
 
 resource "google_storage_bucket" "user_content" {
   name                        = "user-content-${random_uuid.user_content.id}"
+  location                    = "us"
   force_destroy               = true
   uniform_bucket_level_access = true
 
