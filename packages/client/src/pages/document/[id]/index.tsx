@@ -71,19 +71,19 @@ export default function Document() {
   const { id } = router.query;
   const ref = useRef();
 
-  if (!id) return null;
+  if (!id || typeof id !== "string") return null;
   return (
     <FullWidth>
       <DynamicLayout>
         <GridWrapper gridArea="name">
-          <DocumentName document_id={id.toString()} />
+          <DocumentName document_id={id} />
         </GridWrapper>
         <GridWrapper gridArea="edit">
-          <EditorComponent document_id={id.toString()} />
-          <DocumentMenu document_id={id.toString()} position="fixed" />
+          <EditorComponent document_id={id} />
+          <DocumentMenu document_id={id} position="fixed" />
         </GridWrapper>
         <GridWrapper gridArea="whos">
-          <WhosHere document_id={id.toString()} />
+          <WhosHere document_id={id} />
         </GridWrapper>
         <GridWrapper className="preview">
           <PreviewDoc id={id} />
