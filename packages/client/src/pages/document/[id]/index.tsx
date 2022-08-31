@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 import DocumentMenu from "components/document-menu";
-import { DocumentName } from "components/document-name";
+import InlineForm from "components/inline-forms";
 import WhosHere from "components/whos-here";
 import { BreakPoints } from "layout/break-points";
 import FullWidth from "layout/full-width";
@@ -75,10 +75,8 @@ export default function Document() {
   return (
     <FullWidth>
       <DynamicLayout>
-        <GridWrapper gridArea="name">
-          <DocumentName document_id={id} />
-        </GridWrapper>
         <GridWrapper gridArea="edit">
+          <InlineForm document_id={id} />
           <EditorComponent document_id={id} />
           <DocumentMenu document_id={id} position="fixed" />
         </GridWrapper>
