@@ -6,14 +6,18 @@ import type { RootState } from "../store";
 
 interface YDocumentState {
   docMap: {
-    [key: string]:
-      | {
-          doc: Doc;
-          webrtcProvider: WebrtcProvider;
-        }
-      | undefined;
+    [key: string]: boolean;
   };
 }
+
+const documentMap: {
+  [key: string]:
+    | {
+        doc: Doc;
+        webrtcProvider: WebrtcProvider;
+      }
+    | undefined;
+} = {};
 
 const initialState: YDocumentState = {
   docMap: {},
@@ -45,7 +49,7 @@ export const yDocSlice = createSlice({
       }: { payload: { id: string; username: string } }
     ) => {
       if (!id) return;
-      if (state.docMap[id]) return;
+      if (documentMap[id]) return;
       const doc = new Doc();
       const webrtcProvider = new WebrtcProvider(id, doc, {
         signaling: [SIGNALING_SERVICE],
@@ -55,10 +59,11 @@ export const yDocSlice = createSlice({
         name: username,
       });
 
-      state.docMap[id] = {
+      documentMap[id] = {
         doc,
         webrtcProvider,
       };
+      state.docMap[id] = true;
     },
   },
 });
@@ -70,7 +75,7 @@ const selectYDocumentSlice = (state: RootState) => state["y-doc"];
 export const selectDocumentInfo = createSelector(
   selectYDocumentSlice,
   (_, { id }) => id,
-  (state, id) => state.docMap[id]
+  (state, id) => documentMap[id]
 );
 
 export const selectYDocument = createSelector(
