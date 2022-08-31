@@ -397,6 +397,33 @@ ALTER SEQUENCE app.document_history_sequence_seq OWNED BY app.document_history.s
 
 
 --
+-- Name: document_tags; Type: TABLE; Schema: app; Owner: -
+--
+
+CREATE TABLE app.document_tags (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    document_id uuid NOT NULL,
+    tag text NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: TABLE document_tags; Type: COMMENT; Schema: app; Owner: -
+--
+
+COMMENT ON TABLE app.document_tags IS '
+@name document_tags
+@omit create,update,delete
+
+# Document Tags
+
+Tags associated with each document.
+
+';
+
+
+--
 -- Name: document_update_document_history; Type: TABLE; Schema: app; Owner: -
 --
 
@@ -684,6 +711,22 @@ ALTER TABLE ONLY app.document
 
 
 --
+-- Name: document_tags document_tags_document_id_tag_key; Type: CONSTRAINT; Schema: app; Owner: -
+--
+
+ALTER TABLE ONLY app.document_tags
+    ADD CONSTRAINT document_tags_document_id_tag_key UNIQUE (document_id, tag);
+
+
+--
+-- Name: document_tags document_tags_pkey; Type: CONSTRAINT; Schema: app; Owner: -
+--
+
+ALTER TABLE ONLY app.document_tags
+    ADD CONSTRAINT document_tags_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: document_update_document_history document_update_document_history_pkey; Type: CONSTRAINT; Schema: app; Owner: -
 --
 
@@ -864,6 +907,14 @@ ALTER TABLE ONLY app.document
 
 ALTER TABLE ONLY app.document_history
     ADD CONSTRAINT document_history_document_id_fkey FOREIGN KEY (document_id) REFERENCES app.document(id) ON DELETE CASCADE;
+
+
+--
+-- Name: document_tags document_tags_document_id_fkey; Type: FK CONSTRAINT; Schema: app; Owner: -
+--
+
+ALTER TABLE ONLY app.document_tags
+    ADD CONSTRAINT document_tags_document_id_fkey FOREIGN KEY (document_id) REFERENCES app.document(id) ON DELETE CASCADE;
 
 
 --
@@ -1063,6 +1114,23 @@ ALTER TABLE app.document ENABLE ROW LEVEL SECURITY;
 ALTER TABLE app.document_history ENABLE ROW LEVEL SECURITY;
 
 --
+-- Name: document_tags; Type: ROW SECURITY; Schema: app; Owner: -
+--
+
+ALTER TABLE app.document_tags ENABLE ROW LEVEL SECURITY;
+
+--
+-- Name: document_tags document_tags_if_allowed; Type: POLICY; Schema: app; Owner: -
+--
+
+CREATE POLICY document_tags_if_allowed ON app.document_tags TO postgraphile_user USING ((document_id IN ( SELECT document.id
+   FROM app.document
+  WHERE (document.id = document_tags.document_id)))) WITH CHECK ((document_id IN ( SELECT document.id
+   FROM app.document
+  WHERE (document.id = document_tags.document_id))));
+
+
+--
 -- Name: document_updates_queue document_updates_queue_if_allowed; Type: POLICY; Schema: app; Owner: -
 --
 
@@ -1241,4 +1309,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220813173507'),
     ('20220817220159'),
     ('20220820213316'),
-    ('20220821170138');
+    ('20220821170138'),
+    ('20220830221420');

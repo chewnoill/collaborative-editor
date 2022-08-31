@@ -1168,6 +1168,227 @@ declare module "zapatos/schema" {
     }
 
     /**
+     * **app.document_tags**
+     * - Table in database
+     */
+    export namespace document_tags {
+      export type Table = "app.document_tags";
+      export interface Selectable {
+        /**
+         * **app.document_tags.id**
+         * - `uuid` in database
+         * - `NOT NULL`, default: `uuid_generate_v4()`
+         */
+        id: string;
+        /**
+         * **app.document_tags.document_id**
+         * - `uuid` in database
+         * - `NOT NULL`, no default
+         */
+        document_id: string;
+        /**
+         * **app.document_tags.tag**
+         * - `text` in database
+         * - `NOT NULL`, no default
+         */
+        tag: string;
+        /**
+         * **app.document_tags.created_at**
+         * - `timestamp` in database
+         * - `NOT NULL`, default: `now()`
+         */
+        created_at: Date;
+      }
+      export interface JSONSelectable {
+        /**
+         * **app.document_tags.id**
+         * - `uuid` in database
+         * - `NOT NULL`, default: `uuid_generate_v4()`
+         */
+        id: string;
+        /**
+         * **app.document_tags.document_id**
+         * - `uuid` in database
+         * - `NOT NULL`, no default
+         */
+        document_id: string;
+        /**
+         * **app.document_tags.tag**
+         * - `text` in database
+         * - `NOT NULL`, no default
+         */
+        tag: string;
+        /**
+         * **app.document_tags.created_at**
+         * - `timestamp` in database
+         * - `NOT NULL`, default: `now()`
+         */
+        created_at: db.TimestampString;
+      }
+      export interface Whereable {
+        /**
+         * **app.document_tags.id**
+         * - `uuid` in database
+         * - `NOT NULL`, default: `uuid_generate_v4()`
+         */
+        id?:
+          | string
+          | db.Parameter<string>
+          | db.SQLFragment
+          | db.ParentColumn
+          | db.SQLFragment<
+              any,
+              string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+            >;
+        /**
+         * **app.document_tags.document_id**
+         * - `uuid` in database
+         * - `NOT NULL`, no default
+         */
+        document_id?:
+          | string
+          | db.Parameter<string>
+          | db.SQLFragment
+          | db.ParentColumn
+          | db.SQLFragment<
+              any,
+              string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+            >;
+        /**
+         * **app.document_tags.tag**
+         * - `text` in database
+         * - `NOT NULL`, no default
+         */
+        tag?:
+          | string
+          | db.Parameter<string>
+          | db.SQLFragment
+          | db.ParentColumn
+          | db.SQLFragment<
+              any,
+              string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+            >;
+        /**
+         * **app.document_tags.created_at**
+         * - `timestamp` in database
+         * - `NOT NULL`, default: `now()`
+         */
+        created_at?:
+          | (db.TimestampString | Date)
+          | db.Parameter<db.TimestampString | Date>
+          | db.SQLFragment
+          | db.ParentColumn
+          | db.SQLFragment<
+              any,
+              | (db.TimestampString | Date)
+              | db.Parameter<db.TimestampString | Date>
+              | db.SQLFragment
+              | db.ParentColumn
+            >;
+      }
+      export interface Insertable {
+        /**
+         * **app.document_tags.id**
+         * - `uuid` in database
+         * - `NOT NULL`, default: `uuid_generate_v4()`
+         */
+        id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+        /**
+         * **app.document_tags.document_id**
+         * - `uuid` in database
+         * - `NOT NULL`, no default
+         */
+        document_id: string | db.Parameter<string> | db.SQLFragment;
+        /**
+         * **app.document_tags.tag**
+         * - `text` in database
+         * - `NOT NULL`, no default
+         */
+        tag: string | db.Parameter<string> | db.SQLFragment;
+        /**
+         * **app.document_tags.created_at**
+         * - `timestamp` in database
+         * - `NOT NULL`, default: `now()`
+         */
+        created_at?:
+          | (db.TimestampString | Date)
+          | db.Parameter<db.TimestampString | Date>
+          | db.DefaultType
+          | db.SQLFragment;
+      }
+      export interface Updatable {
+        /**
+         * **app.document_tags.id**
+         * - `uuid` in database
+         * - `NOT NULL`, default: `uuid_generate_v4()`
+         */
+        id?:
+          | string
+          | db.Parameter<string>
+          | db.DefaultType
+          | db.SQLFragment
+          | db.SQLFragment<
+              any,
+              string | db.Parameter<string> | db.DefaultType | db.SQLFragment
+            >;
+        /**
+         * **app.document_tags.document_id**
+         * - `uuid` in database
+         * - `NOT NULL`, no default
+         */
+        document_id?:
+          | string
+          | db.Parameter<string>
+          | db.SQLFragment
+          | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        /**
+         * **app.document_tags.tag**
+         * - `text` in database
+         * - `NOT NULL`, no default
+         */
+        tag?:
+          | string
+          | db.Parameter<string>
+          | db.SQLFragment
+          | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        /**
+         * **app.document_tags.created_at**
+         * - `timestamp` in database
+         * - `NOT NULL`, default: `now()`
+         */
+        created_at?:
+          | (db.TimestampString | Date)
+          | db.Parameter<db.TimestampString | Date>
+          | db.DefaultType
+          | db.SQLFragment
+          | db.SQLFragment<
+              any,
+              | (db.TimestampString | Date)
+              | db.Parameter<db.TimestampString | Date>
+              | db.DefaultType
+              | db.SQLFragment
+            >;
+      }
+      export type UniqueIndex =
+        | "document_tags_document_id_tag_key"
+        | "document_tags_pkey";
+      export type Column = keyof Selectable;
+      export type OnlyCols<T extends readonly Column[]> = Pick<
+        Selectable,
+        T[number]
+      >;
+      export type SQLExpression =
+        | Table
+        | db.ColumnNames<Updatable | (keyof Updatable)[]>
+        | db.ColumnValues<Updatable>
+        | Whereable
+        | Column
+        | db.ParentColumn
+        | db.GenericSQLExpression;
+      export type SQL = SQLExpression | SQLExpression[];
+    }
+
+    /**
      * **app.document_update_document_history**
      * - Table in database
      */
@@ -2080,6 +2301,7 @@ declare module "zapatos/schema" {
       | data_upload.Table
       | document.Table
       | document_history.Table
+      | document_tags.Table
       | document_update_document_history.Table
       | document_updates_queue.Table
       | user.Table
@@ -2089,6 +2311,7 @@ declare module "zapatos/schema" {
       | data_upload.Selectable
       | document.Selectable
       | document_history.Selectable
+      | document_tags.Selectable
       | document_update_document_history.Selectable
       | document_updates_queue.Selectable
       | user.Selectable
@@ -2098,6 +2321,7 @@ declare module "zapatos/schema" {
       | data_upload.JSONSelectable
       | document.JSONSelectable
       | document_history.JSONSelectable
+      | document_tags.JSONSelectable
       | document_update_document_history.JSONSelectable
       | document_updates_queue.JSONSelectable
       | user.JSONSelectable
@@ -2107,6 +2331,7 @@ declare module "zapatos/schema" {
       | data_upload.Whereable
       | document.Whereable
       | document_history.Whereable
+      | document_tags.Whereable
       | document_update_document_history.Whereable
       | document_updates_queue.Whereable
       | user.Whereable
@@ -2116,6 +2341,7 @@ declare module "zapatos/schema" {
       | data_upload.Insertable
       | document.Insertable
       | document_history.Insertable
+      | document_tags.Insertable
       | document_update_document_history.Insertable
       | document_updates_queue.Insertable
       | user.Insertable
@@ -2125,6 +2351,7 @@ declare module "zapatos/schema" {
       | data_upload.Updatable
       | document.Updatable
       | document_history.Updatable
+      | document_tags.Updatable
       | document_update_document_history.Updatable
       | document_updates_queue.Updatable
       | user.Updatable
@@ -2134,6 +2361,7 @@ declare module "zapatos/schema" {
       | data_upload.UniqueIndex
       | document.UniqueIndex
       | document_history.UniqueIndex
+      | document_tags.UniqueIndex
       | document_update_document_history.UniqueIndex
       | document_updates_queue.UniqueIndex
       | user.UniqueIndex
@@ -2143,6 +2371,7 @@ declare module "zapatos/schema" {
       | data_upload.Column
       | document.Column
       | document_history.Column
+      | document_tags.Column
       | document_update_document_history.Column
       | document_updates_queue.Column
       | user.Column
@@ -2153,6 +2382,7 @@ declare module "zapatos/schema" {
       data_upload.Table,
       document.Table,
       document_history.Table,
+      document_tags.Table,
       document_update_document_history.Table,
       document_updates_queue.Table,
       user.Table,
@@ -2166,6 +2396,7 @@ declare module "zapatos/schema" {
       data_upload.Table,
       document.Table,
       document_history.Table,
+      document_tags.Table,
       document_update_document_history.Table,
       document_updates_queue.Table,
       user.Table,
@@ -2199,6 +2430,7 @@ declare module "zapatos/schema" {
     "app.data_upload": app.data_upload.Selectable;
     "app.document": app.document.Selectable;
     "app.document_history": app.document_history.Selectable;
+    "app.document_tags": app.document_tags.Selectable;
     "app.document_update_document_history": app.document_update_document_history.Selectable;
     "app.document_updates_queue": app.document_updates_queue.Selectable;
     "app.user": app.user.Selectable;
@@ -2210,6 +2442,7 @@ declare module "zapatos/schema" {
     "app.data_upload": app.data_upload.JSONSelectable;
     "app.document": app.document.JSONSelectable;
     "app.document_history": app.document_history.JSONSelectable;
+    "app.document_tags": app.document_tags.JSONSelectable;
     "app.document_update_document_history": app.document_update_document_history.JSONSelectable;
     "app.document_updates_queue": app.document_updates_queue.JSONSelectable;
     "app.user": app.user.JSONSelectable;
@@ -2221,6 +2454,7 @@ declare module "zapatos/schema" {
     "app.data_upload": app.data_upload.Whereable;
     "app.document": app.document.Whereable;
     "app.document_history": app.document_history.Whereable;
+    "app.document_tags": app.document_tags.Whereable;
     "app.document_update_document_history": app.document_update_document_history.Whereable;
     "app.document_updates_queue": app.document_updates_queue.Whereable;
     "app.user": app.user.Whereable;
@@ -2232,6 +2466,7 @@ declare module "zapatos/schema" {
     "app.data_upload": app.data_upload.Insertable;
     "app.document": app.document.Insertable;
     "app.document_history": app.document_history.Insertable;
+    "app.document_tags": app.document_tags.Insertable;
     "app.document_update_document_history": app.document_update_document_history.Insertable;
     "app.document_updates_queue": app.document_updates_queue.Insertable;
     "app.user": app.user.Insertable;
@@ -2243,6 +2478,7 @@ declare module "zapatos/schema" {
     "app.data_upload": app.data_upload.Updatable;
     "app.document": app.document.Updatable;
     "app.document_history": app.document_history.Updatable;
+    "app.document_tags": app.document_tags.Updatable;
     "app.document_update_document_history": app.document_update_document_history.Updatable;
     "app.document_updates_queue": app.document_updates_queue.Updatable;
     "app.user": app.user.Updatable;
@@ -2254,6 +2490,7 @@ declare module "zapatos/schema" {
     "app.data_upload": app.data_upload.UniqueIndex;
     "app.document": app.document.UniqueIndex;
     "app.document_history": app.document_history.UniqueIndex;
+    "app.document_tags": app.document_tags.UniqueIndex;
     "app.document_update_document_history": app.document_update_document_history.UniqueIndex;
     "app.document_updates_queue": app.document_updates_queue.UniqueIndex;
     "app.user": app.user.UniqueIndex;
@@ -2265,6 +2502,7 @@ declare module "zapatos/schema" {
     "app.data_upload": app.data_upload.Column;
     "app.document": app.document.Column;
     "app.document_history": app.document_history.Column;
+    "app.document_tags": app.document_tags.Column;
     "app.document_update_document_history": app.document_update_document_history.Column;
     "app.document_updates_queue": app.document_updates_queue.Column;
     "app.user": app.user.Column;
@@ -2276,6 +2514,7 @@ declare module "zapatos/schema" {
     "app.data_upload": app.data_upload.SQL;
     "app.document": app.document.SQL;
     "app.document_history": app.document_history.SQL;
+    "app.document_tags": app.document_tags.SQL;
     "app.document_update_document_history": app.document_update_document_history.SQL;
     "app.document_updates_queue": app.document_updates_queue.SQL;
     "app.user": app.user.SQL;

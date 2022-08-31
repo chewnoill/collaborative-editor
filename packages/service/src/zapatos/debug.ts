@@ -14,9 +14,11 @@ import logger from "../logger";
  */
 
 db.setConfig({
-  queryListener: (query) => logger({
+  queryListener: (query) =>
+    logger({
       level: "info",
       service: "query-listener",
-      query: query.text
-  })
+      query: query.text,
+      params: query.values
+    }),
 });
