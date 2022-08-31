@@ -2,7 +2,11 @@ import * as Y from "yjs";
 import { db } from "../db";
 import logger from "../logger";
 import { queue } from "../mq";
-import { fetchDocument, updateDocumentContent } from "../utils/documents";
+import {
+  fetchDocument,
+  updateDocumentContent,
+  updateDocumentTags,
+} from "../utils/documents";
 
 const config = {
   key: "update-document",
@@ -54,6 +58,7 @@ async function updateSingleDocument(document_id: string) {
   const latest_update =
     dbDoc.document_updates[dbDoc.document_updates.length - 1];
   const content = yDoc.getText("codemirror").toJSON();
+  const tags = Array.from(yDoc.getMap("tags").keys());
 
   logger({
     level: "info",
@@ -62,17 +67,36 @@ async function updateSingleDocument(document_id: string) {
     body: {
       document_id,
       content,
+      tags,
     },
   });
 
-  await updateDocumentContent(
-    document_id,
-    content,
-    Buffer.from(Y.encodeStateAsUpdate(yDoc)),
-    db.sql`(select ${"created_at"} from ${"app.document_updates_queue"} where ${"app.document_updates_queue"}.${"id"} = ${db.param(
-      latest_update.id
-    )})`
-  );
+  await Promise.all([
+    updateDocumentTags(document_id, tags).catch((error) => {
+      logger({
+        level: "error",
+        service: "updateDocumentTags",
+        message: "error",
+        error,
+      });
+    }),
+    updateDocumentContent(
+      document_id,
+      content,
+      Buffer.from(Y.encodeStateAsUpdate(yDoc)),
+      db.sql`(select ${"created_at"} from ${"app.document_updates_queue"} where ${"app.document_updates_queue"}.${"id"} = ${db.param(
+        latest_update.id
+      )})`
+    ).catch((error) => {
+      logger({
+        level: "error",
+        service: "updateDocumentContent",
+        message: "error",
+        error,
+      });
+    }),
+  ]);
+
   const jobs = await queue.getJobs(["waiting", "active"]);
   if (
     jobs.find(

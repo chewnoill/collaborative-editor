@@ -35,6 +35,26 @@ export function updateDocumentMeta(
   });
 }
 
+export function updateDocumentTags(document_id, tags: string[]) {
+  return db.sql`
+WITH
+  inputs(value) as (values ${tags.map(
+    (tag, i) =>
+      db.sql`(${db.param(tag)})${db.raw(i < tags.length - 1 ? "," : "")}`
+  )}),
+  deletions AS (
+    DELETE FROM ${"app.document_tags"}
+    WHERE
+      ${"document_id"} = ${db.param(document_id)}
+      AND ${"tag"} not in (select value from inputs)
+  )
+INSERT INTO ${"app.document_tags"} (${"tag"},${"document_id"})
+SELECT value, ${db.param(document_id)}
+FROM inputs
+ON CONFLICT DO NOTHING
+  `.run(pool);
+}
+
 export function updateDocumentContent(
   document_id: string,
   value: string,
