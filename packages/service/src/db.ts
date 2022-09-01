@@ -11,6 +11,7 @@ import RandomQueries from "./resolvers/random-names";
 import MdxQueries from "./resolvers/render-mdx";
 import { DATABASE_URL } from "./env";
 import DataUpload from "./resolvers/data-uploads";
+import DocumentTags from "./resolvers/document-tags";
 import DocumentHistory from "./resolvers/document-history";
 import logger from "./logger";
 export { schema };
@@ -51,8 +52,8 @@ const postgraphile_options: any = {
       level: "error",
       service: "postgraphile",
       message: "handleErrors",
-      body: errors
-    })
+      body: errors,
+    });
     return "errors reported";
   },
   appendPlugins: [
@@ -61,6 +62,7 @@ const postgraphile_options: any = {
     RandomQueries,
     MdxQueries,
     DataUpload,
+    DocumentTags,
   ],
 };
 
