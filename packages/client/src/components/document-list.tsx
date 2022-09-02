@@ -14,7 +14,7 @@ export function DocumentView({ id, mdx }: any) {
   return (
     <PreviewWrapper
       ref={ref}
-      sx={{ position: "relative", width: "100%", minHeight: "60px" }}
+      sx={{ position: "relative", minHeight: "60px", width: "100%" }}
     >
       <Button
         onClick={() => router.push(`/document/${id}`)}

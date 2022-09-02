@@ -30,7 +30,6 @@ color: #333333; /* dark gray not black */
 line-height: 1;
 /    max-width: 960px;
 max-width: 800px;
-padding: 30px;
 font-size: 18px;
 
 p   {

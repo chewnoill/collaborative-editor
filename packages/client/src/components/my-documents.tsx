@@ -4,7 +4,6 @@ import { useMyDocuments } from "apollo/selectors";
 import { DocumentView } from "./document-list";
 
 const List = styled.div`
-  max-width: 300px;
   display: flex;
   flex-direction: column;
 `;
