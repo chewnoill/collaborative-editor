@@ -164,6 +164,78 @@ $$;
 
 
 --
+-- Name: document; Type: TABLE; Schema: app; Owner: -
+--
+
+CREATE TABLE app.document (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    creator_id uuid NOT NULL,
+    is_public boolean DEFAULT false,
+    name text DEFAULT ''::text NOT NULL,
+    origin bytea NOT NULL,
+    value text NOT NULL,
+    web_rtc_key text NOT NULL,
+    latest_update_time timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: TABLE document; Type: COMMENT; Schema: app; Owner: -
+--
+
+COMMENT ON TABLE app.document IS '
+@name document
+@omit create,update,delete
+
+# Documents
+
+The source of truth for all documents in the system.
+
+';
+
+
+--
+-- Name: COLUMN document.latest_update_time; Type: COMMENT; Schema: app; Owner: -
+--
+
+COMMENT ON COLUMN app.document.latest_update_time IS '
+@name latest_update_time
+@omit create,update
+
+# Last Update Time
+
+Updates are processed through the document_updates_queue table first.
+This records time of the last update processed.
+
+TODO: this should be a foreign key that points directly to a row in
+the document_updates_queue table.
+
+';
+
+
+--
+-- Name: search_documents(text); Type: FUNCTION; Schema: app; Owner: -
+--
+
+CREATE FUNCTION app.search_documents(search text) RETURNS SETOF app.document
+    LANGUAGE sql STABLE
+    AS $$
+  with doc_tags as (
+    select doc.id, string_agg(tag.tag, ' ') as tags
+    from app.document doc
+    join app.document_tags tag on tag.document_id = doc.id
+    group by doc.id
+  )
+  select doc.*
+  from app.document doc
+  join doc_tags using(id)
+  where (
+      to_tsvector(value) @@ websearch_to_tsquery(search)
+  OR  to_tsvector(doc_tags.tags) @@ websearch_to_tsquery(search)
+  ) $$;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -312,56 +384,6 @@ Data Uploads
 
 This is a table with external keys to links on
 an external system (GCS storage bucket)
-
-';
-
-
---
--- Name: document; Type: TABLE; Schema: app; Owner: -
---
-
-CREATE TABLE app.document (
-    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    creator_id uuid NOT NULL,
-    is_public boolean DEFAULT false,
-    name text DEFAULT ''::text NOT NULL,
-    origin bytea NOT NULL,
-    value text NOT NULL,
-    web_rtc_key text NOT NULL,
-    latest_update_time timestamp without time zone NOT NULL
-);
-
-
---
--- Name: TABLE document; Type: COMMENT; Schema: app; Owner: -
---
-
-COMMENT ON TABLE app.document IS '
-@name document
-@omit create,update,delete
-
-# Documents
-
-The source of truth for all documents in the system.
-
-';
-
-
---
--- Name: COLUMN document.latest_update_time; Type: COMMENT; Schema: app; Owner: -
---
-
-COMMENT ON COLUMN app.document.latest_update_time IS '
-@name latest_update_time
-@omit create,update
-
-# Last Update Time
-
-Updates are processed through the document_updates_queue table first.
-This records time of the last update processed.
-
-TODO: this should be a foreign key that points directly to a row in
-the document_updates_queue table.
 
 ';
 
@@ -1324,4 +1346,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220817220159'),
     ('20220820213316'),
     ('20220821170138'),
-    ('20220830221420');
+    ('20220830221420'),
+    ('20220902171603');
