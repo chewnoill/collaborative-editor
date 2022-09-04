@@ -228,7 +228,7 @@ CREATE FUNCTION app.search_documents(search text) RETURNS SETOF app.document
   )
   select doc.*
   from app.document doc
-  join doc_tags using(id)
+  left join doc_tags using(id)
   where (
       to_tsvector(value) @@ websearch_to_tsquery(search)
   OR  to_tsvector(doc_tags.tags) @@ websearch_to_tsquery(search)
@@ -1347,4 +1347,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220820213316'),
     ('20220821170138'),
     ('20220830221420'),
-    ('20220902171603');
+    ('20220902171603'),
+    ('20220903210733');
