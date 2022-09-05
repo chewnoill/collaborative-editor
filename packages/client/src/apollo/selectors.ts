@@ -25,6 +25,11 @@ export const DOCUMENT_FRAGMENT = gql`
       id
       name
     }
+    documentTagsByDocumentId {
+      nodes {
+        tag
+      }
+    }
   }
 `;
 
@@ -106,17 +111,24 @@ export function useAllDocumentsQuery() {
     { fetchPolicy: "cache-first" }
   );
 }
-export function useMyDocumentsQuery() {
+
+export function useMyDocumentsQuery(after?: string) {
   return useQuery(
     gql`
-      query MyDocuments {
+      query MyDocuments($after: Cursor) {
         me {
-          documentsByCreatorId(orderBy: LATEST_UPDATE_TIME_DESC, first: 10) {
+          documentsByCreatorId(
+            orderBy: LATEST_UPDATE_TIME_DESC
+            first: 10
+            after: $after
+          ) {
             edges {
+              cursor
               node {
                 ...base_document
               }
             }
+            totalCount
           }
         }
       }

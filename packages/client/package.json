@@ -26,6 +26,7 @@
     "body-parser": "^1.19.0",
     "codemirror": "^6.0.1",
     "d3": "3.5.17",
+    "date-and-time": "^2.4.1",
     "graphql": "^15.5.1",
     "mdx-hydra": "^0.0.11",
     "next": "^11.0.1",
