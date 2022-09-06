@@ -16,7 +16,7 @@ const CodeBlock = ({
     language={lang.split("language-")[1] || "text"}
   >
     {({ className, style, tokens, getLineProps, getTokenProps }) => (
-      <pre className={className} style={style}>
+      <pre className={className} style={{ ...style, overflow: "hidden" }}>
         {tokens.map((line, i) => (
           <div {...getLineProps({ line, key: i })}>
             {line.map((token, key) => (
