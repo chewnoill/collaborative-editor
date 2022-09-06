@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Y from "yjs";
 import { EditorView, basicSetup } from "codemirror";
-import { EditorSelection, EditorState } from "@codemirror/state";
+import { EditorState } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 import { yCollab } from "y-codemirror.next";
@@ -10,6 +10,7 @@ import styled from "@emotion/styled";
 import useYDoc from "hooks/use-y-doc";
 import { useCurrentUserQuery } from "apollo/selectors";
 import { useFileUpload } from "hooks/use-file-upload";
+import { uploadFilesToYDoc } from "utils/upload-files";
 
 export default function Editor({ document_id }: { document_id: string }) {
   const { data } = useCurrentUserQuery();
@@ -80,18 +81,10 @@ function TextCanvas({ document_id, name }) {
 
             const files = event.dataTransfer.files;
             if (files.length === 0) return false;
-            (async () => {
-              const uploads = await Promise.all(
-                Array.from(files).map(uploadFile)
-              );
-
-              uploads.forEach(({ id, name, mime_type }) =>
-                yText.insert(
-                  pos,
-                  `<Img id="${id}"\n     mime_type="${mime_type}"\n     name="${name}"/>\n`
-                )
-              );
-            })();
+            uploadFilesToYDoc(data.ydoc, files, {
+              insertPos: pos,
+              uploadFn: uploadFile,
+            });
             return true;
           },
         }),
