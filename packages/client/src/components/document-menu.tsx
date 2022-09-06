@@ -3,9 +3,41 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Fab } from "@mui/material";
 import MoreVertSharpIcon from "@mui/icons-material/MoreVertSharp";
-import { DocumentSettings } from "./document-settings";
 import { DocumentPublicToggle } from "./document-public-toggle";
 import Box from "@mui/system/Box";
+import { useSelector } from "react-redux";
+import { selectYDocument } from "ducks/appState/y-doc";
+import { uploadFilesToYDoc } from "utils/upload-files";
+import { useFileUpload } from "hooks/use-file-upload";
+
+function AddFile({ document_id }) {
+  const uploadFile = useFileUpload();
+  const inputFileRef = React.useRef(null);
+
+  const ydoc = useSelector((store) =>
+    selectYDocument(store, { id: document_id })
+  );
+
+  function inputFileCallback(event) {
+    const files = event.target.files;
+    uploadFilesToYDoc(ydoc, files, {
+      uploadFn: uploadFile,
+    });
+  }
+
+  return (
+    <MenuItem onClick={()=>ydoc && inputFileRef.current.click()} disabled={!ydoc}>
+      <input
+        ref={inputFileRef}
+        type="file"
+        onChange={inputFileCallback}
+        accept="image/*"
+        style={{ display: "none" }}
+      />
+      Add File
+    </MenuItem>
+  );
+}
 
 export default function DocumentMenu({
   document_id,
@@ -59,6 +91,7 @@ export default function DocumentMenu({
         <MenuItem disabled onClick={handleClose}>
           Edit
         </MenuItem>
+        <AddFile document_id={document_id} />
         <MenuItem disabled onClick={handleClose}>
           Delete
         </MenuItem>
