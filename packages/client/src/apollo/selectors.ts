@@ -142,7 +142,7 @@ export const useMyDocuments = () => {
   return { documents: data?.me.documentsByCreatorId.edges, ...rest };
 };
 
-export function usePreviewMdx(id, value) {
+export function usePreviewMdx(id, value = "") {
   return useQuery(
     gql`
       query previewMdx($id: ID!, $value: String!) {
