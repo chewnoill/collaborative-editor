@@ -11,6 +11,18 @@ import {
 } from "../utils/documents";
 
 const DocumentMutations = makeExtendSchemaPlugin((build) => {
+  const { pgSql: sql } = build;
+  const updatedDocument = async (id, resolveInfo) => {
+    const [row] = await resolveInfo.graphile.selectGraphQLResultFromTable(
+      sql.fragment`(
+        select * from app.document
+        where id = ${sql.value(id)}
+      )`,
+      () => {} // no-op
+    );
+
+    return row;
+  };
   return {
     typeDefs: gql`
       extend type Mutation {
@@ -45,18 +57,13 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
           await queue.add("update-document", { document_id: id, update });
           return true;
         },
-        async updateDocument(_, { id, update }, { pgClient }) {
+        async updateDocument(_, { id, update }, { pgClient }, resolveInfo) {
           const meta = await updateDocumentMeta(id, {
             name: update.name,
             is_public: update.isPublic,
           }).run(pgClient);
           if (meta.length === 0) return null;
-          return {
-            ...meta[0],
-            isPublic: meta[0].is_public,
-            latestUpdateTime: meta[0].latest_update_time,
-            creatorId: meta[0].creator_id,
-          };
+          return updatedDocument(id, resolveInfo);
         },
       },
     },
