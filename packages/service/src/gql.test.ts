@@ -12,7 +12,7 @@ beforeAll(function () {
 describe("User Access", () => {
   test("can access their own documents", async () => {
     const user_a = await db
-      .upsert("users", { name: "test user a" }, "name")
+      .upsert("app.user", { name: "test user a" }, "name")
       .run(pool);
     // get login tokens
     await login(user_a.name);
@@ -46,12 +46,12 @@ query DocumentTest($id: UUID!) {
   });
   test("can not access other users documents", async () => {
     const user_a = await db
-      .upsert("users", { name: "test user a" }, "name")
+      .upsert("app.user", { name: "test user a" }, "name")
       .run(pool);
     // get login tokens
     await login(user_a.name);
     const user_b = await db
-      .upsert("users", { name: "test user b" }, "name")
+      .upsert("app.user", { name: "test user b" }, "name")
       .run(pool);
     const user_b_document = await createDocument(pool, {
       creator_id: user_b.id,
