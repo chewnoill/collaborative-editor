@@ -117,6 +117,7 @@ export function useMyDocumentsQuery(after?: string) {
     gql`
       query MyDocuments($after: Cursor) {
         me {
+          id
           documentsByCreatorId(
             orderBy: LATEST_UPDATE_TIME_DESC
             first: 10
@@ -128,18 +129,26 @@ export function useMyDocumentsQuery(after?: string) {
                 ...base_document
               }
             }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
             totalCount
           }
         }
       }
       ${DOCUMENT_FRAGMENT}
     `,
-    { fetchPolicy: "cache-first" }
+    { fetchPolicy: "cache-first", variables: { after } }
   );
 }
 export const useMyDocuments = () => {
   const { data, ...rest } = useMyDocumentsQuery();
-  return { documents: data?.me.documentsByCreatorId.edges, ...rest };
+  return {
+    documents: data?.me.documentsByCreatorId.edges,
+    ...data?.me.documentsByCreatorId.pageInfo,
+    ...rest,
+  };
 };
 
 export function usePreviewMdx(id, value = "") {
