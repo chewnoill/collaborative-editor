@@ -2,40 +2,15 @@ import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 
 export const PreviewWrapper = styled(Box)`
-background-color: tomato;
-margin: 0 auto;
 background-color:white;
-
-/*	--------- FONT FAMILY --------
-following are some optional font families. Usually a family
-is safer to choose than a specific font,
-which may not be on the users computer		*/
 font-family:Georgia, Palatino, serif;
-/    font-family:"Book Antiqua", Palatino, serif;
-/    font-family:Arial, Helvetica, sans-serif;
-/    font-family:Tahoma, Verdana, Geneva, sans-serif;
-/    font-family:Courier, monospace;
-/    font-family:"Times New Roman", Times, serif;
-
-/*	-------------- COLOR OPTIONS ------------
-following are additional color options for base font
-you could uncomment another one to easily change the base color
-or add one to a specific element style below         */
 color: #333333; /* dark gray not black */
-/    color: #000000; /* black */
-/    color: #666666; /* medium gray  black */
-/    color: #E3E3E3; /* very light gray */
-/    color: white;
-
 line-height: 1;
-/    max-width: 960px;
 max-width: 800px;
 font-size: 18px;
 
 p   {
-/    font-size: 22px;
     line-height: 150%;
-/    max-width: 540px;
     max-width: 960px;
     font-weight: 400;
      color: #333333
@@ -43,7 +18,7 @@ p   {
 
 
 h1, h2, h3, h4 {
-/    color: #111111;
+    color: #111111;
     font-weight: 400;
 }
 
