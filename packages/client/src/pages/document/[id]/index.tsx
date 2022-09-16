@@ -27,9 +27,10 @@ const Layout = styled(Box)`
   max-width: 800px;
   display: flex;
   flex-direction: column;
+  @media screen and (${BreakPoints[1]}) {
+    max-width: 1200px;
+  }
 `;
-
-const GridWrapper = styled(Box)``;
 
 export default function Document() {
   const router = useRouter();

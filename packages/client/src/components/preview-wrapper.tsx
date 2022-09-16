@@ -8,6 +8,7 @@ color: #333333; /* dark gray not black */
 line-height: 1;
 max-width: 800px;
 font-size: 18px;
+overflow-wrap: anywhere;
 
 p   {
     line-height: 150%;
