@@ -4,7 +4,7 @@ import Account from "components/account";
 import CreateDocumentButton from "components/create-document";
 import { useRouter } from "next/router";
 import { ArrowLeft } from "@mui/icons-material";
-import { ThemeProvider, createTheme, IconButton } from "@mui/material";
+import { ThemeProvider, createTheme, IconButton, Box, Button } from "@mui/material";
 import WhosHere from "./whos-here";
 import { Input } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,7 +53,7 @@ export default function AppToolbar() {
             }}
           >
             {document_id && (
-              <IconButton href="/">
+              <IconButton href={router.route === "/document/[id]/view" ? `/document/${document_id}`:"/"}>
                 <ArrowLeft htmlColor="white" />
               </IconButton>
             )}
@@ -71,7 +71,14 @@ export default function AppToolbar() {
               />
             )}
           </div>
-          <Account />
+          <Box sx={{display: "flex"}}>
+            {document_id && (
+              <Button sx={{marginRight: "10px"}} href={router.route === "/document/[id]/view" ? `/document/${document_id}`:`/document/${document_id}/view`}>
+                {router.route === "/document/[id]/view" ? "Edit":"Preview"}
+              </Button>
+            )}
+            <Account />
+          </Box>
         </div>
       </Toolbar>
     </ThemeProvider>
