@@ -11,6 +11,7 @@ import useYDoc from "hooks/use-y-doc";
 import { useCurrentUserQuery } from "apollo/selectors";
 import { useFileUpload } from "hooks/use-file-upload";
 import { uploadFilesToYDoc } from "utils/upload-files";
+import yDoc from "ducks/appState/y-doc";
 
 export default function Editor({ document_id }: { document_id: string }) {
   const { data } = useCurrentUserQuery();
@@ -49,7 +50,7 @@ const TextBox = styled.div`
     height: 100%;
   }
   .cm-editor {
-    min-height: 100%;
+    height: 100%;
   }
   .cm-editor.cm-focused {
     outline: none;
@@ -61,6 +62,7 @@ function TextCanvas({ document_id, name }) {
   const ref = React.useRef();
   const data = useYDoc(document_id, name);
 
+  const wrap = data.ydoc?.getMap("meta").get("wrap");
   React.useEffect(() => {
     if (!data.ydoc || !data.awareness) return;
 
@@ -71,6 +73,7 @@ function TextCanvas({ document_id, name }) {
       doc: yText.toString(),
       extensions: [
         basicSetup,
+        wrap === "soft-wrap" && EditorView.lineWrapping,
         markdown({ codeLanguages: languages }),
         yCollab(yText, data.awareness, {
           undoManager: yUndoManager,
@@ -88,7 +91,7 @@ function TextCanvas({ document_id, name }) {
             return true;
           },
         }),
-      ],
+      ].filter(e => !!e),
     });
     const editor = new EditorView({
       state,
@@ -97,7 +100,7 @@ function TextCanvas({ document_id, name }) {
     return () => {
       editor.destroy();
     };
-  }, [ref, data.awareness]);
+  }, [ref, data.awareness, wrap]);
 
-  return <TextBox ref={ref} />;
+  return <TextBox ref={ref}/>;
 }

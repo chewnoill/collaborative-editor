@@ -65,6 +65,7 @@ function SelectTags({ document_id }) {
   return (
     <Creatable
       isLoading={loading}
+      placeholder="Select a tag..."
       isMulti
       isSearchable
       value={values}
