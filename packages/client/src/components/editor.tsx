@@ -50,7 +50,6 @@ const TextBox = styled.div`
     height: 100%;
   }
   .cm-editor {
-    height: 100%;
   }
   .cm-editor.cm-focused {
     outline: none;
