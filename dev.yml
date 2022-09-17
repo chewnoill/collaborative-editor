@@ -1,0 +1,72 @@
+version: "3.9"
+services:
+  mq:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  db:
+    environment:
+      - POSTGRES_PASSWORD=password
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./volumes/postgres:/var/lib/postgresql/data"
+  worker:
+    build:
+      dockerfile: ./docker/dev/Dockerfile
+      context: ./
+    image: worker
+    volumes:
+      - ./:/workspace:delegated
+    command: bash -lc "yarn service dev-mq"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:password@db:5432/postgres?sslmode=disable&search_path=public,app
+      - REDIS_URL=redis://default:@mq:6379
+    depends_on:
+      - "db"
+      - "mq"
+  service:
+    build:
+      dockerfile: ./docker/dev/Dockerfile
+      context: ./
+    image: service
+    volumes:
+      - .:/workspace:delegated
+    command: bash -lc "yarn service dev"
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
+      - DATABASE_URL=postgres://postgres:password@db:5432/postgres?sslmode=disable&search_path=public,app
+      - REDIS_URL=redis://default:@mq:6379
+    depends_on:
+      - "db"
+      - "worker"
+  client:
+    build:
+      dockerfile: ./docker/dev/Dockerfile
+      context: ./
+    image: client
+    volumes:
+      - .:/workspace:delegated
+    command: bash -lc "yarn client dev"
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SIGNAL_URL=ws://localhost:8080/ws/signal
+      - NEXT_PUBLIC_PROVIDER_URL=ws://localhost:8080/ws/provider
+      - PORT=3000
+    depends_on:
+      - "service"
+  bash:
+    build: ./docker/dev
+    volumes:
+      - .:/workspace:delegated
+    command: bash
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/postgres?sslmode=disable&search_path=public,app
+    depends_on:
+      - db

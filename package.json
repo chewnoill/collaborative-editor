@@ -22,6 +22,7 @@
     "website": "cd website && yarn",
     "format": "yarn format:base -w",
     "format:check": "yarn format:base --check",
-    "migrations": "cd packages/service && dbmate"
+    "migrations": "cd packages/service && dbmate",
+    "postmigrations": "yarn service codegen"
   }
 }

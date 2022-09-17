@@ -1,6 +1,6 @@
 {
   "db": {
-    "connectionString": "postgres://postgres:password@127.0.0.1:5432/postgres?sslmode=disable"
+    "connectionString": "postgres://postgres:password@db:5432/postgres?sslmode=disable"
   },
   "outDir": "./src",
   "schemas": {"app":{"include":"*","exclude":[]}}

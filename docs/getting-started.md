@@ -46,58 +46,36 @@ brew install --build-from-source terraform
 
 ### Docker setup
 
-Docker is the easiest to get started.
+The docker compose file `dev.yml` defines several top level services.
 
-start containers
-```shell
-docker-compose up
+* mq: A redis store, that we are using as a message queue.
+* db: A postgres datastore that we are using as a database.
+* worker: A worker thread to run background processes
+* service: The main web service
+* client: A development client instance
+* bash: A container to run bash scripts
+
+```bash
+docker compose -f ./dev.yml up
 ```
 
-### Running Locally
-
-Install project dependencies locally
-```shell
-yarn
-```
-
-Start database and redis services
-```shell
-docker-compose up db redis
-```
-
-Set project env variables
-```shell
-source .env.sample
-```
-
-build the client
-```shell
-yarn client build
-```
-
-start service
-```shell
-yarn service dev
-```
+Should bring up all of the services you need for local development.
 
 ## Running database migrations
-Make sure your `DATABASE_URL` is set.
 
-Running migrations
-```shell
-yarn migrations up
-```
-OR if you need to rollback
-```shell
-yarn migrations down
+Any pending migrations can be run manually
+```bash
+docker compose -f ./dev.yml run bash \
+  yarn migrations up
 ```
 
-create new migrations with
+Create new migrations with
 ```shell
-yarn migrations new <name of migration>
+docker compose -f ./dev.yml run bash \
+  yarn migrations new <name of migration>
 ```
 
-Afterwards rebuild your ORM Schema
-```shell
-yarn service zapatos
-```
+This should make changes to several files
+
+* `packages/service/db/schema.sql`: This is a sql dump file from the development database. The contents here is informational, reflecting the current expected database schema.
+* `packages/service/src/zapatos/schema.d.ts`: This is auto generated typescript type definitions introspected from the database schema.
