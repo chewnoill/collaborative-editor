@@ -17,14 +17,12 @@ function UserForm({
     <Form {...props}>
       <TextField
         sx={{ marginY: "15px" }}
-        id="outlined-basic"
         label="username"
         variant="outlined"
         name="username"
       />
       <TextField
         sx={{ marginBottom: "15px" }}
-        id="outlined-basic"
         label="password"
         variant="outlined"
         name="password"
@@ -76,7 +74,6 @@ export function UpdatePasswordForm() {
     <UserForm action="/api/users/update-password" method="post">
       <TextField
         sx={{ marginBottom: "15px" }}
-        id="outlined-basic"
         label="New Password"
         variant="outlined"
         name="new-password"

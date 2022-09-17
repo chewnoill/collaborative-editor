@@ -45,7 +45,6 @@ function DocumentMetaData({ document_id }) {
       <Box>
         <TextField
           sx={{ width: "100%" }}
-          id="outlined-basic"
           label="Name"
           variant="outlined"
           name="name"

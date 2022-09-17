@@ -33,7 +33,6 @@ function DocumentNameEditor({ document_id, name: defaultName, disabled }) {
   return (
     <TextField
       sx={{ width: "100%" }}
-      id="outlined-basic"
       label="Name"
       variant="outlined"
       name="name"
