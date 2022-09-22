@@ -4,11 +4,18 @@ import Account from "components/account";
 import CreateDocumentButton from "components/create-document";
 import { useRouter } from "next/router";
 import { ArrowLeft } from "@mui/icons-material";
-import { ThemeProvider, createTheme, IconButton, Box, Button } from "@mui/material";
+import {
+  ThemeProvider,
+  createTheme,
+  IconButton,
+  Box,
+  Button,
+} from "@mui/material";
 import WhosHere from "./whos-here";
 import { Input } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSearch, setSearchString } from "ducks/appState/search";
+import Logo from "./logo";
 
 const darkTheme = createTheme({
   palette: {
@@ -52,8 +59,15 @@ export default function AppToolbar() {
               display: "flex",
             }}
           >
+            <Logo/>
             {document_id && (
-              <IconButton href={router.route === "/document/[id]/view" ? `/document/${document_id}`:"/"}>
+              <IconButton
+                href={
+                  router.route === "/document/[id]/view"
+                    ? `/document/${document_id}`
+                    : "/"
+                }
+              >
                 <ArrowLeft htmlColor="white" />
               </IconButton>
             )}
@@ -71,10 +85,17 @@ export default function AppToolbar() {
               />
             )}
           </div>
-          <Box sx={{display: "flex"}}>
+          <Box sx={{ display: "flex" }}>
             {document_id && (
-              <Button sx={{marginRight: "10px"}} href={router.route === "/document/[id]/view" ? `/document/${document_id}`:`/document/${document_id}/view`}>
-                {router.route === "/document/[id]/view" ? "Edit":"Preview"}
+              <Button
+                sx={{ marginRight: "10px" }}
+                href={
+                  router.route === "/document/[id]/view"
+                    ? `/document/${document_id}`
+                    : `/document/${document_id}/view`
+                }
+              >
+                {router.route === "/document/[id]/view" ? "Edit" : "Preview"}
               </Button>
             )}
             <Account />
