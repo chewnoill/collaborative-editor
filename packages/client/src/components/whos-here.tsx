@@ -10,7 +10,8 @@ background-color: ${color};
 color: white;
 padding: 2px 10px;
 margin: 2px;
-`);
+`
+);
 
 export default function WhosHere({ document_id }) {
   const awareness = useSelector((store) =>

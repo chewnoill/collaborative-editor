@@ -90,7 +90,7 @@ function TextCanvas({ document_id, name }) {
             return true;
           },
         }),
-      ].filter(e => !!e),
+      ].filter((e) => !!e),
     });
     const editor = new EditorView({
       state,
@@ -101,5 +101,5 @@ function TextCanvas({ document_id, name }) {
     };
   }, [ref, data.awareness, wrap]);
 
-  return <TextBox ref={ref}/>;
+  return <TextBox ref={ref} />;
 }

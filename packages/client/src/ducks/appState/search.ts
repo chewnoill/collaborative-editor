@@ -23,7 +23,7 @@ export const { setSearchString } = searchSlice.actions;
 const selectDocumentSlice = (state: RootState) => state.search;
 
 export const selectSearch = createSelector(selectDocumentSlice, (state) => {
-    return state.searchString;
+  return state.searchString;
 });
 
 export default searchSlice.reducer;

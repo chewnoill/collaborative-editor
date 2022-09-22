@@ -26,7 +26,10 @@ function AddFile({ document_id }) {
   }
 
   return (
-    <MenuItem onClick={()=>ydoc && inputFileRef.current.click()} disabled={!ydoc}>
+    <MenuItem
+      onClick={() => ydoc && inputFileRef.current.click()}
+      disabled={!ydoc}
+    >
       <input
         ref={inputFileRef}
         type="file"

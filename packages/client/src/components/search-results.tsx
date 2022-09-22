@@ -35,48 +35,47 @@ const List = styled.div`
 `;
 
 export default function SearchResults() {
-    const query = useSelector(selectSearch);
-    const [run, { data, error, loading, fetchMore }] = useDocumentSearch();
+  const query = useSelector(selectSearch);
+  const [run, { data, error, loading, fetchMore }] = useDocumentSearch();
 
-    const {hasNextPage,endCursor} = data?.searchDocuments.pageInfo || {}
+  const { hasNextPage, endCursor } = data?.searchDocuments.pageInfo || {};
 
   const loadFunc = React.useCallback(() => {
     hasNextPage && fetchMore({ variables: { after: endCursor } });
   }, [hasNextPage, endCursor]);
 
-    const [sentryRef] = useInfiniteScroll({
-        loading,
-        hasNextPage: data?.searchDocuments?.pageInfo.hasNextPage,
-        onLoadMore: loadFunc,
-        disabled: !!error,
-        rootMargin: "0px 0px 400px 0px",
-      });
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        run({ variables: { query } });
-      }, 500);
+  const [sentryRef] = useInfiniteScroll({
+    loading,
+    hasNextPage: data?.searchDocuments?.pageInfo.hasNextPage,
+    onLoadMore: loadFunc,
+    disabled: !!error,
+    rootMargin: "0px 0px 400px 0px",
+  });
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      run({ variables: { query } });
+    }, 500);
 
-      return () => {
-        clearTimeout(timer);
-      };
-    }, [query]);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [query]);
 
-    if (error) {
-      return null;
-    }
-    const list = data?.searchDocuments.edges || [];
-    if (loading && !data) return <div>loading...</div>;
-    return (
-      <List>
-        {list.map(({node}) => (
-          <DocumentView key={node.id} {...node} />
-        ))}
+  if (error) {
+    return null;
+  }
+  const list = data?.searchDocuments.edges || [];
+  if (loading && !data) return <div>loading...</div>;
+  return (
+    <List>
+      {list.map(({ node }) => (
+        <DocumentView key={node.id} {...node} />
+      ))}
       {(loading || hasNextPage) && (
         <div ref={sentryRef}>
           <span>loading...</span>
         </div>
       )}
-      </List>
-    );
-  }
-
+    </List>
+  );
+}

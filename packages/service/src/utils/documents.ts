@@ -36,8 +36,8 @@ export function updateDocumentMeta(
 }
 
 export function updateDocumentTags(document_id, tags: string[]) {
-  if(tags.length === 0){
-    return db.deletes("app.document_tags",{document_id}).run(pool)
+  if (tags.length === 0) {
+    return db.deletes("app.document_tags", { document_id }).run(pool);
   }
   return db.sql`
 WITH

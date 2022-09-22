@@ -5,11 +5,11 @@ const client = new ApolloClient({
   uri: "/api/graphql",
   cache: new InMemoryCache({
     typePolicies: {
-     Query: {
-       fields: {
-         searchDocuments:relayStylePagination(["search"])
-       }
-     },
+      Query: {
+        fields: {
+          searchDocuments: relayStylePagination(["search"]),
+        },
+      },
       User: {
         fields: {
           documentsByCreatorId: relayStylePagination(["id"]),

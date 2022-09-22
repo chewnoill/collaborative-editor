@@ -19,6 +19,6 @@ db.setConfig({
       level: "info",
       service: "query-listener",
       query: query.text,
-      params: query.values
+      params: query.values,
     }),
 });

@@ -1,5 +1,8 @@
-
-export async function uploadFilesToYDoc(ydoc, files, { insertPos, uploadFn }: { insertPos?: number, uploadFn: any}) {
+export async function uploadFilesToYDoc(
+  ydoc,
+  files,
+  { insertPos, uploadFn }: { insertPos?: number; uploadFn: any }
+) {
   const yText = ydoc.getText("codemirror");
   const uploads = await Promise.all(Array.from(files).map(uploadFn));
 

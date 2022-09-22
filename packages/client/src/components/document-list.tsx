@@ -21,8 +21,8 @@ export function DocumentView({ id, mdx }: any) {
         border: "2px solid",
         borderColor: "primary.main",
         borderRadius: "5px",
-        margin:"10px 0px",
-        padding:"0px 16px"
+        margin: "10px 0px",
+        padding: "0px 16px",
       }}
     >
       <Link

@@ -9,14 +9,8 @@ const List = styled.div`
   flex-direction: column;
 `;
 export default function MyDocuments() {
-  const {
-    documents,
-    hasNextPage,
-    endCursor,
-    fetchMore,
-    loading,
-    error,
-  } = useMyDocuments();
+  const { documents, hasNextPage, endCursor, fetchMore, loading, error } =
+    useMyDocuments();
 
   const loadFunc = React.useCallback(() => {
     hasNextPage && fetchMore({ variables: { after: endCursor } });
@@ -35,8 +29,7 @@ export default function MyDocuments() {
       {documents &&
         documents.map(({ node: doc }) => (
           <DocumentView key={doc.id} {...doc} />
-        ))
-      }
+        ))}
       {(loading || hasNextPage) && (
         <div ref={sentryRef}>
           <span>loading...</span>

@@ -58,7 +58,11 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
           return true;
         },
         async updateDocument(_, { id, update }, { pgClient }, resolveInfo) {
-          if([update.name,update.is_public].find(option => option !== undefined)){
+          if (
+            [update.name, update.is_public].find(
+              (option) => option !== undefined
+            )
+          ) {
             const meta = await updateDocumentMeta(id, {
               name: update.name,
               is_public: update.isPublic,

@@ -16,7 +16,7 @@ const List = styled.div`
 export default function InlineForm({ document_id }) {
   return (
     <List>
-      <DocumentMetaData document_id={document_id}/>
+      <DocumentMetaData document_id={document_id} />
       <SelectTags document_id={document_id} />
     </List>
   );

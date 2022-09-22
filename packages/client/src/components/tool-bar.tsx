@@ -59,7 +59,7 @@ export default function AppToolbar() {
               display: "flex",
             }}
           >
-            <Logo/>
+            <Logo />
             {document_id && (
               <IconButton
                 href={
