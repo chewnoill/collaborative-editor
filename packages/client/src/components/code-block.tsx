@@ -1,6 +1,14 @@
 import React from "react";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import theme from "prism-react-renderer/themes/nightOwlLight";
+import dynamic from "next/dynamic";
+
+const Mermaid = dynamic<any>(
+  () => import("./mermaid"),
+  {
+    ssr: false,
+  }
+);
 
 const CodeBlock = ({
   children,
@@ -8,7 +16,14 @@ const CodeBlock = ({
 }: {
   className;
   children;
-}) => (
+}) => {
+  if(lang === "language-mermaid"){
+    console.log({children});
+    return <Mermaid name="diagram">
+      {children}
+    </Mermaid>
+  }
+  return (
   <Highlight
     {...defaultProps}
     theme={theme}
@@ -28,5 +43,6 @@ const CodeBlock = ({
     )}
   </Highlight>
 );
+            }
 
 export default CodeBlock;
