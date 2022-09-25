@@ -51,7 +51,7 @@ function DocumentMetaData({ document_id }) {
           onChange={(evt) => {
             ydoc.getMap("meta").set("name", evt.target.value);
           }}
-          value={meta.name}
+          value={meta.name || ""}
         />
       </Box>
       <Box
