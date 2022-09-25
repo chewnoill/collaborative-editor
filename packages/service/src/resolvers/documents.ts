@@ -13,6 +13,7 @@ import {
 const DocumentMutations = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
   const updatedDocument = async (id, resolveInfo) => {
+
     const [row] = await resolveInfo.graphile.selectGraphQLResultFromTable(
       sql.fragment`(
         select * from app.document
@@ -33,7 +34,6 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
       }
       input DocumentUpdateInput {
         isPublic: Boolean
-        name: String
       }
     `,
     resolvers: {
@@ -59,12 +59,11 @@ const DocumentMutations = makeExtendSchemaPlugin((build) => {
         },
         async updateDocument(_, { id, update }, { pgClient }, resolveInfo) {
           if (
-            [update.name, update.is_public].find(
+            [update.isPublic].find(
               (option) => option !== undefined
             )
           ) {
-            const meta = await updateDocumentMeta(id, {
-              name: update.name,
+            await updateDocumentMeta(id, {
               is_public: update.isPublic,
             }).run(pgClient);
           }
