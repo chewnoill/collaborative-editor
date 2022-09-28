@@ -2,6 +2,7 @@ import { renderToString } from "mdx-hydra/build/render-to-string";
 import fm from "front-matter";
 import emoji from "remark-emoji";
 import logger from "../logger";
+import escapeHtml from "escape-html";
 
 function scopedMessage(txt: string, extraScope: object = {}) {
   try {
@@ -42,9 +43,13 @@ export function safeRenderString(txt: string, extraScope: object) {
       name: e.name,
       error_message: e.message,
     });
-    return renderToString({
-      source: `## rendering error\n${e}`,
-      Wrapper: ({ children }) => children,
-    });
+    return {
+      code: "",
+      staticMDX: `<div><h2>Render Error</h2><pre>${txt
+        .split("\n")
+        .map(escapeHtml)
+        .join("\n")}</pre></div>`,
+      scope: {},
+    };
   }
 }
