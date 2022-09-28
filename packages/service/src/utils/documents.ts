@@ -21,18 +21,25 @@ export function insertUpdate(
 
 export function updateDocumentMeta(
   document_id: string,
+  pool: Pool,
   meta: {
     is_public?: boolean;
     name?: string;
   }
 ) {
   // remove undefined keys from metadata object
-  Object.keys(meta).forEach(
-    (key) => meta[key] === undefined && delete meta[key]
-  );
-  return db.update("app.document", meta, {
+  const args = Object.entries(meta).reduce((acc, [key, value]) => {
+    if (value !== undefined) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {});
+
+  if(Object.keys(args).length === 0) return;
+
+  return db.update("app.document", args, {
     id: document_id,
-  });
+  }).run(pool);
 }
 
 export function updateDocumentTags(document_id, tags: string[]) {
