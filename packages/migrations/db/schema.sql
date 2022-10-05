@@ -17,31 +17,17 @@ CREATE SCHEMA app;
 
 
 --
--- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
 --
 
-CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+CREATE SCHEMA public;
 
 
 --
--- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
 --
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
-
-
---
--- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
+COMMENT ON SCHEMA public IS 'standard public schema';
 
 
 SET default_tablespace = '';
@@ -389,47 +375,63 @@ an external system (GCS storage bucket)
 
 
 --
--- Name: document_history; Type: TABLE; Schema: app; Owner: -
+-- Name: document_updates_queue; Type: TABLE; Schema: app; Owner: -
 --
 
-CREATE TABLE app.document_history (
+CREATE TABLE app.document_updates_queue (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    user_id uuid,
     document_id uuid NOT NULL,
-    sequence integer NOT NULL,
-    diff text
+    document_update bytea NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    structs jsonb
 );
 
 
 --
--- Name: TABLE document_history; Type: COMMENT; Schema: app; Owner: -
+-- Name: TABLE document_updates_queue; Type: COMMENT; Schema: app; Owner: -
 --
 
-COMMENT ON TABLE app.document_history IS '
-@name document_history
-@omit create,update,delete
+COMMENT ON TABLE app.document_updates_queue IS '
+@name document_updates_queue
+@omit
 
-# Document History
+# Document Update Queue
+
+Updates to the main document CRDT are persisted here first,
+and are eventually processed into the main Document table.
+
+Is not exposed through GQL endpoints.
 
 ';
 
 
 --
--- Name: document_history_sequence_seq; Type: SEQUENCE; Schema: app; Owner: -
+-- Name: document_history_updates; Type: VIEW; Schema: app; Owner: -
 --
 
-CREATE SEQUENCE app.document_history_sequence_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+CREATE VIEW app.document_history_updates AS
+ SELECT to_timestamp(((((date_part('epoch'::text, document_updates_queue.created_at))::integer / 60) * 60))::double precision) AS time_slice,
+    document_updates_queue.id AS document_updates_queue_id,
+    document_updates_queue.document_id,
+    document_updates_queue.user_id
+   FROM app.document_updates_queue
+  ORDER BY (to_timestamp(((((date_part('epoch'::text, document_updates_queue.created_at))::integer / 60) * 60))::double precision));
 
 
 --
--- Name: document_history_sequence_seq; Type: SEQUENCE OWNED BY; Schema: app; Owner: -
+-- Name: document_history; Type: VIEW; Schema: app; Owner: -
 --
 
-ALTER SEQUENCE app.document_history_sequence_seq OWNED BY app.document_history.sequence;
+CREATE VIEW app.document_history AS
+ SELECT row_number() OVER (PARTITION BY updates.document_id ORDER BY updates.time_slice) AS seq,
+    updates.time_slice,
+    updates.user_id,
+    updates.document_id,
+    count(updates.document_updates_queue_id) AS count
+   FROM app.document_history_updates updates
+  GROUP BY updates.time_slice, updates.user_id, updates.document_id
+  ORDER BY updates.time_slice;
 
 
 --
@@ -460,59 +462,23 @@ Tags associated with each document.
 
 
 --
--- Name: document_update_document_history; Type: TABLE; Schema: app; Owner: -
+-- Name: document_templates; Type: TABLE; Schema: app; Owner: -
 --
 
-CREATE TABLE app.document_update_document_history (
-    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    document_update_id uuid NOT NULL,
-    document_id uuid NOT NULL,
-    sequence integer NOT NULL
-);
-
-
---
--- Name: TABLE document_update_document_history; Type: COMMENT; Schema: app; Owner: -
---
-
-COMMENT ON TABLE app.document_update_document_history IS '
-@name document_update_document_history
-@omit
-
-join table between Document History and Document Update,
-doesnt need to be exposed to gql endpoint.
-
-';
-
-
---
--- Name: document_updates_queue; Type: TABLE; Schema: app; Owner: -
---
-
-CREATE TABLE app.document_updates_queue (
+CREATE TABLE app.document_templates (
     id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     user_id uuid,
-    document_id uuid NOT NULL,
-    document_update bytea NOT NULL,
+    content text,
     created_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
 --
--- Name: TABLE document_updates_queue; Type: COMMENT; Schema: app; Owner: -
+-- Name: TABLE document_templates; Type: COMMENT; Schema: app; Owner: -
 --
 
-COMMENT ON TABLE app.document_updates_queue IS '
-@name document_updates_queue
-@omit
-
-# Document Update Queue
-
-Updates to the main document CRDT are persisted here first,
-and are eventually processed into the main Document table.
-
-Is not exposed through GQL endpoints.
-
+COMMENT ON TABLE app.document_templates IS '
+@name document_templates
 ';
 
 
@@ -701,13 +667,6 @@ CREATE TABLE public.session (
 
 
 --
--- Name: document_history sequence; Type: DEFAULT; Schema: app; Owner: -
---
-
-ALTER TABLE ONLY app.document_history ALTER COLUMN sequence SET DEFAULT nextval('app.document_history_sequence_seq'::regclass);
-
-
---
 -- Name: document_history sequence; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -728,14 +687,6 @@ ALTER TABLE ONLY app.access_token
 
 ALTER TABLE ONLY app.data_upload
     ADD CONSTRAINT data_upload_pkey PRIMARY KEY (id);
-
-
---
--- Name: document_history document_history_pkey; Type: CONSTRAINT; Schema: app; Owner: -
---
-
-ALTER TABLE ONLY app.document_history
-    ADD CONSTRAINT document_history_pkey PRIMARY KEY (document_id, sequence);
 
 
 --
@@ -763,11 +714,11 @@ ALTER TABLE ONLY app.document_tags
 
 
 --
--- Name: document_update_document_history document_update_document_history_pkey; Type: CONSTRAINT; Schema: app; Owner: -
+-- Name: document_templates document_templates_pkey; Type: CONSTRAINT; Schema: app; Owner: -
 --
 
-ALTER TABLE ONLY app.document_update_document_history
-    ADD CONSTRAINT document_update_document_history_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY app.document_templates
+    ADD CONSTRAINT document_templates_pkey PRIMARY KEY (id);
 
 
 --
@@ -938,14 +889,6 @@ ALTER TABLE ONLY app.document
 
 
 --
--- Name: document_history document_history_document_id_fkey; Type: FK CONSTRAINT; Schema: app; Owner: -
---
-
-ALTER TABLE ONLY app.document_history
-    ADD CONSTRAINT document_history_document_id_fkey FOREIGN KEY (document_id) REFERENCES app.document(id) ON DELETE CASCADE;
-
-
---
 -- Name: document_tags document_tags_document_id_fkey; Type: FK CONSTRAINT; Schema: app; Owner: -
 --
 
@@ -954,27 +897,11 @@ ALTER TABLE ONLY app.document_tags
 
 
 --
--- Name: document_update_document_history document_update_document_history_document_id_fkey; Type: FK CONSTRAINT; Schema: app; Owner: -
+-- Name: document_templates document_templates_user_id_fkey; Type: FK CONSTRAINT; Schema: app; Owner: -
 --
 
-ALTER TABLE ONLY app.document_update_document_history
-    ADD CONSTRAINT document_update_document_history_document_id_fkey FOREIGN KEY (document_id) REFERENCES app.document(id) ON DELETE CASCADE;
-
-
---
--- Name: document_update_document_history document_update_document_history_document_id_sequence_fkey; Type: FK CONSTRAINT; Schema: app; Owner: -
---
-
-ALTER TABLE ONLY app.document_update_document_history
-    ADD CONSTRAINT document_update_document_history_document_id_sequence_fkey FOREIGN KEY (document_id, sequence) REFERENCES app.document_history(document_id, sequence) ON DELETE CASCADE;
-
-
---
--- Name: document_update_document_history document_update_document_history_document_update_id_fkey; Type: FK CONSTRAINT; Schema: app; Owner: -
---
-
-ALTER TABLE ONLY app.document_update_document_history
-    ADD CONSTRAINT document_update_document_history_document_update_id_fkey FOREIGN KEY (document_update_id) REFERENCES app.document_updates_queue(id) ON DELETE CASCADE;
+ALTER TABLE ONLY app.document_templates
+    ADD CONSTRAINT document_templates_user_id_fkey FOREIGN KEY (user_id) REFERENCES app."user"(id) ON DELETE CASCADE;
 
 
 --
@@ -1144,12 +1071,6 @@ ALTER TABLE app.data_upload ENABLE ROW LEVEL SECURITY;
 ALTER TABLE app.document ENABLE ROW LEVEL SECURITY;
 
 --
--- Name: document_history; Type: ROW SECURITY; Schema: app; Owner: -
---
-
-ALTER TABLE app.document_history ENABLE ROW LEVEL SECURITY;
-
---
 -- Name: document_tags; Type: ROW SECURITY; Schema: app; Owner: -
 --
 
@@ -1164,6 +1085,19 @@ CREATE POLICY document_tags_if_allowed ON app.document_tags TO postgraphile_user
   WHERE (document.id = document_tags.document_id)))) WITH CHECK ((document_id IN ( SELECT document.id
    FROM app.document
   WHERE (document.id = document_tags.document_id))));
+
+
+--
+-- Name: document_templates; Type: ROW SECURITY; Schema: app; Owner: -
+--
+
+ALTER TABLE app.document_templates ENABLE ROW LEVEL SECURITY;
+
+--
+-- Name: document_templates document_templates_if_allowed; Type: POLICY; Schema: app; Owner: -
+--
+
+CREATE POLICY document_templates_if_allowed ON app.document_templates TO postgraphile_user USING (((user_id IS NULL) OR (user_id = public.current_user_id()))) WITH CHECK ((user_id = public.current_user_id()));
 
 
 --
@@ -1184,15 +1118,6 @@ CREATE POLICY document_updates_queue_if_allowed ON app.document_updates_queue TO
 CREATE POLICY invite_to_document_if_allowed ON app.user_document FOR INSERT TO postgraphile_user WITH CHECK ((document_id IN ( SELECT document.id
    FROM app.document
   WHERE (document.creator_id = public.current_user_id()))));
-
-
---
--- Name: document_history select_document_history_if_allowed; Type: POLICY; Schema: app; Owner: -
---
-
-CREATE POLICY select_document_history_if_allowed ON app.document_history FOR SELECT TO postgraphile_user USING ((document_id IN ( SELECT document.id
-   FROM app.document
-  WHERE (document.id = document_history.document_id))));
 
 
 --
@@ -1348,4 +1273,7 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20220821170138'),
     ('20220830221420'),
     ('20220902171603'),
-    ('20220903210733');
+    ('20220903210733'),
+    ('20220920132631'),
+    ('20220925191921'),
+    ('20220928214549');
