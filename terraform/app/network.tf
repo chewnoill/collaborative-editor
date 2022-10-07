@@ -1,11 +1,11 @@
 
 resource "google_compute_network" "default" {
-  name                    = "terraform-network"
-  auto_create_subnetworks = "true"
+  name                    = "network"
+  auto_create_subnetworks = "false"
 }
 
 resource "google_compute_subnetwork" "default" {
-  name          = "subnet"
+  name          = "subnetwork"
   ip_cidr_range = "10.0.0.0/24"
   region        = "us-east1"
   network       = google_compute_network.default.id
@@ -18,7 +18,6 @@ resource "google_compute_firewall" "allow-ingress" {
   allow {
     protocol = "all"
   }
-
   source_ranges = ["0.0.0.0/0"]
 }
 
