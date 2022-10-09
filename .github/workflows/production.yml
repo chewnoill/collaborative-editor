@@ -5,7 +5,7 @@ name: Production
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, wc/prod-ci ]
 
 jobs:
   build:
@@ -89,6 +89,7 @@ jobs:
           us-east1-docker.pkg.dev/willdocs-1/docker-repo/migrations:latest
 
     - name: Terraform Deploy
+      if: ${{ false }}
       run: |
         NEXT_VERSION=$(expr $(terraform -chdir=terraform/app output build_number) + 1)
         terraform -chdir=terraform/app taint google_compute_instance.worker
