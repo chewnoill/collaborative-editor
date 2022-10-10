@@ -65,6 +65,9 @@ jobs:
           node_modules/moniker/dict/* \
           node_modules/bullmq/dist/esm/commands/*
 
+    - name: Init Docker
+      run: gcloud auth configure-docker -q
+
     - name: Build Service Docker Image
       run: |
         cp service.tgz ./docker/service
