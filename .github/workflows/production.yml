@@ -66,30 +66,27 @@ jobs:
           node_modules/bullmq/dist/esm/commands/*
 
     - name: Init Docker
-      run: gcloud auth configure-docker -q
+      run: gcloud auth configure-docker us-east1-docker.pkg.dev
 
     - name: Build Service Docker Image
       run: |
         cp service.tgz ./docker/service
-        docker build docker/service \
-          -t us-east1-docker.pkg.dev/willdocs-1/docker-repo/service:latest
-        docker push \
-          us-east1-docker.pkg.dev/willdocs-1/docker-repo/service:latest
+        gcloud builds submit \
+          ./docker/service \
+          --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/service:latest
 
     - name: Build Worker Docker Image
       run: |
         cp service.tgz ./docker/worker
-        docker build docker/worker \
-          -t us-east1-docker.pkg.dev/willdocs-1/docker-repo/worker:latest
-        docker push \
-          us-east1-docker.pkg.dev/willdocs-1/docker-repo/worker:latest
+        gcloud builds submit \
+          ./docker/worker \
+          --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/worker:latest
 
     - name: Build Migration Docker Image
       run: |
-        docker build docker/migrations \
-          -t us-east1-docker.pkg.dev/willdocs-1/docker-repo/migrations:latest
-        docker push \
-          us-east1-docker.pkg.dev/willdocs-1/docker-repo/migrations:latest
+        gcloud builds submit \
+          ./docker/migrations \
+          --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/migrations:latest
 
     - name: Terraform Deploy
       if: ${{ false }}
