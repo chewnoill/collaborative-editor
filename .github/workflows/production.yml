@@ -87,7 +87,6 @@ jobs:
     - name: Copy Migrations
       run: |
         cp  -R packages/migrations ./docker/migrations
-
     - name: Cloud Build Migrations
       uses: actions-hub/gcloud@master
       env:
