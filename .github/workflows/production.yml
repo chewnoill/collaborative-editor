@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      PROJECT_ID: willdocs
+      PROJECT_ID: willdocs-1
       APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       BASE_DOMAIN: ${{secrets.BASE_DOMAIN}}
       REDIS_URL: ${{secrets.REDIS_URL}}
@@ -30,7 +30,7 @@ jobs:
         node-version: 14.x
     - uses: actions-hub/gcloud@master
       env:
-        PROJECT_ID: willdocs
+        PROJECT_ID: willdocs-1
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
         args: info
