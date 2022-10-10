@@ -44,11 +44,20 @@ resource "acme_certificate" "certificate" {
   }
 }
 
+resource "random_uuid" "cert_id" {}
+
 resource "google_compute_ssl_certificate" "default" {
-  name        = "main-certiticate"
+  name        = "main-certiticate-${random_uuid.cert_id.id}"
   private_key = tls_private_key.cert_private_key.private_key_pem
   certificate = acme_certificate.certificate.certificate_pem
   lifecycle { create_before_destroy = true }
+}
+
+resource "google_compute_url_map" "default" {
+  name        = "default-url-map"
+  description = "a description"
+
+  default_service = google_compute_backend_service.cloud_run_service.id
 }
 
 resource "google_compute_target_https_proxy" "default" {
