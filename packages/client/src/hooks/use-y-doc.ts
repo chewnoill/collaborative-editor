@@ -55,7 +55,6 @@ export default function useYDoc(id, username) {
     Y.applyUpdate(ydoc, update, "init");
 
     ydoc.on("update", (update, origin) => {
-
       // don't persist updates coming from the webrtc connector
       if (origin.constructor?.name === "Room") return;
       if (origin === "init") return;
