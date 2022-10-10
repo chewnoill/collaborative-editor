@@ -16,6 +16,17 @@ import { Input } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSearch, setSearchString } from "ducks/appState/search";
 import Logo from "./logo";
+import styled from "@emotion/styled";
+
+const SearchInput = styled(Input)`
+  width: 100%;
+
+  max-width: 550px;
+  margin: 0px 8px;
+  @media screen and (min-width: 800px) {
+    margin: auto;
+  }
+`;
 
 const darkTheme = createTheme({
   palette: {
@@ -74,7 +85,7 @@ export default function AppToolbar() {
             <CreateDocumentButton />
             {document_id && <WhosHere document_id={document_id} />}
             {!document_id && (
-              <Input
+              <SearchInput
                 className="search"
                 name="search"
                 placeholder="Search..."
