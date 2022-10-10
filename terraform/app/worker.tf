@@ -4,6 +4,7 @@ resource "google_compute_instance" "worker" {
   machine_type = "e2-micro"
   zone         = "us-east1-b"
 
+  allow_stopping_for_update = true
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
@@ -44,9 +45,27 @@ resource "google_compute_instance" "worker" {
   EOF
 
   service_account {
-    email  = google_service_account.app-user.email
+    email  = google_service_account.worker-user.email
     scopes = ["cloud-platform"]
   }
+}
+
+resource "google_service_account" "worker-user" {
+  account_id   = "worker-account"
+  display_name = "Worker Account"
+  project      = var.project_name
+}
+
+resource "google_secret_manager_secret_iam_member" "worker-member" {
+  secret_id = google_secret_manager_secret.database-url.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.worker-user.email}"
+}
+
+resource "google_storage_bucket_iam_member" "worker-member" {
+  bucket = google_storage_bucket.private_bucket.name
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${google_service_account.worker-user.email}"
 }
 
 resource "google_compute_address" "internal-worker-address" {
