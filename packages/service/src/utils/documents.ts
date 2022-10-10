@@ -2,6 +2,7 @@ import { Pool } from "pg";
 import * as Y from "yjs";
 import { toBuffer } from "zapatos/db";
 import { db, pool, schema } from "../db";
+import logger from "../logger";
 
 const TEXT_NAME = "codemirror";
 
@@ -35,11 +36,13 @@ export function updateDocumentMeta(
     return acc;
   }, {});
 
-  if(Object.keys(args).length === 0) return;
+  if (Object.keys(args).length === 0) return;
 
-  return db.update("app.document", args, {
-    id: document_id,
-  }).run(pool);
+  return db
+    .update("app.document", args, {
+      id: document_id,
+    })
+    .run(pool);
 }
 
 export function updateDocumentTags(document_id, tags: string[]) {
@@ -65,12 +68,14 @@ ON CONFLICT DO NOTHING
   `.run(pool);
 }
 
-export function updateDocumentContent(
+export function updateDocumentValues(
+  ydoc: Y.Doc,
   document_id: string,
-  value: string,
-  origin: Buffer,
   latest_update_time: Date | db.SQLFragment
 ) {
+  const value = ydoc.getText("codemirror").toJSON();
+  const origin = Buffer.from(Y.encodeStateAsUpdate(ydoc));
+  const meta = ydoc.getText("meta").toJSON();
   return db
     .update(
       "app.document",

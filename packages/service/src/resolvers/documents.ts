@@ -13,7 +13,6 @@ import {
 const DocumentMutations = makeExtendSchemaPlugin((build) => {
   const { pgSql: sql } = build;
   const updatedDocument = async (id, resolveInfo) => {
-
     const [row] = await resolveInfo.graphile.selectGraphQLResultFromTable(
       sql.fragment`(
         select * from app.document
