@@ -48,9 +48,10 @@ jobs:
     - run: yarn
     - name: run migrations
       run: |
+        cd packages/migrations
         curl -fsSL -o dbmate.bin https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64
         chmod +x ./dbmate.bin
-        
-        ./dbmate.bin  -d ./packages/service/db/migrations -s ./packages/service/db/schema.sql up
+
+        ./dbmate.bin up
     - run: yarn service test
     - run: yarn build
