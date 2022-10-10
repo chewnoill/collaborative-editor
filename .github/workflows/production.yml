@@ -65,32 +65,36 @@ jobs:
           node_modules/moniker/dict/* \
           node_modules/bullmq/dist/esm/commands/*
 
-    - name: Init Docker
-      run: |
-        gcloud auth configure-docker us-east1-docker.pkg.dev
-
-    - name: Build Service Docker Image
+    - name: Copy JS Bunde
       run: |
         cp service.tgz ./docker/service
-        gcloud builds submit \
-          ./docker/service \
-          --project ${PROJECT_ID}
-          --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/service:latest
-
-    - name: Build Worker Docker Image
-      run: |
         cp service.tgz ./docker/worker
-        gcloud builds submit \
-          ./docker/worker \
-          --project ${PROJECT_ID}
-          --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/worker:latest
+    - name: Cloud Build Service
+      uses: actions-hub/gcloud@master
+      env:
+        PROJECT_ID: willdocs-1
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      with:
+        args: builds submit ./docker/service --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/service:latest
 
-    - name: Build Migration Docker Image
+    - name: Cloud Build Worker
+      uses: actions-hub/gcloud@master
+      env:
+        PROJECT_ID: willdocs-1
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      with:
+        args: builds submit ./docker/worker --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/worker:latest
+    - name: Copy Migrations
       run: |
-        gcloud builds submit \
-          ./docker/migrations \
-          --project ${PROJECT_ID}
-          --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/migrations:latest
+        cp  -R packages/migrations ./docker/migrations
+
+    - name: Cloud Build Migrations
+      uses: actions-hub/gcloud@master
+      env:
+        PROJECT_ID: willdocs-1
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      with:
+        args: builds submit ./docker/migrations --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/migrations:latest
 
     - name: Terraform Deploy
       if: ${{ false }}
