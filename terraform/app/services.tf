@@ -15,17 +15,30 @@ resource "google_cloud_run_service" "default" {
         image = "us-east1-docker.pkg.dev/willdocs-1/docker-repo/service:latest"
         env {
           name = "DATABASE_URL"
-          value = google_secret_manager_secret_version.database-url.secret_data
+          value_from {
+            secret_key_ref {
+              key = "latest"
+              name = "database-url"
+            }
+          }
         }
         env {
           name = "REDIS_URL"
-          value = var.redis_url
+          value_from {
+            secret_key_ref {
+              key = "latest"
+              name = "redis-url"
+            }
+          }
         }
         command = ["./start-app.sh"]
       }
     }
     metadata {
       annotations = {
+        "run.googleapis.com/client-name"          = "cloud-console"
+        "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.connector.self_link
+
         # Limit scale up to prevent any cost blow outs!
         "autoscaling.knative.dev/maxScale" = "5"
       }
