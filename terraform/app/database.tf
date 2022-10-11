@@ -6,16 +6,8 @@ resource "google_sql_database_instance" "master" {
   settings {
     tier = "db-f1-micro"
     ip_configuration {
-      ipv4_enabled = true
+      ipv4_enabled = false
       private_network = google_compute_network.default.self_link
-      authorized_networks {
-        name  = "all networks"
-        value = "0.0.0.0/0"
-      }
-      authorized_networks {
-        name  = "worker-connection"
-        value = google_compute_instance.worker.network_interface.0.access_config.0.nat_ip
-      }
     }
   }
 }
