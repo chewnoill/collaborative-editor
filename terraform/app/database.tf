@@ -65,3 +65,9 @@ resource "google_secret_manager_secret_version" "private-database-url" {
   secret      = google_secret_manager_secret.private-database-url.id
   secret_data = "postgres://${google_sql_user.database_user.name}:${random_password.db_password.result}@${google_sql_database_instance.master.private_ip_address}/postgres"
 }
+
+resource "google_secret_manager_secret_iam_member" "app-member" {
+  secret_id = google_secret_manager_secret.database-url.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.app-user.email}"
+}

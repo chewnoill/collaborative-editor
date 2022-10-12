@@ -11,6 +11,7 @@ resource "google_cloud_run_service" "default" {
 
   template {
     spec {
+      service_account_name = google_service_account.app-user.email
       containers {
         image = "us-east1-docker.pkg.dev/willdocs-1/docker-repo/service:latest"
         env {
@@ -38,7 +39,7 @@ resource "google_cloud_run_service" "default" {
       annotations = {
         "run.googleapis.com/client-name"          = "cloud-console"
         "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.connector.self_link
-
+        "run.googleapis.com/vpc-access-egress"    = "private-ranges-only"
         # Limit scale up to prevent any cost blow outs!
         "autoscaling.knative.dev/maxScale" = "5"
       }
