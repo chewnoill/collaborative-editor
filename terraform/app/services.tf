@@ -18,7 +18,7 @@ resource "google_cloud_run_service" "default" {
           name = "DATABASE_URL"
           value_from {
             secret_key_ref {
-              key = "latest"
+              key  = "latest"
               name = "database-url"
             }
           }
@@ -27,12 +27,24 @@ resource "google_cloud_run_service" "default" {
           name = "REDIS_URL"
           value_from {
             secret_key_ref {
-              key = "latest"
+              key  = "latest"
               name = "redis-url"
             }
           }
         }
-        command = ["./start-app.sh"]
+        env {
+          name  = "GCS_BUCKET_NAME"
+          value = google_storage_bucket.user_content.name
+        }
+        env {
+          name  = "GCS_PRIVATE_KEY"
+          value_from {
+            secret_key_ref {
+              key  = "latest"
+              name = "user-content-upload"
+            }
+          }
+        }
       }
     }
     metadata {
@@ -48,7 +60,7 @@ resource "google_cloud_run_service" "default" {
 }
 
 resource "google_project_service" "vpcaccess_api" {
-  service  = "vpcaccess.googleapis.com"
+  service            = "vpcaccess.googleapis.com"
   disable_on_destroy = false
 }
 
@@ -58,8 +70,8 @@ resource "google_vpc_access_connector" "connector" {
   max_throughput= 300
   ip_cidr_range = "10.0.1.0/28"
 
-  network       = google_compute_network.default.name
-  depends_on    = [google_project_service.vpcaccess_api]
+  network    = google_compute_network.default.name
+  depends_on = [google_project_service.vpcaccess_api]
 }
 
 data "google_iam_policy" "noauth" {
@@ -91,9 +103,9 @@ resource "google_compute_backend_service" "cloud_run_service" {
 }
 
 resource "google_cloud_run_service_iam_policy" "noauth" {
-  location    = google_cloud_run_service.default.location
-  project     = google_cloud_run_service.default.project
-  service     = google_cloud_run_service.default.name
+  location = google_cloud_run_service.default.location
+  project  = google_cloud_run_service.default.project
+  service  = google_cloud_run_service.default.name
 
   policy_data = data.google_iam_policy.noauth.policy_data
 }
