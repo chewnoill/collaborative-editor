@@ -70,11 +70,6 @@ resource "google_service_account" "app-user" {
   project      = var.project_name
 }
 
-resource "google_secret_manager_secret_iam_member" "app-member" {
-  secret_id = google_secret_manager_secret.database-url.secret_id
-  role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${google_service_account.app-user.email}"
-}
 
 resource "google_storage_bucket_iam_member" "member" {
   bucket = google_storage_bucket.private_bucket.name
