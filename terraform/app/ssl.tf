@@ -57,7 +57,7 @@ resource "google_compute_url_map" "default" {
   name        = "default-url-map"
   description = "a description"
 
-  default_service = google_compute_backend_service.cloud_run_service.id
+  default_service = module.cloud_run_service.cloud_service_id
 }
 
 resource "google_compute_target_https_proxy" "default" {
