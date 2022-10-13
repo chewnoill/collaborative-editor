@@ -28,6 +28,7 @@ export default function MyApp({ Component, pageProps }) {
     <ThemeProvider theme={createTheme({})}>
       <Head>
         <script src="/newrelic.js" />
+        <title>Will Docs</title>
       </Head>
       <AppLayout>
         <Global styles={{ body: { margin: 0 } }} />
