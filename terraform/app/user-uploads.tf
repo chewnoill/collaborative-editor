@@ -81,3 +81,28 @@ resource "google_secret_manager_secret_iam_member" "app-member-upload-creds" {
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${google_service_account.app-user.email}"
 }
+
+resource "google_secret_manager_secret" "user_content_bucket_name" {
+  secret_id = "user-content-bucket-name"
+
+  labels = {
+    label = "user-content-upload"
+  }
+
+  replication {
+    user_managed {
+      replicas {
+        location = "us-east1"
+      }
+    }
+  }
+}
+resource "google_secret_manager_secret_version" "user_content_bucket_name" {
+  secret      = google_secret_manager_secret.user_content_bucket_name.id
+  secret_data = google_storage_bucket.user_content.name
+}
+resource "google_secret_manager_secret_iam_member" "bucket-name" {
+  secret_id = google_secret_manager_secret.user_content_bucket_name.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.app-user.email}"
+}
