@@ -14,7 +14,6 @@ const PageLayout = styled.div`
 export function SimpleLayout({ children }) {
   return (
     <Container
-      maxWidth="sm"
       sx={{
         height: "100%",
         display: "flex",
@@ -45,7 +44,6 @@ export default function AppLayout({
 }) {
   return (
     <Container
-      maxWidth="sm"
       sx={{
         width: "100%",
         height: "100%",
