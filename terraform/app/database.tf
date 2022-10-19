@@ -13,11 +13,16 @@ resource "google_sql_database_instance" "master" {
 }
 
 resource "random_password" "db_password" {
-  length           = 16
+  length           = 32
   special          = true
   override_special = "_%@"
 }
 
+resource "google_sql_user" "database_user_v2" {
+  name     = "database_user_v2"
+  instance = google_sql_database_instance.master.name
+  password = random_password.db_password.result
+}
 resource "google_sql_user" "database_user" {
   name     = "database_user"
   instance = google_sql_database_instance.master.name
@@ -68,6 +73,11 @@ resource "google_secret_manager_secret_version" "private-database-url" {
 
 resource "google_secret_manager_secret_iam_member" "app-member" {
   secret_id = google_secret_manager_secret.database-url.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.app-user.email}"
+}
+resource "google_secret_manager_secret_iam_member" "secret-app-member" {
+  secret_id = google_secret_manager_secret.private-database-url.secret_id
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${google_service_account.app-user.email}"
 }

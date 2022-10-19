@@ -13,7 +13,7 @@ resource "google_cloud_run_service" "default" {
           value_from {
             secret_key_ref {
               key  = "latest"
-              name = "database-url"
+              name = "private-database-url"
             }
           }
         }
