@@ -99,10 +99,13 @@ jobs:
       if: ${{ false }}
       run: |
         NEXT_VERSION=$(expr $(terraform -chdir=terraform/app output build_number) + 1)
+        SERVICE_BUILD=$(gcloud artifacts docker tags list us-east1-docker.pkg.dev/willdocs-1/docker-repo/service --format=json | jq -r .[0].version | cut -d ':' -f2)
         terraform -chdir=terraform/app taint google_compute_instance.worker
         terraform -chdir=terraform/app apply --auto-approve \
           -var="build_number=${NEXT_VERSION}" \
           -var="dns_name=${BASE_DOMAIN}" \
           -var="redis_url=${REDIS_URL}" \
           -var="NEW_RELIC_ACCOUNT_ID=${NEW_RELIC_ACCOUNT_ID}" \
-          -var="NEW_RELIC_API_KEY=${NEW_RELIC_API_KEY}"
+          -var="NEW_RELIC_API_KEY=${NEW_RELIC_API_KEY}" \
+          -var="SERVICE_BUILD=${SERVICE_BUILD}"
+

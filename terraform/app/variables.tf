@@ -9,6 +9,11 @@ variable "redis_url" {
   description = "redis url"
 }
 
+variable "SERVICE_BUILD" {
+  type        = string
+  description = "docker build id"
+}
+
 variable "NEW_RELIC_ACCOUNT_ID" {
   type        = string
   description = "NR Account ID"
