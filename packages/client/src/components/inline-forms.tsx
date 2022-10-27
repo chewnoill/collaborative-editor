@@ -23,14 +23,14 @@ const List = styled.div(
 export default function InlineForm({ document_id }) {
   const [open, setOpen] = React.useState(false);
   return (
-    <Box sx={{display: "flex",flexDirection:"column", alignItems: "start"}}>
+    <Box sx={{display: "flex",flexDirection:"row", alignItems: "start"}}>
+      <IconButton onClick={() => setOpen(!open)}>
+        <MenuIcon />
+      </IconButton>
       <List open={open}>
         <DocumentMetaData document_id={document_id} />
         <SelectTags document_id={document_id} />
       </List>
-      <IconButton onClick={() => setOpen(!open)}>
-        <MenuIcon />
-      </IconButton>
     </Box>
   );
 }
