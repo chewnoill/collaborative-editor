@@ -16,7 +16,7 @@ export function DocumentView({ id, mdx }: any) {
       sx={{
         position: "relative",
         minHeight: "60px",
-        width: "100%",
+        width: "calc(100% - 32px)",
         color: "text.primary",
         border: "2px solid",
         borderColor: "primary.main",
