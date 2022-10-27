@@ -7,6 +7,7 @@ import client from "utils/apollo";
 import { Global } from "@emotion/react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
+import { useMediaQuery } from "@mui/material";
 
 const AppLayout = styled.div`
   height: 100vh;
@@ -14,6 +15,23 @@ const AppLayout = styled.div`
   overflow: hidden;
   display: flex;
   justify-content: center;
+
+  & {
+    background: white;
+    color: rgba(0, 0, 0, 0.87);
+  }
+  @media (prefers-color-scheme: light) {
+    & {
+      background: white;
+      color: rgba(0, 0, 0, 0.87);
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    & {
+      background: black;
+      color: white;
+    }
+  }
 `;
 
 const Page = styled.div`
@@ -24,8 +42,20 @@ const Page = styled.div`
 `;
 
 export default function MyApp({ Component, pageProps }) {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? "dark" : "light",
+        },
+      }),
+    [prefersDarkMode]
+  );
+
   return (
-    <ThemeProvider theme={createTheme({})}>
+    <ThemeProvider theme={theme}>
       <Head>
         <script src="/newrelic.js" />
         <title>Will Docs</title>

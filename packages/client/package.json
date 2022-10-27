@@ -24,6 +24,8 @@
     "@types/ws": "^7.4.5",
     "axios": "^0.27.2",
     "body-parser": "^1.19.0",
+    "cm6-theme-basic-light": "^0.2.0",
+    "cm6-theme-material-dark": "^0.2.0",
     "codemirror": "^6.0.1",
     "d3": "3.5.17",
     "date-and-time": "^2.4.1",

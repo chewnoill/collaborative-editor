@@ -11,6 +11,15 @@ const Span = styled.span`
     color: #333333; /* dark gray not black */
     font-weight: 900;
   }
+  @media (prefers-color-scheme: dark) {
+    & {
+      color: white;
+    }
+    & > .primary {
+      color: white; /* dark gray not black */
+      font-weight: 900;
+    }
+  }
 `;
 
 export default function Logo() {

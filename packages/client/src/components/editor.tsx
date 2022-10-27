@@ -5,13 +5,15 @@ import { EditorState } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
 import { languages } from "@codemirror/language-data";
 import { yCollab } from "y-codemirror.next";
-
+import { materialDark as darkTheme } from "cm6-theme-material-dark";
+import { basicLight as lightTheme } from "cm6-theme-basic-light";
 import styled from "@emotion/styled";
 import useYDoc from "hooks/use-y-doc";
 import { useCurrentUserQuery } from "apollo/selectors";
 import { useFileUpload } from "hooks/use-file-upload";
 import { uploadFilesToYDoc } from "utils/upload-files";
 import yDoc from "ducks/appState/y-doc";
+import { useMediaQuery } from "@mui/material";
 
 export default function Editor({ document_id }: { document_id: string }) {
   const { data } = useCurrentUserQuery();
@@ -57,6 +59,7 @@ const TextBox = styled.div`
 `;
 
 function TextCanvas({ document_id, name }) {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const uploadFile = useFileUpload();
   const ref = React.useRef();
   const data = useYDoc(document_id, name);
@@ -77,6 +80,7 @@ function TextCanvas({ document_id, name }) {
         yCollab(yText, data.awareness, {
           undoManager: yUndoManager,
         }),
+        prefersDarkMode ? darkTheme : lightTheme,
         EditorView.domEventHandlers({
           drop(event, view) {
             const pos = view.posAtCoords({ x: event.pageX, y: event.pageY });
