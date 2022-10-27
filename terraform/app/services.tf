@@ -24,11 +24,9 @@ data "google_iam_policy" "noauth" {
 
 module "cloud_run_service" {
   source = "./service"
-  image = "us-east1-docker.pkg.dev/willdocs-1/docker-repo/service:latest"
+  image = "us-east1-docker.pkg.dev/willdocs-1/docker-repo/service@sha256:${var.SERVICE_BUILD}"
   vpc_id = google_vpc_access_connector.connector.self_link
   name = "willdocs"
   email= google_service_account.app-user.email
   policy = data.google_iam_policy.noauth.policy_data
 }
-
-
