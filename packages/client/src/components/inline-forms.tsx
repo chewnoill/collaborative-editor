@@ -18,12 +18,14 @@ const List = styled.div(
   & > * {
     margin-bottom: 10px;
   }
-`);
+  margin-bottom: 10px;
+`
+);
 
 export default function InlineForm({ document_id }) {
   const [open, setOpen] = React.useState(false);
   return (
-    <Box sx={{display: "flex",flexDirection:"row", alignItems: "start"}}>
+    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "start" }}>
       <IconButton onClick={() => setOpen(!open)}>
         <MenuIcon />
       </IconButton>
