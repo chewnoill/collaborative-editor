@@ -9,7 +9,7 @@ beforeAll(function () {
   agent = request.agent(app);
 });
 
-describe("User Access", () => {
+describe.skip("User Access", () => {
   test("can access their own documents", async () => {
     const user_a = await db
       .upsert("app.user", { name: "test user a" }, "name")

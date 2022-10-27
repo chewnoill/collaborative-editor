@@ -104,7 +104,7 @@ test("document history can be generated", async () => {
   );
 });
 
-test("document history replaced in table", async () => {
+test.skip("document history replaced in table", async () => {
   const { id } = await testFixtures();
   const id_obj = { id: id };
   await replaceDocumentHistory(id_obj);
