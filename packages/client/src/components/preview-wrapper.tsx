@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 
-export const PreviewWrapper = styled(Box)(({})=>`
+export const PreviewWrapper = styled(Box)(
+  ({}) => `
 background-color:white;
 font-family:Georgia, Palatino, serif;
 color: #333333; /* dark gray not black */
@@ -140,6 +141,7 @@ hr {
     margin: 0 auto 0 0;
     color: #999;
 }
-`);
+`
+);
 
 export default PreviewWrapper;

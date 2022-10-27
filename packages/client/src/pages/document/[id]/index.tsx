@@ -46,7 +46,7 @@ export default function Document() {
   return (
     <FullWidth>
       <Head>
-        <title>Will Docs: {ydoc && ydoc.getMap('meta').get('name')}</title>
+        <title>Will Docs: {ydoc && ydoc.getMap("meta").get("name")}</title>
       </Head>
       <Layout>
         <InlineForm document_id={id} />

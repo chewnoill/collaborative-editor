@@ -42,7 +42,7 @@ function DocumentMetaData({ document_id }) {
 
   return (
     <>
-      <Box sx={{marginTop: "10px"}}>
+      <Box sx={{ marginTop: "10px" }}>
         <TextField
           sx={{ width: "100%" }}
           label="Name"
