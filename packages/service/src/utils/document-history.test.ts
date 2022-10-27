@@ -32,8 +32,12 @@ function insertUpdate(
 const INTERVAL = 60 * 1000;
 
 async function testFixtures() {
-  const user_a = await db.upsert("users", { name: "User A" }, "name").run(pool);
-  const user_b = await db.upsert("users", { name: "User B" }, "name").run(pool);
+  const user_a = await db
+    .upsert("app.user", { name: "User A" }, "name")
+    .run(pool);
+  const user_b = await db
+    .upsert("app.user", { name: "User B" }, "name")
+    .run(pool);
 
   const ydoc = new Y.Doc();
   const ytext = ydoc.getText("codemirror");
