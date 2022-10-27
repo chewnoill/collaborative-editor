@@ -19,13 +19,13 @@ jobs:
       NEW_RELIC_API_KEY: ${{secrets.NEW_RELIC_API_KEY}}
       NEW_RELIC_ACCOUNT_ID: ${{secrets.NEW_RELIC_ACCOUNT_ID}}
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v2
+    - uses: actions/checkout@v3
+    - uses: actions/cache@v3
       with:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
     - name: Use Node.js 14.x
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: 14.x
     - uses: actions-hub/gcloud@master
@@ -35,7 +35,7 @@ jobs:
       with:
         args: info
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
       with:
         terraform_wrapper: false
 
