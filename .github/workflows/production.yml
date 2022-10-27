@@ -96,7 +96,6 @@ jobs:
         args: builds submit ./docker/migrations --tag us-east1-docker.pkg.dev/willdocs-1/docker-repo/migrations:latest
 
     - name: Terraform Deploy
-      if: ${{ false }}
       run: |
         NEXT_VERSION=$(expr $(terraform -chdir=terraform/app output build_number) + 1)
         SERVICE_BUILD=$(gcloud artifacts docker tags list us-east1-docker.pkg.dev/willdocs-1/docker-repo/service --format=json | jq -r .[0].version | cut -d ':' -f2)
