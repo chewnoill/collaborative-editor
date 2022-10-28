@@ -79,7 +79,6 @@ a {
     vertical-align: baseline;
 }
 a:hover {
-    text-decoration: blink;
     color: green;
 }
 a:visited {

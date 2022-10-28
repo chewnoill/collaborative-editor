@@ -17,12 +17,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectSearch, setSearchString } from "ducks/appState/search";
 import Logo from "./logo";
 import styled from "@emotion/styled";
+import { BreakPoints } from "layout/break-points";
 
 const SearchInput = styled(Input)`
   width: 100%;
 
-  max-width: 550px;
+  max-width: 800px;
   margin: 0px 8px;
+  @media screen and (${BreakPoints[1]}) {
+    max-width: 1200px;
+  }
   @media screen and (min-width: 800px) {
     margin: auto;
   }

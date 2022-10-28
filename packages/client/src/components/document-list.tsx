@@ -28,28 +28,29 @@ export function DocumentView({ id, mdx }: any) {
       <Link
         href={`/document/${id}`}
         sx={{
+          position: "absolute",
           width: "100%",
+          height:"100%",
           marginY: "10px",
           padding: "5px",
-          backgroundColor: "white",
+          backgroundColor: "transparent",
           cursor: "pointer",
           textAlign: "inherit",
           textTransform: "none",
-          minHeight: "60px",
-          maxHeight: "800px",
-          overflow: "hidden",
+          overflowX: "hidden",
           alignItems: "normal",
           justifyContent: "left",
         }}
         variant="body1"
         underline="none"
-      >
+      />
+
         {hydrate({
           ...mdx,
           components: MdxComponents,
           Wrapper: ({ children }) => children,
         })}
-      </Link>
+
       <DocumentMenu document_id={id} />
     </PreviewWrapper>
   );
