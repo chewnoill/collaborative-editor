@@ -1,6 +1,7 @@
 import request from "supertest";
 import app from "./app";
 import { db, pool } from "./db";
+import { createTestUser } from "./test/fixtures";
 import { createDocument } from "./utils/documents";
 
 let agent;
@@ -9,11 +10,9 @@ beforeAll(function () {
   agent = request.agent(app);
 });
 
-describe.skip("User Access", () => {
+describe("User Access", () => {
   test("can access their own documents", async () => {
-    const user_a = await db
-      .upsert("app.user", { name: "test user a" }, "name")
-      .run(pool);
+    const user_a = await createTestUser("User A");
     // get login tokens
     await login(user_a.name);
 
@@ -77,5 +76,5 @@ query DocumentTest($id: UUID!) {
 });
 
 async function login(name: string) {
-  await agent.post("/login").send({ username: name, password: "password" });
+  await agent.post("/api/login").send({ username: name, password: "password" });
 }

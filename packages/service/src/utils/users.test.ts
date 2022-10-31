@@ -1,3 +1,4 @@
+import { createTestUser } from "../test/fixtures";
 import { pool, db } from "./../db";
 import { createUser, selectUsers, validateUser } from "./users";
 
@@ -11,7 +12,8 @@ afterAll(() => {
 // });
 
 test("validate a user", async () => {
-  const user = validateUser({
+  await createTestUser("Toby Savage 2", "12345");
+  const user = await validateUser({
     name: "Toby Savage 2",
     password: "12345",
   });
