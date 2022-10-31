@@ -1,5 +1,6 @@
 import url from "whatwg-url";
 import fs from "fs";
+import logger from "./logger";
 
 export const NODE_ENV = process.env.NODE_ENV || "production";
 export const HOST = process.env.HOST || "0.0.0.0";
@@ -50,3 +51,8 @@ export const SSL_OPTIONS =
         cert: fs.readFileSync(SSL_SERVER_CERT),
       }
     : false;
+
+logger({level: "info", service: "env", message:"setting up",body:{
+  GCS_BUCKET_NAME,
+  GCS_CREDS_FILE,
+}})
