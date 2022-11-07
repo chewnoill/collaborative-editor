@@ -17,7 +17,6 @@ p   {
 }
 
 h1, h2, h3, h4 {
-    color: #111111;
     font-weight: 400;
 }
 
@@ -25,12 +24,6 @@ h1, h2, h3, h4 {
   & {
     color: white;
     background: black;
-  }
-  p {
-
-  }
-  h1, h2, h3, h4 {
-      color: white;
   }
 }
 
